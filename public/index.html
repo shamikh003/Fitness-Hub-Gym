@@ -1,326 +1,2801 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IronPeak Gym Facilities, Plans & Admission</title>
-<meta name="description" content="IronPeak Gym — free weights, cardio, personal training and group classes. View fee plans and apply for admission online.">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitness Hub — Facilities, Fitness Lab, Fee Plans &amp; Online Admission</title>
+  <meta name="description" content="Fitness Hub (3 Imran Khan Rd, Metroville Sector 3 Sindh Industrial Trading Estate, Karachi. 0325 6060570) — Strength &amp; conditioning, interactive fitness calculators, class timetable, online admission, and staff dashboard.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ink: {
+              950: '#090B0E',
+              900: '#0F1217',
+              800: '#161B23',
+              700: '#1E2530',
+              600: '#2A3342'
+            },
+            amber: {
+              400: '#FFB649',
+              500: '#FFA630',
+              600: '#E58A13'
+            }
+          },
+          fontFamily: {
+            display: ['Anton', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --accent: #FFA630;
+      --accent-dim: #E58A13;
+      --ink: #0F1217;
+      --ink-2: #161B23;
+      --ink-3: #1E2530;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #090B0E;
+      color: #F3F4F6;
+      overflow-x: hidden;
+    }
+    .font-display {
+      font-family: 'Anton', sans-serif;
+      letter-spacing: 0.03em;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .glass-panel {
+      background: rgba(22, 27, 35, 0.82);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+    .card-glow {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .card-glow:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 166, 48, 0.55);
+      box-shadow: 0 14px 34px -10px rgba(255, 166, 48, 0.18);
+    }
+    .hero-gradient {
+      background: linear-gradient(102deg, rgba(9, 11, 14, 0.96) 8%, rgba(9, 11, 14, 0.82) 52%, rgba(9, 11, 14, 0.45) 100%);
+    }
+    .plate-divider span {
+      display: inline-block;
+      border: 2.5px solid #FFA630;
+      border-radius: 9999px;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #090B0E; }
+    ::-webkit-scrollbar-thumb { background: #2A3342; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #FFA630; }
+    @media print {
+      .no-print { display: none !important; }
+    }
+  </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-ink-950">
 
-<!-- ============ HEADER ============ -->
-<header class="site-header" id="siteHeader">
-  <div class="container header-inner">
-    <a href="#top" class="logo">IRON<span>PEAK</span></a>
+  <!-- ============ TOAST NOTIFICATION CONTAINER ============ -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
 
-    <nav class="nav" id="nav">
-      <a href="#facilities">Facilities</a>
-      <a href="#services">Services</a>
-      <a href="#plans">Fee Plans</a>
-      <a href="#admission">Admission</a>
-      <a href="#contact">Contact</a>
-      <a href="admin.html" class="nav-admin">Staff Login →</a>
-    </nav>
+  <!-- ============ TOP STICKY HEADER & VIEW SWITCHER ============ -->
+  <header id="siteHeader" class="sticky top-0 z-50 bg-ink-950/90 backdrop-blur-md border-b border-white/10 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20 gap-3">
+        <!-- Brand Logo -->
+        <div class="flex items-center gap-3">
+          <a href="#top" id="brandLogoLink" class="flex items-center gap-2.5 group">
+            <div class="w-10 h-10 rounded-lg bg-amber-500 flex items-center justify-center text-ink-950 font-display text-xl shadow-lg shadow-amber-500/20 group-hover:scale-105 transition">
+              FH
+            </div>
+            <div>
+              <span class="font-display text-2xl tracking-wider text-white">FITNESS<span class="text-amber-500"> HUB</span></span>
+              <span class="block font-mono-code text-[10px] tracking-widest text-gray-400 uppercase -mt-1">Metroville SITE · Karachi</span>
+            </div>
+          </a>
 
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="nav">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
+          <!-- Live Gym Status Badge -->
+          <div id="liveGymBadge" class="hidden xl:flex items-center gap-2 pl-3 ml-2 border-l border-white/10 text-xs">
+            <span class="relative flex h-2.5 w-2.5">
+              <span id="livePulsePing" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span id="livePulseDot" class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+            <span id="liveGymStatusText" class="text-gray-300 font-medium">OPEN NOW</span>
+            <span class="text-gray-500">·</span>
+            <span id="liveFloorLoadText" class="font-mono-code text-amber-400 text-[11px]">0325 6060570</span>
+          </div>
+        </div>
 
-<main id="top">
+        <!-- Primary In-App Mode Switcher (Public Site / Member Portal / Staff Dashboard) -->
+        <div class="flex items-center bg-ink-900 p-1 rounded-xl border border-white/10">
+          <button type="button" id="tabBtnPublic" data-view-target="public" class="view-tab-btn px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 bg-amber-500 text-ink-950 shadow">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            <span>Public Site</span>
+          </button>
+          <button type="button" id="tabBtnAdmin" data-view-target="admin" class="view-tab-btn px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-gray-300 hover:text-white relative">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span>Staff Dashboard</span>
+            <span id="navPendingBadge" class="hidden ml-1 px-1.5 py-0.5 text-[10px] font-mono-code font-bold rounded-full bg-amber-500 text-ink-950">0</span>
+          </button>
+        </div>
 
-  <!-- ============ HERO ============ -->
-  <section class="hero">
-    <div class="hero-media">
-      <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1600&auto=format&fit=crop" alt="Gym weight rack in dramatic lighting">
-    </div>
-    <div class="container hero-inner">
-      <p class="eyebrow reveal">IRONPEAK GYM — EST. 2014</p>
-      <h1 class="hero-title reveal">TRAIN HARDER.<br><span>TRACK EVERYTHING.</span></h1>
-      <p class="hero-sub reveal">Success doesn't start in the mirror, it starts on the platform.</p>
-      <div class="hero-actions reveal">
-        <a href="#admission" class="btn btn-primary">Apply for Admission</a>
-        <a href="#plans" class="btn btn-ghost">See Fee Plans</a>
+        <!-- Desktop Section Nav (shown in Public View) -->
+        <nav id="publicSectionNav" class="hidden lg:flex items-center gap-5 text-sm font-medium text-gray-300">
+          <a href="#facilities" class="hover:text-amber-400 transition">Facilities</a>
+          <a href="#schedule" class="hover:text-amber-400 transition">Classes</a>
+          <a href="#calculators" class="hover:text-amber-400 transition">Fitness Lab</a>
+          <a href="#plans" class="hover:text-amber-400 transition">Fee Plans</a>
+          <a href="#trainers" class="hover:text-amber-400 transition">Trainers</a>
+          <a href="#admission" class="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-ink-950 font-semibold transition shadow-md shadow-amber-500/10">Join Now</a>
+        </nav>
+
+        <!-- Mobile Menu Button -->
+        <button type="button" id="mobileMenuBtn" aria-label="Toggle Menu" class="lg:hidden p-2 rounded-lg bg-ink-800 text-gray-300 hover:text-white border border-white/10">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
       </div>
     </div>
-  </section>
 
-  <div class="plate-divider" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-
-  <!-- ============ GYM DETAILS BAR ============ -->
-  <section class="details-bar">
-    <div class="container details-grid">
-      <div class="detail-item reveal">
-        <span class="detail-label">TIMINGS</span>
-        <span class="detail-value">Mon–Sat, 6 AM – 11 PM</span>
-      </div>
-      <div class="detail-item reveal">
-        <span class="detail-label">LOCATION</span>
-        <span class="detail-value">Block 7, Gulshan-e-Iqbal, Karachi</span>
-      </div>
-      <div class="detail-item reveal">
-        <span class="detail-label">MEMBERS</span>
-        <span class="detail-value">500+ active</span>
-      </div>
-      <div class="detail-item reveal">
-        <span class="detail-label">CONTACT</span>
-        <span class="detail-value">+92 300 1234567</span>
+    <!-- Mobile Dropdown Drawer -->
+    <div id="mobileMenuDrawer" class="hidden lg:hidden bg-ink-900 border-b border-white/10 px-4 pt-2 pb-4 space-y-2">
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <a href="#facilities" class="mobile-nav-link px-3 py-2 rounded-lg bg-ink-800 text-sm text-gray-200 hover:text-amber-400">Facilities</a>
+        <a href="#schedule" class="mobile-nav-link px-3 py-2 rounded-lg bg-ink-800 text-sm text-gray-200 hover:text-amber-400">Class Schedule</a>
+        <a href="#calculators" class="mobile-nav-link px-3 py-2 rounded-lg bg-ink-800 text-sm text-gray-200 hover:text-amber-400">Fitness Lab</a>
+        <a href="#plans" class="mobile-nav-link px-3 py-2 rounded-lg bg-ink-800 text-sm text-gray-200 hover:text-amber-400">Fee Plans</a>
+        <a href="#trainers" class="mobile-nav-link px-3 py-2 rounded-lg bg-ink-800 text-sm text-gray-200 hover:text-amber-400">Coaches</a>
+        <a href="#admission" class="mobile-nav-link px-3 py-2 rounded-lg bg-amber-500 text-sm text-ink-950 font-bold text-center">Apply Online</a>
       </div>
     </div>
-  </section>
+  </header>
 
-  <!-- ============ FACILITIES ============ -->
-  <section class="facilities" id="facilities">
-    <div class="container">
-      <p class="eyebrow reveal">WHAT WE HAVE</p>
-      <h2 class="section-title reveal">Facilities</h2>
+  <!-- ===================================================================
+       VIEW 1: PUBLIC WEBSITE
+       =================================================================== -->
+  <main id="viewPublic" class="flex-1">
+    <div id="top"></div>
 
-      <div class="facility-grid">
-        <div class="facility-card reveal">
-          <svg class="facility-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="20" width="6" height="8"/><rect x="12" y="16" width="5" height="16"/><rect x="31" y="16" width="5" height="16"/><rect x="38" y="20" width="6" height="8"/><path d="M17 24h14"/></svg>
-          <h3>Free Weights</h3>
-          <p>Full range of dumbbells, barbells and plates from 1kg to 50kg.</p>
-        </div>
-        <div class="facility-card reveal">
-          <svg class="facility-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 30h6l4-14 6 22 5-16 4 8h11"/></svg>
-          <h3>Cardio Zone</h3>
-          <p>Treadmills, ellipticals and rowing machines with heart-rate tracking.</p>
-        </div>
-        <div class="facility-card reveal">
-          <svg class="facility-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="8" y="8" width="32" height="32" rx="2"/><path d="M8 20h32M20 8v32"/></svg>
-          <h3>Locker Rooms</h3>
-          <p>Separate, secure locker rooms with showers for men and women.</p>
-        </div>
-        <div class="facility-card reveal">
-          <svg class="facility-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M24 6c4 6-2 8-2 13a6 6 0 0 0 12 0c0-3-2-4-2-7 4 2 6 7 6 11a10 10 0 0 1-20 0c0-8 6-9 6-17Z"/></svg>
-          <h3>Sauna &amp; Steam</h3>
-          <p>Recovery room for post-workout muscle relief, open till closing.</p>
-        </div>
-        <div class="facility-card reveal">
-          <svg class="facility-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="6" y="14" width="36" height="20" rx="2"/><circle cx="15" cy="34" r="3"/><circle cx="33" cy="34" r="3"/></svg>
-          <h3>Free Parking</h3>
-          <p>Covered parking for members, right outside the main entrance.</p>
-        </div>
-        <div class="facility-card reveal">
-          <svg class="facility-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M24 8v6M24 34v6M8 24h6M34 24h6"/><circle cx="24" cy="24" r="9"/></svg>
-          <h3>Full AC Floor</h3>
-          <p>Climate-controlled training floor, year-round comfort.</p>
+    <!-- ============ HERO SECTION ============ -->
+    <section class="relative min-h-[86vh] flex items-center overflow-hidden border-b border-white/10">
+      <div class="absolute inset-0 z-0">
+        <img src="assets/hero_gym.jpg" alt="IronPeak Gym strength floor" class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000">
+        <div class="absolute inset-0 hero-gradient"></div>
+      </div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 w-full">
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
+          <div class="lg:col-span-7 space-y-6">
+            <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono-code text-xs uppercase tracking-widest">
+              <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span>FITNESS HUB · METROVILLE SECTOR 3, SITE KARACHI</span>
+            </div>
+
+            <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.03] uppercase text-white">
+              TRAIN HARDER.<br>
+              <span class="text-amber-500">TRACK EVERYTHING.</span>
+            </h1>
+
+            <p class="text-gray-300 text-base sm:text-lg max-w-xl leading-relaxed">
+              Success doesn't start in the mirror—it starts on the platform. Train with calibrated free weights, functional turf conditioning, sauna recovery, and certified coaching at 3 Imran Khan Rd, Metroville Sector 3 Sindh Industrial Trading Estate, Karachi.
+            </p>
+
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <a href="#admission" class="px-7 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-sm sm:text-base transition transform hover:-translate-y-0.5 shadow-lg shadow-amber-500/25 flex items-center gap-2">
+                <span>Apply for Admission</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </a>
+              <button type="button" id="openTrialModalBtn" class="px-6 py-4 rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/15 font-semibold text-sm sm:text-base transition flex items-center gap-2">
+                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>
+                <span>Claim Free 1-Day Trial Pass</span>
+              </button>
+              <a href="#calculators" class="px-5 py-4 rounded-xl text-gray-300 hover:text-amber-400 font-medium text-sm transition flex items-center gap-1.5">
+                <span>Try Fitness Calculators</span>
+                <span>→</span>
+              </a>
+            </div>
+
+            <!-- Live Quick Highlights -->
+            <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/10 max-w-lg">
+              <div>
+                <div class="font-display text-3xl text-white">500<span class="text-amber-500">+</span></div>
+                <div class="font-mono-code text-[11px] text-gray-400 uppercase tracking-wider">Active Athletes</div>
+              </div>
+              <div>
+                <div class="font-display text-3xl text-white">40<span class="text-amber-500">+</span></div>
+                <div class="font-mono-code text-[11px] text-gray-400 uppercase tracking-wider">Weekly Classes</div>
+              </div>
+              <div>
+                <div class="font-display text-3xl text-white">1kg–50kg</div>
+                <div class="font-mono-code text-[11px] text-gray-400 uppercase tracking-wider">Calibrated Iron</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Hero Club Overview Card -->
+          <div class="lg:col-span-5">
+            <div class="glass-panel rounded-2xl p-6 sm:p-7 shadow-2xl space-y-5 border border-white/15">
+              <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                <div>
+                  <span class="font-mono-code text-[11px] text-amber-400 uppercase tracking-widest">OFFICIAL CLUB DESK</span>
+                  <h2 class="font-display text-2xl text-white uppercase mt-0.5">Fitness Hub Karachi</h2>
+                </div>
+                <span class="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono-code text-xs">AC Floor · 20°C</span>
+              </div>
+
+              <div class="space-y-3 text-xs sm:text-sm">
+                <div class="p-3.5 rounded-xl bg-ink-900/90 border border-white/10">
+                  <span class="font-mono-code text-[10px] text-amber-400 uppercase block">ADDRESS</span>
+                  <p class="text-white font-semibold mt-0.5">3 Imran Khan Rd, Metroville Sector 3</p>
+                  <p class="text-gray-400 text-xs">Sindh Industrial Trading Estate, Karachi</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="p-3.5 rounded-xl bg-ink-900/90 border border-white/10">
+                    <span class="font-mono-code text-[10px] text-amber-400 uppercase block">CONTACT NUMBER</span>
+                    <p class="text-white font-mono-code font-bold mt-0.5">0325 6060570</p>
+                    <p class="text-gray-400 text-[11px]">Call &amp; WhatsApp</p>
+                  </div>
+                  <div class="p-3.5 rounded-xl bg-ink-900/90 border border-white/10">
+                    <span class="font-mono-code text-[10px] text-amber-400 uppercase block">OPERATING HOURS</span>
+                    <p class="text-white font-semibold mt-0.5">6 AM – 11 PM</p>
+                    <p class="text-gray-400 text-[11px]">Sun: 8 AM – 6 PM</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-1 flex gap-3">
+                <a href="#admission" class="flex-1 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-xs sm:text-sm text-center transition">
+                  Online Admission Form
+                </a>
+                <a href="#calculators" class="px-4 py-3 rounded-xl bg-ink-800 hover:bg-ink-700 text-gray-200 border border-white/10 font-semibold text-xs sm:text-sm text-center transition">
+                  Fitness Lab
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="plate-divider" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <!-- ============ GYM DETAILS BAR ============ -->
+    <section class="bg-ink-900 border-b border-white/10 py-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="border-l-2 border-amber-500 pl-4">
+            <span class="font-mono-code text-[11px] text-gray-400 uppercase tracking-widest block">OPERATING TIMINGS</span>
+            <span class="text-white font-semibold text-base mt-1 block">Mon–Sat: 6 AM – 11 PM</span>
+            <span class="text-gray-400 text-xs">Sunday: 8 AM – 6 PM (Recovery &amp; Open Gym)</span>
+          </div>
+          <div class="border-l-2 border-amber-500 pl-4">
+            <span class="font-mono-code text-[11px] text-gray-400 uppercase tracking-widest block">CLUB LOCATION</span>
+            <span class="text-white font-semibold text-base mt-1 block">3 Imran Khan Rd, Metroville Sector 3</span>
+            <span class="text-gray-400 text-xs">Sindh Industrial Trading Estate, Karachi</span>
+          </div>
+          <div class="border-l-2 border-amber-500 pl-4">
+            <span class="font-mono-code text-[11px] text-gray-400 uppercase tracking-widest block">COMMUNITY &amp; STAFF</span>
+            <span class="text-white font-semibold text-base mt-1 block">500+ Active Members</span>
+            <span class="text-gray-400 text-xs">10 Certified Strength &amp; Rehab Coaches</span>
+          </div>
+          <div class="border-l-2 border-amber-500 pl-4">
+            <span class="font-mono-code text-[11px] text-gray-400 uppercase tracking-widest block">DIRECT HELPLINE</span>
+            <span class="text-white font-semibold text-base mt-1 block">0325 6060570</span>
+            <span class="text-amber-400 text-xs">Fitness Hub Front Desk · Karachi</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <!-- ============ SERVICES ============ -->
-  <section class="services" id="services">
-    <div class="container">
-      <p class="eyebrow reveal">HOW WE HELP</p>
-      <h2 class="section-title reveal">Services</h2>
-
-      <div class="service-list">
-        <article class="service-row reveal">
-          <span class="service-index">01</span>
+    <!-- ============ FACILITIES & ZONES SHOWCASE ============ -->
+    <section id="facilities" class="py-20 bg-ink-950 border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
-            <h3>Personal Training</h3>
-            <p>One-on-one coaching with a certified trainer, programmed around your goals and schedule.</p>
+            <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest"> ENGINEERED TRAINING ZONES</span>
+            <h2 class="font-display text-4xl sm:text-5xl text-white uppercase mt-2">World-Class Facilities</h2>
           </div>
-        </article>
-        <article class="service-row reveal">
-          <span class="service-index">02</span>
-          <div>
-            <h3>Group Classes</h3>
-            <p>HIIT, strength circuits and mobility sessions, scheduled morning and evening.</p>
+          <!-- Facility Category Filter -->
+          <div class="flex flex-wrap gap-2" id="facilityFilterBar">
+            <button type="button" data-fac-filter="all" class="fac-filter-btn px-4 py-2 rounded-lg text-xs font-semibold bg-amber-500 text-ink-950 transition">All Zones (6)</button>
+            <button type="button" data-fac-filter="strength" class="fac-filter-btn px-4 py-2 rounded-lg text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition">Strength &amp; Iron</button>
+            <button type="button" data-fac-filter="conditioning" class="fac-filter-btn px-4 py-2 rounded-lg text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition">Cardio &amp; Turf</button>
+            <button type="button" data-fac-filter="recovery" class="fac-filter-btn px-4 py-2 rounded-lg text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition">Recovery &amp; Amenities</button>
           </div>
-        </article>
-        <article class="service-row reveal">
-          <span class="service-index">03</span>
-          <div>
-            <h3>Diet &amp; Nutrition Plans</h3>
-            <p>Custom meal plans built around your training split and body goals, reviewed monthly.</p>
-          </div>
-        </article>
-        <article class="service-row reveal">
-          <span class="service-index">04</span>
-          <div>
-            <h3>Injury &amp; Recovery Support</h3>
-            <p>Guided mobility and light rehab work for members returning from injury.</p>
-          </div>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ FEE PLANS ============ -->
-  <section class="plans" id="plans">
-    <div class="container">
-      <p class="eyebrow reveal">MEMBERSHIP</p>
-      <h2 class="section-title reveal">Fee Plans</h2>
-
-      <div class="plan-grid">
-        <div class="plan-card reveal">
-          <h3>Monthly</h3>
-          <div class="plan-price">Rs. 3,500<span>/mo</span></div>
-          <ul>
-            <li>Full gym floor access</li>
-            <li>Locker room &amp; shower</li>
-            <li>1 free trainer consultation</li>
-          </ul>
-          <a href="#admission" class="btn btn-ghost btn-full">Choose Monthly</a>
         </div>
 
-        <div class="plan-card featured reveal">
-          <span class="plan-badge">Most Popular</span>
-          <h3>Quarterly</h3>
-          <div class="plan-price">Rs. 9,500<span>/3mo</span></div>
-          <ul>
-            <li>Everything in Monthly</li>
-            <li>2 group classes / week</li>
-            <li>Diet plan review (1x)</li>
-          </ul>
-          <a href="#admission" class="btn btn-primary btn-full">Choose Quarterly</a>
+        <!-- Visual Architectural Highlights (2 Featured Photo Banners) -->
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="relative rounded-2xl overflow-hidden border border-white/10 group h-72 sm:h-80">
+            <img src="assets/turf_zone.jpg" alt="Functional Turf and Conditioning Zone" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/55 to-transparent"></div>
+            <div class="absolute bottom-0 inset-x-0 p-6">
+              <span class="px-2.5 py-1 rounded bg-amber-500 text-ink-950 font-mono-code text-[10px] font-bold uppercase">ZONE 01 · ATHLETIC TURF</span>
+              <h3 class="font-display text-2xl text-white uppercase mt-2">25m Sprint Turf, Sleds &amp; Concept2 Rowers</h3>
+              <p class="text-xs sm:text-sm text-gray-300 mt-1">Dedicated conditioning lane for weighted prowler pushes, battle ropes, kettlebell complexes, and metabolic erg intervals.</p>
+            </div>
+          </div>
+
+          <div class="relative rounded-2xl overflow-hidden border border-white/10 group h-72 sm:h-80">
+            <img src="assets/sauna_recovery.jpg" alt="Cedar Sauna and Recovery Suite" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/55 to-transparent"></div>
+            <div class="absolute bottom-0 inset-x-0 p-6">
+              <span class="px-2.5 py-1 rounded bg-emerald-400 text-ink-950 font-mono-code text-[10px] font-bold uppercase">ZONE 02 · THERMAL RECOVERY</span>
+              <h3 class="font-display text-2xl text-white uppercase mt-2">Finnish Cedar Sauna, Steam &amp; Lounge</h3>
+              <p class="text-xs sm:text-sm text-gray-300 mt-1">Accelerate post-session muscle repair and cardiovascular recovery in our temperature-regulated cedar wood thermal suite.</p>
+            </div>
+          </div>
         </div>
 
-        <div class="plan-card reveal">
-          <h3>Annual</h3>
-          <div class="plan-price">Rs. 32,000<span>/yr</span></div>
-          <ul>
-            <li>Everything in Quarterly</li>
-            <li>Unlimited group classes</li>
-            <li>Monthly diet plan review</li>
-          </ul>
-          <a href="#admission" class="btn btn-ghost btn-full">Choose Annual</a>
+        <!-- 6 Interactive Facility Grid Cards -->
+        <div id="facilityCardsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div data-fac-cat="strength" class="facility-item card-glow bg-ink-900 rounded-2xl p-6 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                  <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="20" width="6" height="8"/><rect x="12" y="16" width="5" height="16"/><rect x="31" y="16" width="5" height="16"/><rect x="38" y="20" width="6" height="8"/><path d="M17 24h14"/></svg>
+                </div>
+                <span class="font-mono-code text-[11px] text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full">8 Power Racks</span>
+              </div>
+              <h3 class="font-bold text-lg text-white">Free Weights &amp; Lifting Platforms</h3>
+              <p class="text-sm text-gray-400 mt-2">Full progression of urethane dumbbells (1kg to 50kg), Olympic competition bars, deadlift platforms, and calibrated bumper plates.</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mt-5 pt-4 border-t border-white/10">
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">1kg–50kg Dumbbells</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">20kg Olympic Bars</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Chalk Station</span>
+            </div>
+          </div>
+
+          <div data-fac-cat="conditioning" class="facility-item card-glow bg-ink-900 rounded-2xl p-6 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                  <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 30h6l4-14 6 22 5-16 4 8h11"/></svg>
+                </div>
+                <span class="font-mono-code text-[11px] text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-full">24 Cardio Units</span>
+              </div>
+              <h3 class="font-bold text-lg text-white">Cardio &amp; Metabolic Deck</h3>
+              <p class="text-sm text-gray-400 mt-2">Commercial incline treadmills, stair climbers, Concept2 rowers, and assault air bikes with integrated heart-rate telemetry.</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mt-5 pt-4 border-t border-white/10">
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Concept2 Rowers</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">StairMasters</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">HR Telemetry</span>
+            </div>
+          </div>
+
+          <div data-fac-cat="recovery" class="facility-item card-glow bg-ink-900 rounded-2xl p-6 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                  <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="32" height="32" rx="2"/><path d="M8 20h32M20 8v32"/></svg>
+                </div>
+                <span class="font-mono-code text-[11px] text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full">Men &amp; Women</span>
+              </div>
+              <h3 class="font-bold text-lg text-white">Executive Locker Rooms</h3>
+              <p class="text-sm text-gray-400 mt-2">Separate, digital-keypad locker suites with private hot showers, grooming stations, and sanitized towel service.</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mt-5 pt-4 border-t border-white/10">
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Digital Locks</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Hot Showers</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Separate Suites</span>
+            </div>
+          </div>
+
+          <div data-fac-cat="recovery" class="facility-item card-glow bg-ink-900 rounded-2xl p-6 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                  <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M24 6c4 6-2 8-2 13a6 6 0 0 0 12 0c0-3-2-4-2-7 4 2 6 7 6 11a10 10 0 0 1-20 0c0-8 6-9 6-17Z"/></svg>
+                </div>
+                <span class="font-mono-code text-[11px] text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-full">Open Till 11 PM</span>
+              </div>
+              <h3 class="font-bold text-lg text-white">Sauna &amp; Steam Recovery</h3>
+              <p class="text-sm text-gray-400 mt-2">Dedicated dry cedar sauna and aromatherapy steam rooms for post-workout muscle relief and joint mobility.</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mt-5 pt-4 border-t border-white/10">
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">85°C Dry Sauna</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Steam Therapy</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Foam Roll Zone</span>
+            </div>
+          </div>
+
+          <div data-fac-cat="recovery" class="facility-item card-glow bg-ink-900 rounded-2xl p-6 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                  <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="14" width="36" height="20" rx="2"/><circle cx="15" cy="34" r="3"/><circle cx="33" cy="34" r="3"/></svg>
+                </div>
+                <span class="font-mono-code text-[11px] text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full">24/7 CCTV Guard</span>
+              </div>
+              <h3 class="font-bold text-lg text-white">Covered Member Parking</h3>
+              <p class="text-sm text-gray-400 mt-2">Dedicated, shaded car and motorcycle parking right outside the main entrance with security guard supervision.</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mt-5 pt-4 border-t border-white/10">
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Free Valet Assist</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Bike Bays</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Floodlit Entry</span>
+            </div>
+          </div>
+
+          <div data-fac-cat="strength" class="facility-item card-glow bg-ink-900 rounded-2xl p-6 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                  <svg class="w-7 h-7" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"><path d="M24 8v6M24 34v6M8 24h6M34 24h6"/><circle cx="24" cy="24" r="9"/></svg>
+                </div>
+                <span class="font-mono-code text-[11px] text-amber-400 bg-amber-500/10 px-2.5 py-1 rounded-full">100% Generator Backup</span>
+              </div>
+              <h3 class="font-bold text-lg text-white">Full Climate-Controlled AC Floor</h3>
+              <p class="text-sm text-gray-400 mt-2">Commercial HVAC air filtration and uninterrupted generator power keep the training floor at 20°C throughout Karachi summers.</p>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mt-5 pt-4 border-t border-white/10">
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">HEPA Fresh Air</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Zero Load-Shedding</span>
+              <span class="text-[11px] font-mono-code px-2 py-0.5 rounded bg-ink-800 text-gray-300">Protein Shake Bar</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <div class="plate-divider" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <!-- ============ INTERACTIVE WEEKLY CLASS SCHEDULE & BOOKING ============ -->
+    <section id="schedule" class="py-20 bg-ink-900 border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div>
+            <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">GROUP COACHING &amp; CIRCUITS</span>
+            <h2 class="font-display text-4xl sm:text-5xl text-white uppercase mt-2">Weekly Class Timetable</h2>
+            <p class="text-gray-400 text-sm mt-2 max-w-xl">Filter by day or training style and reserve your spot online. Quarterly &amp; Annual members get complimentary class access.</p>
+          </div>
 
-  <!-- ============ MOTIVATION ============ -->
-  <section class="motivation">
-    <div class="container motivation-inner">
-      <p class="eyebrow reveal">DAILY FUEL</p>
-      <blockquote class="quote reveal" id="quoteBox">"Discipline is choosing between what you want now and what you want most."</blockquote>
-      <div class="motivation-stats reveal">
-        <div class="stat"><span class="stat-num">500+</span><span class="stat-label">Active Members</span></div>
-        <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Classes / Week</span></div>
-        <div class="stat"><span class="stat-num">10</span><span class="stat-label">Certified Trainers</span></div>
+          <!-- Category Filter Pills -->
+          <div class="flex flex-wrap gap-2" id="classCategoryFilters">
+            <button type="button" data-class-cat="all" class="class-cat-btn px-3.5 py-2 rounded-lg text-xs font-semibold bg-amber-500 text-ink-950 transition">All Classes</button>
+            <button type="button" data-class-cat="Strength" class="class-cat-btn px-3.5 py-2 rounded-lg text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition">Strength</button>
+            <button type="button" data-class-cat="HIIT" class="class-cat-btn px-3.5 py-2 rounded-lg text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition">HIIT &amp; Turf</button>
+            <button type="button" data-class-cat="Mobility" class="class-cat-btn px-3.5 py-2 rounded-lg text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition">Mobility &amp; Rehab</button>
+            <button type="button" data-class-cat="Combat" class="class-cat-btn px-3.5 py-2 rounded-lg text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition">Boxing &amp; Conditioning</button>
+          </div>
+        </div>
+
+        <!-- Day Tabs -->
+        <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 bg-ink-950 p-1.5 rounded-2xl border border-white/10" id="scheduleDayTabs">
+          <button type="button" data-day="Monday" class="day-tab-btn py-3 rounded-xl font-mono-code text-xs uppercase font-bold bg-amber-500 text-ink-950 transition">Monday</button>
+          <button type="button" data-day="Tuesday" class="day-tab-btn py-3 rounded-xl font-mono-code text-xs uppercase font-bold text-gray-400 hover:text-white transition">Tuesday</button>
+          <button type="button" data-day="Wednesday" class="day-tab-btn py-3 rounded-xl font-mono-code text-xs uppercase font-bold text-gray-400 hover:text-white transition">Wednesday</button>
+          <button type="button" data-day="Thursday" class="day-tab-btn py-3 rounded-xl font-mono-code text-xs uppercase font-bold text-gray-400 hover:text-white transition">Thursday</button>
+          <button type="button" data-day="Friday" class="day-tab-btn py-3 rounded-xl font-mono-code text-xs uppercase font-bold text-gray-400 hover:text-white transition">Friday</button>
+          <button type="button" data-day="Saturday" class="day-tab-btn py-3 rounded-xl font-mono-code text-xs uppercase font-bold text-gray-400 hover:text-white transition">Saturday</button>
+        </div>
+
+        <!-- Dynamic Class Cards Grid -->
+        <div id="scheduleGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ============ ADMISSION FORM ============ -->
-  <section class="admission" id="admission">
-    <div class="container admission-inner">
-      <p class="eyebrow reveal">JOIN IRONPEAK</p>
-      <h2 class="section-title reveal">Admission Form</h2>
-      <p class="admission-sub reveal">Fill out the form. Your details will be instantly recorded in the staff dashboard.</p>
+    <!-- ============ INTERACTIVE 3-IN-1 FITNESS & NUTRITION LAB ============ -->
+    <section id="calculators" class="py-20 bg-ink-950 border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div>
+            <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">INTERACTIVE PERFORMANCE LAB</span>
+            <h2 class="font-display text-4xl sm:text-5xl text-white uppercase mt-2">Fitness, Macro &amp; Strength Calculators</h2>
+            <p class="text-gray-400 text-sm mt-2 max-w-2xl">Benchmark your body composition, dial in daily protein &amp; calorie targets, or calculate your 1-Rep Max with exact Olympic barbell plate loading.</p>
+          </div>
 
-      <form class="admission-form reveal" id="admissionForm" novalidate>
-        <div class="form-grid">
-          <div class="form-row">
-            <label for="fullName">Full Name</label>
-            <input type="text" id="fullName" required>
-            <span class="error-msg" id="fullNameError"></span>
+          <!-- Calculator Switcher Tabs -->
+          <div class="flex flex-wrap bg-ink-900 p-1.5 rounded-xl border border-white/10 gap-1">
+            <button type="button" data-calc-tab="bmi" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold bg-amber-500 text-ink-950 transition">1. BMI &amp; Body Comp</button>
+            <button type="button" data-calc-tab="tdee" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-gray-300 hover:text-white transition">2. Daily Macros (TDEE)</button>
+            <button type="button" data-calc-tab="onerm" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-gray-300 hover:text-white transition">3. 1RM &amp; Plate Loader</button>
           </div>
-          <div class="form-row">
-            <label for="fatherName">Father's Name</label>
-            <input type="text" id="fatherName" required>
-            <span class="error-msg" id="fatherNameError"></span>
+        </div>
+
+        <!-- PANEL 1: BMI & BODY COMPOSITION -->
+        <div id="calcPanelBmi" class="calc-panel grid lg:grid-cols-12 gap-8 bg-ink-900 rounded-2xl p-6 sm:p-8 border border-white/10">
+          <div class="lg:col-span-6 space-y-6">
+            <h3 class="font-display text-2xl text-white uppercase">Body Mass Index &amp; Target Weight</h3>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-sm mb-1.5">
+                  <label for="bmiHeight" class="text-gray-300 font-medium">Height (cm)</label>
+                  <span id="bmiHeightVal" class="font-mono-code text-amber-400 font-bold">175 cm</span>
+                </div>
+                <input type="range" id="bmiHeight" min="140" max="210" value="175" class="w-full accent-amber-500 cursor-pointer">
+              </div>
+
+              <div>
+                <div class="flex justify-between text-sm mb-1.5">
+                  <label for="bmiWeight" class="text-gray-300 font-medium">Current Weight (kg)</label>
+                  <span id="bmiWeightVal" class="font-mono-code text-amber-400 font-bold">76 kg</span>
+                </div>
+                <input type="range" id="bmiWeight" min="40" max="160" value="76" class="w-full accent-amber-500 cursor-pointer">
+              </div>
+
+              <div class="grid grid-cols-2 gap-4 pt-2">
+                <div>
+                  <label for="bmiGoalSelect" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1.5">Primary Focus</label>
+                  <select id="bmiGoalSelect" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white focus:border-amber-500 focus:outline-none">
+                    <option value="Lean Hypertrophy">Lean Muscle &amp; Strength</option>
+                    <option value="Fat Loss & Conditioning">Fat Loss &amp; Conditioning</option>
+                    <option value="Athletic Performance">Athletic Sled &amp; HIIT</option>
+                  </select>
+                </div>
+                <div class="flex items-end">
+                  <button type="button" id="applyBmiGoalToFormBtn" class="w-full py-2.5 px-4 rounded-xl bg-amber-500/15 hover:bg-amber-500 text-amber-400 hover:text-ink-950 border border-amber-500/30 font-semibold text-xs sm:text-sm transition">
+                    Use Goal in Admission →
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="form-row">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" placeholder="03001234567" required>
-            <span class="error-msg" id="phoneError"></span>
+
+          <div class="lg:col-span-6 bg-ink-950 rounded-2xl p-6 border border-white/10 flex flex-col justify-between space-y-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="font-mono-code text-xs text-gray-400 uppercase">COMPUTED BMI SCORE</span>
+                <div id="bmiResultValue" class="font-display text-5xl text-white mt-1">24.8</div>
+              </div>
+              <span id="bmiCategoryBadge" class="px-4 py-1.5 rounded-full text-xs font-mono-code font-bold uppercase bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Athletic / Normal</span>
+            </div>
+
+            <!-- Spectrum Gauge -->
+            <div class="space-y-2">
+              <div class="h-3 w-full rounded-full bg-gradient-to-r from-sky-400 via-emerald-400 via-amber-400 to-rose-500 relative">
+                <div id="bmiGaugeMarker" class="w-4 h-4 rounded-full bg-white border-2 border-ink-950 shadow-lg absolute -top-0.5 transition-all duration-300" style="left: 44%"></div>
+              </div>
+              <div class="flex justify-between font-mono-code text-[10px] text-gray-400">
+                <span>&lt;18.5 Under</span>
+                <span>18.5–24.9 Ideal</span>
+                <span>25–29.9 Over</span>
+                <span>30+ Obese</span>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-ink-900 border border-white/10 space-y-1.5">
+              <div class="text-xs font-mono-code text-amber-400 uppercase">FITNESS HUB COACH RECOMMENDATION</div>
+              <p id="bmiAdviceText" class="text-sm text-gray-300 leading-relaxed">Healthy athletic baseline (Ideal weight range: 56.7 kg – 76.3 kg). Pair 4x/week progressive overload on the main strength floor with our Quarterly Plan.</p>
+            </div>
           </div>
-          <div class="form-row">
-            <label for="email">Email (optional)</label>
-            <input type="email" id="email">
-            <span class="error-msg" id="emailError"></span>
+        </div>
+
+        <!-- PANEL 2: TDEE & MACRO NUTRITION PLANNER -->
+        <div id="calcPanelTdee" class="calc-panel hidden grid lg:grid-cols-12 gap-8 bg-ink-900 rounded-2xl p-6 sm:p-8 border border-white/10">
+          <div class="lg:col-span-6 space-y-4">
+            <h3 class="font-display text-2xl text-white uppercase">Daily Calorie &amp; Macro Split</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div>
+                <label for="tdeeGender" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Gender</label>
+                <select id="tdeeGender" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2.5 text-sm text-white">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+              <div>
+                <label for="tdeeAge" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Age (yrs)</label>
+                <input type="number" id="tdeeAge" value="26" min="14" max="80" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2.5 text-sm text-white">
+              </div>
+              <div class="col-span-2 sm:col-span-1">
+                <label for="tdeeWeight" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Weight (kg)</label>
+                <input type="number" id="tdeeWeight" value="76" min="35" max="180" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2.5 text-sm text-white">
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label for="tdeeHeight" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Height (cm)</label>
+                <input type="number" id="tdeeHeight" value="175" min="130" max="220" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2.5 text-sm text-white">
+              </div>
+              <div>
+                <label for="tdeeActivity" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Training Frequency</label>
+                <select id="tdeeActivity" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2.5 text-sm text-white">
+                  <option value="1.2">Sedentary (Desk Job)</option>
+                  <option value="1.375">Light (1–2 workouts/wk)</option>
+                  <option value="1.55" selected>Moderate (3–5 workouts/wk)</option>
+                  <option value="1.725">Hardcore (6+ workouts/wk)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="tdeeGoal" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Nutrition Phase</label>
+              <select id="tdeeGoal" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2.5 text-sm text-white">
+                <option value="-450">Fat Loss / Shred (-450 kcal deficit)</option>
+                <option value="0" selected>Body Recomposition (Maintenance kcal)</option>
+                <option value="350">Lean Muscle Bulk (+350 kcal surplus)</option>
+              </select>
+            </div>
           </div>
-          <div class="form-row">
-            <label for="cnic">CNIC (optional)</label>
-            <input type="text" id="cnic" placeholder="42101-1234567-1">
+
+          <div class="lg:col-span-6 bg-ink-950 rounded-2xl p-6 border border-white/10 flex flex-col justify-between space-y-5">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4">
+              <div>
+                <span class="font-mono-code text-xs text-gray-400 uppercase">DAILY TARGET CALORIES</span>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <span id="tdeeCaloriesOut" class="font-display text-5xl text-amber-400">2,710</span>
+                  <span class="font-mono-code text-xs text-gray-400">kcal / day</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-mono-code text-[11px] text-gray-400 block">BASAL METABOLIC RATE</span>
+                <span id="tdeeBmrOut" class="font-mono-code text-sm text-white font-semibold">1,748 kcal</span>
+              </div>
+            </div>
+
+            <!-- 3 Macro Cards -->
+            <div class="grid grid-cols-3 gap-3">
+              <div class="p-3.5 rounded-xl bg-ink-900 border border-white/10">
+                <span class="font-mono-code text-[10px] text-emerald-400 uppercase">PROTEIN (30%)</span>
+                <div id="macroProteinOut" class="font-display text-2xl text-white mt-1">203g</div>
+                <span class="text-[11px] text-gray-400">Muscle repair</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-ink-900 border border-white/10">
+                <span class="font-mono-code text-[10px] text-amber-400 uppercase">CARBS (45%)</span>
+                <div id="macroCarbsOut" class="font-display text-2xl text-white mt-1">305g</div>
+                <span class="text-[11px] text-gray-400">Training fuel</span>
+              </div>
+              <div class="p-3.5 rounded-xl bg-ink-900 border border-white/10">
+                <span class="font-mono-code text-[10px] text-sky-400 uppercase">FATS (25%)</span>
+                <div id="macroFatsOut" class="font-display text-2xl text-white mt-1">75g</div>
+                <span class="text-[11px] text-gray-400">Hormone health</span>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-gray-400 pt-1">
+              <span>Includes monthly custom meal chart in Quarterly &amp; Annual plans.</span>
+              <a href="#plans" class="text-amber-400 font-semibold hover:underline">View Plans →</a>
+            </div>
           </div>
-          <div class="form-row">
-            <label for="gender">Gender</label>
-            <select id="gender" required>
-              <option value="" selected disabled>Select</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
+        </div>
+
+        <!-- PANEL 3: 1-REP MAX & OLYMPIC BARBELL PLATE LOADER -->
+        <div id="calcPanelOnerm" class="calc-panel hidden grid lg:grid-cols-12 gap-8 bg-ink-900 rounded-2xl p-6 sm:p-8 border border-white/10">
+          <div class="lg:col-span-5 space-y-4">
+            <h3 class="font-display text-2xl text-white uppercase">1-Rep Max &amp; Plate Loader</h3>
+            <div>
+              <label for="rmLiftSelect" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Compound Lift</label>
+              <select id="rmLiftSelect" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+                <option value="Barbell Back Squat">Barbell Back Squat</option>
+                <option value="Competition Bench Press" selected>Competition Bench Press</option>
+                <option value="Conventional Deadlift">Conventional Deadlift</option>
+                <option value="Strict Overhead Press">Strict Overhead Press</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label for="rmWeightInput" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Weight Lifted (kg)</label>
+                <input type="number" id="rmWeightInput" value="100" min="20" max="350" step="2.5" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+              </div>
+              <div>
+                <label for="rmRepsInput" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Reps Completed (1–15)</label>
+                <input type="number" id="rmRepsInput" value="5" min="1" max="15" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+              </div>
+            </div>
+
+            <!-- Training Percentages Mini Grid -->
+            <div class="pt-2">
+              <span class="font-mono-code text-[11px] text-gray-400 uppercase block mb-2">Training Working Loads</span>
+              <div id="rmPercentagesGrid" class="grid grid-cols-3 gap-2"></div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 bg-ink-950 rounded-2xl p-6 border border-white/10 flex flex-col justify-between space-y-5">
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
+              <div>
+                <span class="font-mono-code text-xs text-gray-400 uppercase">ESTIMATED 1-REP MAX (EPLEY)</span>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <span id="rmMaxOut" class="font-display text-5xl text-amber-400">117.5</span>
+                  <span class="font-mono-code text-xs text-gray-400">kg (Rounded to 2.5kg)</span>
+                </div>
+              </div>
+              <div class="text-right">
+                <span class="font-mono-code text-[11px] text-gray-400 block">20KG OLYMPIC BAR LOAD</span>
+                <span id="rmPerSideOut" class="font-mono-code text-sm text-emerald-400 font-semibold">48.75 kg per side</span>
+              </div>
+            </div>
+
+            <!-- Visual Barbell Plate Graphic -->
+            <div class="space-y-3">
+              <div class="flex justify-between items-center text-xs">
+                <span class="font-mono-code text-gray-400 uppercase">CALIBRATED PLATES PER SIDE (20KG BAR)</span>
+                <span id="rmPlateListText" class="font-mono-code text-amber-400">1×25kg + 1×20kg + 1×2.5kg + 1×1.25kg</span>
+              </div>
+              <div class="h-28 bg-ink-900 rounded-xl border border-white/10 flex items-center px-6 overflow-x-auto">
+                <!-- Barbell Shaft + Sleeve + Plates -->
+                <div class="flex items-center min-w-max">
+                  <div class="w-16 h-3 bg-gray-400 rounded-l"></div>
+                  <div class="w-3 h-8 bg-gray-300 rounded-sm"></div>
+                  <div id="rmPlateVisualStack" class="flex items-center gap-1 px-1"></div>
+                  <div class="w-10 h-4 bg-gray-500 rounded-r"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MEMBERSHIP FEE PLANS & CONFIGURATOR ============ -->
+    <section id="plans" class="py-20 bg-ink-900 border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+          <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">TRANSPARENT MEMBERSHIP TIERS</span>
+          <h2 class="font-display text-4xl sm:text-5xl text-white uppercase">Fee Plans &amp; Custom Add-Ons</h2>
+          <p class="text-gray-400 text-sm">No hidden registration fees. Pick your membership cycle below and optionally bundle personal coaching or nutrition plans.</p>
+        </div>
+
+        <!-- 3 Core Plan Cards -->
+        <div class="grid lg:grid-cols-3 gap-7 items-stretch">
+          <!-- Monthly -->
+          <div class="card-glow bg-ink-950 rounded-2xl p-7 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center">
+                <h3 class="font-display text-2xl text-white uppercase">Monthly</h3>
+                <span class="font-mono-code text-xs text-gray-400">30-Day Cycle</span>
+              </div>
+              <div class="mt-4 flex items-baseline gap-1">
+                <span class="font-display text-4xl text-amber-400">Rs. 3,500</span>
+                <span class="text-gray-400 text-sm">/month</span>
+              </div>
+              <p class="text-xs text-gray-400 mt-2">Flexible month-to-month access with zero long-term commitment.</p>
+              <ul class="mt-6 space-y-3 text-sm text-gray-300 border-t border-white/10 pt-5">
+                <li class="flex items-center gap-2.5"><span class="text-emerald-400">✔</span> Full strength &amp; cardio floor access</li>
+                <li class="flex items-center gap-2.5"><span class="text-emerald-400">✔</span> Executive locker room &amp; hot showers</li>
+                <li class="flex items-center gap-2.5"><span class="text-emerald-400">✔</span> 1 complimentary trainer assessment</li>
+                <li class="flex items-center gap-2.5 text-gray-500"><span>—</span> Group classes (Rs. 500 drop-in)</li>
+              </ul>
+            </div>
+            <button type="button" data-select-plan="Monthly|3500" class="plan-select-btn mt-8 w-full py-3.5 rounded-xl bg-white/5 hover:bg-amber-500 text-white hover:text-ink-950 border border-white/15 font-bold text-sm transition">
+              Choose Monthly (Rs. 3,500)
+            </button>
+          </div>
+
+          <!-- Quarterly (Featured) -->
+          <div class="card-glow bg-ink-950 rounded-2xl p-7 border-2 border-amber-500 relative flex flex-col justify-between shadow-2xl shadow-amber-500/10 lg:-translate-y-3">
+            <div class="absolute -top-3.5 left-7 px-3.5 py-1 rounded-full bg-amber-500 text-ink-950 font-mono-code text-[11px] font-bold uppercase tracking-wider">
+              Most Popular · Save Rs. 1,000
+            </div>
+            <div>
+              <div class="flex justify-between items-center pt-1">
+                <h3 class="font-display text-2xl text-white uppercase">Quarterly</h3>
+                <span class="font-mono-code text-xs text-amber-400">90-Day Cycle</span>
+              </div>
+              <div class="mt-4 flex items-baseline gap-1">
+                <span class="font-display text-4xl text-amber-400">Rs. 9,500</span>
+                <span class="text-gray-400 text-sm">/3 months</span>
+              </div>
+              <p class="text-xs text-emerald-400 mt-2 font-mono-code">Effective rate: Rs. 3,166/mo</p>
+              <ul class="mt-6 space-y-3 text-sm text-gray-200 border-t border-white/10 pt-5">
+                <li class="flex items-center gap-2.5"><span class="text-amber-400">✔</span> Everything in Monthly tier</li>
+                <li class="flex items-center gap-2.5"><span class="text-amber-400">✔</span> 2 Group HIIT / Strength classes per week</li>
+                <li class="flex items-center gap-2.5"><span class="text-amber-400">✔</span> Custom macro &amp; diet plan review (1x)</li>
+                <li class="flex items-center gap-2.5"><span class="text-amber-400">✔</span> Finnish cedar sauna &amp; steam access</li>
+              </ul>
+            </div>
+            <button type="button" data-select-plan="Quarterly|9500" class="plan-select-btn mt-8 w-full py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-sm transition shadow-lg shadow-amber-500/20">
+              Choose Quarterly (Rs. 9,500)
+            </button>
+          </div>
+
+          <!-- Annual -->
+          <div class="card-glow bg-ink-950 rounded-2xl p-7 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-center">
+                <h3 class="font-display text-2xl text-white uppercase">Annual</h3>
+                <span class="font-mono-code text-xs text-emerald-400">Save Rs. 10,000</span>
+              </div>
+              <div class="mt-4 flex items-baseline gap-1">
+                <span class="font-display text-4xl text-amber-400">Rs. 32,000</span>
+                <span class="text-gray-400 text-sm">/year</span>
+              </div>
+              <p class="text-xs text-emerald-400 mt-2 font-mono-code">Effective rate: Rs. 2,666/mo</p>
+              <ul class="mt-6 space-y-3 text-sm text-gray-300 border-t border-white/10 pt-5">
+                <li class="flex items-center gap-2.5"><span class="text-emerald-400">✔</span> Everything in Quarterly tier</li>
+                <li class="flex items-center gap-2.5"><span class="text-emerald-400">✔</span> Unlimited weekly group classes</li>
+                <li class="flex items-center gap-2.5"><span class="text-emerald-400">✔</span> Monthly body-comp &amp; diet plan review</li>
+                <li class="flex items-center gap-2.5"><span class="text-emerald-400">✔</span> 2 free guest passes every month</li>
+              </ul>
+            </div>
+            <button type="button" data-select-plan="Annual|32000" class="plan-select-btn mt-8 w-full py-3.5 rounded-xl bg-white/5 hover:bg-amber-500 text-white hover:text-ink-950 border border-white/15 font-bold text-sm transition">
+              Choose Annual (Rs. 32,000)
+            </button>
+          </div>
+        </div>
+
+        <!-- Interactive Package Cost Estimator Bar -->
+        <div class="bg-ink-950 rounded-2xl p-6 border border-white/10 grid lg:grid-cols-12 gap-6 items-center">
+          <div class="lg:col-span-8 space-y-3">
+            <span class="font-mono-code text-xs text-amber-400 uppercase">OPTIONAL COACHING &amp; LOCKER ADD-ONS</span>
+            <h3 class="font-bold text-white text-lg">Customize Your Training Package</h3>
+            <div class="grid sm:grid-cols-3 gap-3 pt-1">
+              <label class="flex items-center gap-3 p-3 rounded-xl bg-ink-900 border border-white/10 cursor-pointer hover:border-amber-500/40">
+                <input type="checkbox" id="addonPt" data-addon-price="8000" data-addon-name="1-on-1 Personal Training" class="addon-checkbox w-4 h-4 accent-amber-500">
+                <span class="text-xs"><strong class="text-white block">1-on-1 PT (12 Sessions)</strong><span class="text-gray-400">+Rs. 8,000</span></span>
+              </label>
+              <label class="flex items-center gap-3 p-3 rounded-xl bg-ink-900 border border-white/10 cursor-pointer hover:border-amber-500/40">
+                <input type="checkbox" id="addonDiet" data-addon-price="2000" data-addon-name="Custom Nutrition Chart" class="addon-checkbox w-4 h-4 accent-amber-500">
+                <span class="text-xs"><strong class="text-white block">Custom Nutrition Plan</strong><span class="text-gray-400">+Rs. 2,000</span></span>
+              </label>
+              <label class="flex items-center gap-3 p-3 rounded-xl bg-ink-900 border border-white/10 cursor-pointer hover:border-amber-500/40">
+                <input type="checkbox" id="addonLocker" data-addon-price="1000" data-addon-name="Private Dedicated Locker" class="addon-checkbox w-4 h-4 accent-amber-500">
+                <span class="text-xs"><strong class="text-white block">Private VIP Locker</strong><span class="text-gray-400">+Rs. 1,000</span></span>
+              </label>
+            </div>
+          </div>
+          <div class="lg:col-span-4 bg-ink-900 rounded-xl p-5 border border-white/10 flex flex-col justify-between gap-3">
+            <div class="flex justify-between items-baseline">
+              <span class="font-mono-code text-xs text-gray-400 uppercase">ESTIMATED PACKAGE</span>
+              <span id="estimatorPlanLabel" class="font-mono-code text-xs text-amber-400">Quarterly Base</span>
+            </div>
+            <div id="estimatorTotalOut" class="font-display text-3xl text-white">Rs. 9,500</div>
+            <a href="#admission" class="w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-xs uppercase tracking-wider text-center transition">
+              Lock In Package Below →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CERTIFIED TRAINERS & COACHING TEAM ============ -->
+    <section id="trainers" class="py-20 bg-ink-950 border-b border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">CERTIFIED COACHING ROSTER</span>
+            <h2 class="font-display text-4xl sm:text-5xl text-white uppercase mt-2">Meet Our Head Coaches</h2>
+          </div>
+          <p class="text-sm text-gray-400 max-w-md">Select a coach below to pre-fill your preferred trainer on your admission application.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="card-glow bg-ink-900 rounded-2xl p-6 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3.5 mb-4">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 text-ink-950 font-display text-2xl flex items-center justify-center">HK</div>
+                <div>
+                  <h3 class="font-bold text-white text-base">Coach Hamza Khan</h3>
+                  <span class="font-mono-code text-[11px] text-amber-400">Head Strength &amp; Powerlifting</span>
+                </div>
+              </div>
+              <p class="text-xs text-gray-400 leading-relaxed">CSCS Certified · 9 yrs experience specializing in barbell biomechanics, squat/deadlift peaking, and strength blocks.</p>
+              <div class="mt-4 pt-3 border-t border-white/10 text-[11px] font-mono-code text-gray-400">Shift: Mon–Sat (4 PM – 11 PM)</div>
+            </div>
+            <button type="button" data-trainer="Coach Hamza Khan (Strength)" class="select-trainer-btn mt-4 w-full py-2.5 rounded-xl bg-ink-800 hover:bg-amber-500 text-gray-200 hover:text-ink-950 font-semibold text-xs transition">
+              Train with Coach Hamza
+            </button>
+          </div>
+
+          <div class="card-glow bg-ink-900 rounded-2xl p-6 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3.5 mb-4">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-700 text-ink-950 font-display text-2xl flex items-center justify-center">AZ</div>
+                <div>
+                  <h3 class="font-bold text-white text-base">Coach Ayesha Zafar</h3>
+                  <span class="font-mono-code text-[11px] text-emerald-400">Women's Strength &amp; Mobility</span>
+                </div>
+              </div>
+              <p class="text-xs text-gray-400 leading-relaxed">NASM CPT · Leads ladies' dedicated strength sessions, core rehabilitation, and sustainable fat-loss programming.</p>
+              <div class="mt-4 pt-3 border-t border-white/10 text-[11px] font-mono-code text-gray-400">Shift: Mon–Sat (8 AM – 4 PM)</div>
+            </div>
+            <button type="button" data-trainer="Coach Ayesha Zafar (Mobility & Strength)" class="select-trainer-btn mt-4 w-full py-2.5 rounded-xl bg-ink-800 hover:bg-amber-500 text-gray-200 hover:text-ink-950 font-semibold text-xs transition">
+              Train with Coach Ayesha
+            </button>
+          </div>
+
+          <div class="card-glow bg-ink-900 rounded-2xl p-6 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3.5 mb-4">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-400 to-blue-700 text-ink-950 font-display text-2xl flex items-center justify-center">zA</div>
+                <div>
+                  <h3 class="font-bold text-white text-base">Coach Zohaib Ali</h3>
+                  <span class="font-mono-code text-[11px] text-sky-400">HIIT, Turf &amp; Boxing Conditioning</span>
+                </div>
+              </div>
+              <p class="text-xs text-gray-400 leading-relaxed">Former national amateur boxer · Runs high-output metabolic sled circuits, pad work, and VO2-max intervals.</p>
+              <div class="mt-4 pt-3 border-t border-white/10 text-[11px] font-mono-code text-gray-400">Shift: Mon–Sat (6 AM – 2 PM)</div>
+            </div>
+            <button type="button" data-trainer="Coach Zohaib Ali (HIIT & Boxing)" class="select-trainer-btn mt-4 w-full py-2.5 rounded-xl bg-ink-800 hover:bg-amber-500 text-gray-200 hover:text-ink-950 font-semibold text-xs transition">
+              Train with Coach Zohaib
+            </button>
+          </div>
+
+          <div class="card-glow bg-ink-900 rounded-2xl p-6 border border-white/10 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-3.5 mb-4">
+                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-400 to-indigo-700 text-ink-950 font-display text-2xl flex items-center justify-center">us</div>
+                <div>
+                  <h3 class="font-bold text-white text-base">Dr. Usman Siddiqui</h3>
+                  <span class="font-mono-code text-[11px] text-purple-400">Sports Nutrition &amp; Injury Rehab</span>
+                </div>
+              </div>
+              <p class="text-xs text-gray-400 leading-relaxed">DPT &amp; ISSN Sports Nutritionist · Designs clinical injury return protocols and Pakistani household macro meal plans.</p>
+              <div class="mt-4 pt-3 border-t border-white/10 text-[11px] font-mono-code text-gray-400">Shift: Tue/Thu/Sat (5 PM – 10 PM)</div>
+            </div>
+            <button type="button" data-trainer="Dr. Usman Siddiqui (Nutrition & Rehab)" class="select-trainer-btn mt-4 w-full py-2.5 rounded-xl bg-ink-800 hover:bg-amber-500 text-gray-200 hover:text-ink-950 font-semibold text-xs transition">
+              Consult Dr. Usman
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MOTIVATION QUOTE ROTATOR ============ -->
+    <section class="py-14 bg-ink-900 border-b border-white/10 text-center">
+      <div class="max-w-4xl mx-auto px-4 space-y-4">
+        <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">DAILY DISCIPLINE</span>
+        <blockquote id="quoteBox" class="font-display text-2xl sm:text-4xl text-white transition-opacity duration-300 min-h-[2.5em] flex items-center justify-center">
+          "Discipline is choosing between what you want now and what you want most."
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- ============ ONLINE ADMISSION FORM + DIGITAL PASS GENERATOR ============ -->
+    <section id="admission" class="py-20 bg-ink-950">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+        <div class="text-center space-y-2">
+          <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">INSTANT ONLINE REGISTRATION</span>
+          <h2 class="font-display text-4xl sm:text-5xl text-white uppercase">Gym Admission Application</h2>
+          <p class="text-gray-400 text-sm max-w-xl mx-auto">Submit your details below. Your application is immediately logged in the Staff Dashboard and generates your Digital Client ID Card.</p>
+        </div>
+
+        <form id="admissionForm" class="bg-ink-900 rounded-2xl p-6 sm:p-10 border border-white/10 shadow-2xl space-y-6" novalidate>
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div class="form-row">
+              <label for="fullName" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">Full Name *</label>
+              <input type="text" id="fullName" placeholder="Enter full name" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+              <span id="fullNameError" class="text-xs text-rose-400 mt-1 block min-h-[1rem]"></span>
+            </div>
+
+            <div class="form-row">
+              <label for="fatherName" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">Father's Name *</label>
+              <input type="text" id="fatherName" placeholder="Enter father's name" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+              <span id="fatherNameError" class="text-xs text-rose-400 mt-1 block min-h-[1rem]"></span>
+            </div>
+
+            <div class="form-row">
+              <label for="phone" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">Phone / WhatsApp Number *</label>
+              <input type="tel" id="phone" placeholder="03001234567" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+              <span id="phoneError" class="text-xs text-rose-400 mt-1 block min-h-[1rem]"></span>
+            </div>
+
+            <div class="form-row">
+              <label for="email" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">Email Address (Optional)</label>
+              <input type="email" id="email" placeholder="you@example.com" class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+              <span id="emailError" class="text-xs text-rose-400 mt-1 block min-h-[1rem]"></span>
+            </div>
+
+            <div class="form-row">
+              <label for="cnic" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">CNIC Number (Optional)</label>
+              <input type="text" id="cnic" placeholder="42101-1234567-1" maxlength="15" class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+              <span class="text-[11px] text-gray-500 mt-1 block">Auto-formats to 42101-XXXXXXX-X</span>
+            </div>
+
+            <div class="form-row">
+              <label for="gender" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">Gender *</label>
+              <select id="gender" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+                <option value="" selected disabled>Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+              <span id="genderError" class="text-xs text-rose-400 mt-1 block min-h-[1rem]"></span>
+            </div>
+
+            <div class="form-row">
+              <label for="dob" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">Date of Birth *</label>
+              <input type="date" id="dob" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+              <span id="dobError" class="text-xs text-rose-400 mt-1 block min-h-[1rem]"></span>
+            </div>
+
+            <div class="form-row">
+              <label for="plan" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">Membership Fee Plan *</label>
+              <select id="plan" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+                <option value="" selected disabled>Select a fee plan</option>
+                <option value="Monthly|3500">Monthly — Rs. 3,500</option>
+                <option value="Quarterly|9500">Quarterly — Rs. 9,500 (Most Popular)</option>
+                <option value="Annual|32000">Annual — Rs. 32,000 (Best Value)</option>
+              </select>
+              <span id="planError" class="text-xs text-rose-400 mt-1 block min-h-[1rem]"></span>
+            </div>
+
+            <div class="form-row">
+              <label for="fitnessGoal" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">Primary Fitness Goal</label>
+              <select id="fitnessGoal" class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+                <option value="Lean Hypertrophy">Lean Muscle &amp; Strength</option>
+                <option value="Fat Loss & Conditioning">Fat Loss &amp; Conditioning</option>
+                <option value="Powerlifting & 1RM">Powerlifting &amp; Barbell Strength</option>
+                <option value="Mobility & Injury Rehab">Mobility &amp; Injury Recovery</option>
+              </select>
+            </div>
+
+            <div class="form-row">
+              <label for="preferredCoach" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">Preferred Coach / Shift</label>
+              <input type="text" id="preferredCoach" placeholder="Any Certified Coach (Morning / Evening)" class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+            </div>
+
+            <div class="form-row sm:col-span-2">
+              <label for="address" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">Residential Address *</label>
+              <input type="text" id="address" placeholder="House / Flat #, Block, Area, Karachi" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+              <span id="addressError" class="text-xs text-rose-400 mt-1 block min-h-[1rem]"></span>
+            </div>
+
+            <div class="form-row sm:col-span-2">
+              <label for="emergencyContact" class="block font-mono-code text-xs text-gray-300 uppercase mb-1.5">Emergency Contact (Name &amp; Phone) *</label>
+              <input type="text" id="emergencyContact" placeholder="Emergency contact name &amp; phone number" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:border-amber-500 focus:outline-none">
+              <span id="emergencyContactError" class="text-xs text-rose-400 mt-1 block min-h-[1rem]"></span>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-2 border-t border-white/10">
+            <div class="text-xs text-gray-400">
+              By submitting, your application enters <span class="text-amber-400 font-semibold">Pending Approval</span> until fee verification at reception.
+            </div>
+            <button type="submit" id="submitAdmissionBtn" class="px-8 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-sm sm:text-base transition shadow-lg shadow-amber-500/20">
+              Submit Admission Application
+            </button>
+          </div>
+
+          <!-- Instant Digital Admission Pass Card (Shown upon Submit) -->
+          <div id="formSuccess" class="hidden mt-6 p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/40 space-y-4">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <span class="px-2.5 py-1 rounded bg-emerald-500 text-ink-950 font-mono-code text-[10px] font-bold uppercase">ADMISSION REGISTERED</span>
+                <h3 class="font-display text-2xl text-white uppercase mt-2">Digital Admission Pass Issued</h3>
+                <p class="text-xs sm:text-sm text-gray-300">Provide your Client ID at the Fitness Hub reception desk (3 Imran Khan Rd, Metroville Sector 3) to activate your membership.</p>
+              </div>
+              <div class="text-right bg-ink-950 px-5 py-3 rounded-xl border border-emerald-500/30">
+                <span class="font-mono-code text-[10px] text-gray-400 block">ASSIGNED CLIENT ID</span>
+                <strong id="successClientId" class="font-mono-code text-2xl text-amber-400">FH0001</strong>
+              </div>
+            </div>
+            
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================================================================
+       VIEW 3: STAFF ADMIN DASHBOARD (#viewAdmin)
+       =================================================================== -->
+  <section id="viewAdmin" class="hidden flex-1 py-10 bg-ink-950">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+
+      <!-- Top Dashboard Header -->
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-6">
+        <div>
+          <div class="flex items-center gap-2.5">
+            <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">STAFF MANAGEMENT CONSOLE</span>
+            <span id="authStatusBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-mono-code bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Authenticated: admin</span>
+          </div>
+          <h1 class="font-display text-3xl sm:text-4xl text-white uppercase mt-1">Clients, Revenue &amp; Fee Reminders</h1>
+        </div>
+
+        <div id="adminToolbarActions" class="hidden flex-wrap items-center gap-2.5">
+          <button type="button" id="addClientBtn" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-xs sm:text-sm transition flex items-center gap-1.5 shadow-lg shadow-amber-500/15">
+            <span>+ Quick Add Client</span>
+          </button>
+          <button type="button" id="exportCsvBtn" class="px-4 py-2.5 rounded-xl bg-ink-800 hover:bg-ink-700 text-gray-200 border border-white/10 font-semibold text-xs sm:text-sm transition flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span>Export CSV</span>
+          </button>
+          <button type="button" id="openBookingsModalBtn" class="px-4 py-2.5 rounded-xl bg-ink-800 hover:bg-ink-700 text-gray-200 border border-white/10 font-semibold text-xs sm:text-sm transition flex items-center gap-1.5">
+            <span>Class &amp; Trial Bookings</span>
+            <span id="bookingsCountBadge" class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400 font-mono-code text-xs">0</span>
+          </button>
+          <button type="button" id="logoutBtn" class="px-3.5 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 font-semibold text-xs transition">
+            Lock / Logout
+          </button>
+        </div>
+      </div>
+
+      <!-- Staff Login Gate Banner (Hidden when authenticated) -->
+      <div id="adminLoginGate" class="hidden bg-ink-900 rounded-2xl p-8 border border-amber-500/40 max-w-md mx-auto space-y-5 shadow-2xl">
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-mono-code text-[11px] text-amber-400 uppercase">PROTECTED STAFF AREA</span>
+            <h2 class="font-display text-2xl text-white uppercase mt-0.5">Staff Dashboard Login</h2>
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center font-bold">🔒</div>
+        </div>
+        <p class="text-xs text-gray-400">Sign in to manage member admissions, approve pending applications, mark fee payments, and send WhatsApp reminders.</p>
+        <form id="loginForm" class="space-y-4">
+          <div>
+            <label for="loginUser" class="block font-mono-code text-xs text-gray-300 uppercase mb-1">Username</label>
+            <input type="text" id="loginUser" placeholder="Enter staff username" autocomplete="username" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white focus:border-amber-500 focus:outline-none">
+          </div>
+          <div>
+            <label for="loginPass" class="block font-mono-code text-xs text-gray-300 uppercase mb-1">Password</label>
+            <input type="password" id="loginPass" placeholder="Enter staff password" autocomplete="current-password" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white focus:border-amber-500 focus:outline-none">
+          </div>
+          <span id="loginError" class="text-xs text-rose-400 block"></span>
+          <div class="flex gap-2">
+            <button type="submit" class="flex-1 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-sm transition">
+              Unlock Dashboard
+            </button>
+            
+          </div>
+        </form>
+      </div>
+
+      <!-- Main Authenticated Dashboard Content -->
+      <div id="adminUnlockedContent" class="space-y-8">
+
+        <!-- 6-Card Executive Stats & Revenue Row -->
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div class="bg-ink-900 rounded-2xl p-4 border border-white/10 border-t-2 border-t-slate-400">
+            <span class="font-mono-code text-[11px] text-gray-400 uppercase block">Active Members</span>
+            <span id="statTotal" class="font-display text-3xl text-white mt-1 block">0</span>
+          </div>
+          <div class="bg-ink-900 rounded-2xl p-4 border border-white/10 border-t-2 border-t-emerald-500">
+            <span class="font-mono-code text-[11px] text-emerald-400 uppercase block">Paid / Current</span>
+            <span id="statPaid" class="font-display text-3xl text-emerald-400 mt-1 block">0</span>
+          </div>
+          <div class="bg-ink-900 rounded-2xl p-4 border border-white/10 border-t-2 border-t-amber-500">
+            <span class="font-mono-code text-[11px] text-amber-400 uppercase block">Due Soon (≤5d)</span>
+            <span id="statDue" class="font-display text-3xl text-amber-400 mt-1 block">0</span>
+          </div>
+          <div class="bg-ink-900 rounded-2xl p-4 border border-white/10 border-t-2 border-t-rose-500">
+            <span class="font-mono-code text-[11px] text-rose-400 uppercase block">Overdue</span>
+            <span id="statOverdue" class="font-display text-3xl text-rose-400 mt-1 block">0</span>
+          </div>
+          <div class="bg-ink-900 rounded-2xl p-4 border border-white/10 border-t-2 border-t-sky-400">
+            <span class="font-mono-code text-[11px] text-sky-400 uppercase block">Pending Queue</span>
+            <span id="statPending" class="font-display text-3xl text-sky-400 mt-1 block">0</span>
+          </div>
+          <div class="bg-ink-900 rounded-2xl p-4 border border-white/10 border-t-2 border-t-amber-400">
+            <span class="font-mono-code text-[11px] text-amber-300 uppercase block">Est. Monthly Rev</span>
+            <span id="statRevenue" class="font-display text-2xl sm:text-3xl text-white mt-1 block">Rs. 0</span>
+          </div>
+        </div>
+
+        <!-- Pending Admissions Approval Queue -->
+        <div id="pendingSection" class="bg-amber-500/10 border border-amber-500/35 rounded-2xl p-6 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-3">
+              <h2 class="font-display text-2xl text-white uppercase">Pending Online Admissions</h2>
+              <span id="pendingCountBadge" class="px-3 py-0.5 rounded-full bg-amber-500 text-ink-950 font-mono-code text-xs font-bold">0</span>
+            </div>
+            <p class="text-xs text-gray-300">Submitted via the public admission form. Approve once payment is verified at reception to start their billing cycle today.</p>
+          </div>
+          <div id="pendingList" class="grid md:grid-cols-2 gap-4"></div>
+        </div>
+
+        <!-- Visual Analytics Row (Chart.js) -->
+        <div class="grid lg:grid-cols-12 gap-6">
+          <div class="lg:col-span-5 bg-ink-900 rounded-2xl p-5 border border-white/10">
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono-code text-xs text-gray-400 uppercase">FEE STATUS DISTRIBUTION</span>
+              <span class="text-xs text-emerald-400 font-mono-code">Live Sync</span>
+            </div>
+            <div class="relative h-60">
+              <canvas id="statusDoughnutChart"></canvas>
+            </div>
+          </div>
+
+          <div class="lg:col-span-7 bg-ink-900 rounded-2xl p-5 border border-white/10">
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono-code text-xs text-gray-400 uppercase">MEMBERS &amp; REVENUE BY PLAN TIER</span>
+              <span class="text-xs text-amber-400 font-mono-code">PKR (Rs.) Breakdown</span>
+            </div>
+            <div class="relative h-60">
+              <canvas id="planRevenueBarChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Search, Status Filters, Plan Filter & Sort Controls -->
+        <div class="bg-ink-900 rounded-2xl p-4 sm:p-5 border border-white/10 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+          <div class="flex-1 flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-1">
+              <input type="search" id="searchInput" placeholder="Search by name, ID (FH0001), phone, or CNIC..." class="w-full bg-ink-950 border border-white/15 rounded-xl pl-4 pr-4 py-2.5 text-sm text-white focus:border-amber-500 focus:outline-none">
+            </div>
+            <select id="planFilterSelect" aria-label="Filter by plan" class="bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-gray-200 focus:border-amber-500 focus:outline-none">
+              <option value="all">All Plans</option>
+              <option value="Monthly">Monthly (Rs. 3,500)</option>
+              <option value="Quarterly">Quarterly (Rs. 9,500)</option>
+              <option value="Annual">Annual (Rs. 32,000)</option>
             </select>
-            <span class="error-msg" id="genderError"></span>
-          </div>
-          <div class="form-row">
-            <label for="dob">Date of Birth</label>
-            <input type="date" id="dob" required>
-            <span class="error-msg" id="dobError"></span>
-          </div>
-          <div class="form-row">
-            <label for="plan">Fee Plan</label>
-            <select id="plan" required>
-              <option value="" selected disabled>Select a plan</option>
-              <option value="Monthly|3500">Monthly — Rs. 3,500</option>
-              <option value="Quarterly|9500">Quarterly — Rs. 9,500</option>
-              <option value="Annual|32000">Annual — Rs. 32,000</option>
+            <select id="sortSelect" aria-label="Sort clients" class="bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-xs sm:text-sm text-gray-200 focus:border-amber-500 focus:outline-none">
+              <option value="urgent">Sort: Due Date (Urgent First)</option>
+              <option value="newest">Sort: Newest ID First</option>
+              <option value="name">Sort: Name (A–Z)</option>
+              <option value="price">Sort: Plan Value (High–Low)</option>
             </select>
-            <span class="error-msg" id="planError"></span>
           </div>
-          <div class="form-row form-row-wide">
-            <label for="address">Address</label>
-            <input type="text" id="address" required>
-            <span class="error-msg" id="addressError"></span>
-          </div>
-          <div class="form-row form-row-wide">
-            <label for="emergencyContact">Emergency Contact (name &amp; number)</label>
-            <input type="text" id="emergencyContact" required>
-            <span class="error-msg" id="emergencyContactError"></span>
+
+          <div class="flex flex-wrap gap-1.5">
+            <button type="button" data-status="all" class="filter-chip active px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-500 text-ink-950 transition">All Active</button>
+            <button type="button" data-status="paid" class="filter-chip px-3.5 py-2 rounded-xl text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition">Paid</button>
+            <button type="button" data-status="due" class="filter-chip px-3.5 py-2 rounded-xl text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition">Due Soon</button>
+            <button type="button" data-status="overdue" class="filter-chip px-3.5 py-2 rounded-xl text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition">Overdue</button>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary btn-lg">Submit Admission</button>
-        <p class="form-success" id="formSuccess" role="status">Admission submitted successfully! Your client ID is <strong id="successClientId"></strong>. It has been recorded in the staff dashboard.</p>
+        <!-- Client Roster Table -->
+        <div class="bg-ink-900 rounded-2xl border border-white/10 overflow-hidden shadow-xl">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse min-w-[920px]">
+              <thead>
+                <tr class="border-b border-white/10 bg-ink-950/70 font-mono-code text-[11px] text-gray-400 uppercase">
+                  <th class="py-3.5 px-4">ID &amp; Visits</th>
+                  <th class="py-3.5 px-4">Member Details</th>
+                  <th class="py-3.5 px-4">Phone / Contact</th>
+                  <th class="py-3.5 px-4">Plan &amp; Fee</th>
+                  <th class="py-3.5 px-4">Joined / Last Paid</th>
+                  <th class="py-3.5 px-4">Next Fee Due</th>
+                  <th class="py-3.5 px-4">Status</th>
+                  <th class="py-3.5 px-4 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="clientTableBody" class="divide-y divide-white/10 text-sm"></tbody>
+            </table>
+          </div>
+          <p id="emptyState" class="hidden text-center py-12 text-gray-400 text-sm">No client records match your current search or filter.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer id="contact" class="bg-ink-900 border-t border-white/10 py-12 mt-auto no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-8 pb-8 border-b border-white/10">
+        <div class="md:col-span-2 space-y-2">
+          <span class="font-display text-2xl text-white">FITNESS<span class="text-amber-500"> HUB</span></span>
+          <p class="text-sm text-gray-400 max-w-md">3 Imran Khan Rd, Metroville Sector 3 Sindh Industrial Trading Estate, Karachi.</p>
+          <p class="text-xs font-mono-code text-amber-400">0325 6060570</p>
+        </div>
+        <div class="space-y-2 text-sm">
+          <h4 class="font-mono-code text-xs text-white uppercase tracking-wider">Quick Navigation</h4>
+          <ul class="space-y-1.5 text-gray-400">
+            <li><a href="#facilities" class="hover:text-amber-400">Facilities &amp; Sauna</a></li>
+            <li><a href="#schedule" class="hover:text-amber-400">Weekly Class Timetable</a></li>
+            <li><a href="#calculators" class="hover:text-amber-400">BMI, TDEE &amp; 1RM Lab</a></li>
+            <li><a href="#admission" class="hover:text-amber-400">Online Admission Form</a></li>
+          </ul>
+        </div>
+        <div class="space-y-2 text-sm">
+          <h4 class="font-mono-code text-xs text-white uppercase tracking-wider">Operating Hours</h4>
+          <p class="text-gray-400">Mon – Sat: 6:00 AM – 11:00 PM</p>
+          <p class="text-gray-400">Sunday: 8:00 AM – 6:00 PM</p>
+          <p class="text-xs text-emerald-400 font-mono-code pt-1">Separate Ladies' Coaching Hours Available</p>
+        </div>
+      </div>
+      <div class="pt-6 flex flex-wrap justify-between items-center text-xs text-gray-500 gap-4">
+        <span>© <span id="year">2026</span> Fitness Hub Karachi. All rights reserved.</span>
+        <span class="font-mono-code">System v2.4 · SQLite + Live Browser Sync</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================
+       MODALS (Quick Add, Edit Client, Payment Receipt, Delete, Trial/Class Booking)
+       =================================================================== -->
+
+  <!-- 1. QUICK ADD CLIENT MODAL -->
+  <div id="modalOverlay" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-ink-900 border border-white/15 rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <h3 class="font-display text-2xl text-white uppercase">Quick Add Active Client</h3>
+        <button type="button" id="modalClose" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <form id="quickAddForm" class="space-y-4">
+        <div>
+          <label for="qaName" class="block font-mono-code text-xs text-gray-300 uppercase mb-1">Full Name *</label>
+          <input type="text" id="qaName" required placeholder="Enter full name" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+        </div>
+        <div>
+          <label for="qaPhone" class="block font-mono-code text-xs text-gray-300 uppercase mb-1">Phone Number *</label>
+          <input type="tel" id="qaPhone" required placeholder="03001234567" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+        </div>
+        <div>
+          <label for="qaPlan" class="block font-mono-code text-xs text-gray-300 uppercase mb-1">Fee Plan *</label>
+          <select id="qaPlan" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+            <option value="Monthly|3500">Monthly: Rs. 3,500</option>
+            <option value="Quarterly|9500" selected>Quarterly: Rs. 9,500</option>
+            <option value="Annual|32000">Annual: Rs. 32,000</option>
+          </select>
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-sm transition">
+          Add Active Client Now
+        </button>
       </form>
     </div>
-  </section>
+  </div>
 
-</main>
-
-<!-- ============ CONTACT / FOOTER ============ -->
-<footer class="site-footer" id="contact">
-  <div class="container footer-grid">
-    <div>
-      <a href="#top" class="logo footer-logo">IRON<span>PEAK</span></a>
-      <p>Block 7, Gulshan-e-Iqbal, Karachi</p>
-      <p>+92 300 1234567 · info@ironpeakgym.pk</p>
-    </div>
-    <div>
-      <h4>Quick Links</h4>
-      <a href="#facilities">Facilities</a>
-      <a href="#plans">Fee Plans</a>
-      <a href="#admission">Admission</a>
-      <a href="admin.html">Staff Login</a>
-    </div>
-    <div>
-      <h4>Hours</h4>
-      <p>Mon – Sat: 6 AM – 11 PM</p>
-      <p>Sunday: 8 AM – 6 PM</p>
+  <!-- 2. EDIT / VIEW CLIENT DETAILS MODAL -->
+  <div id="editClientOverlay" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-ink-900 border border-white/15 rounded-2xl max-w-xl w-full p-6 space-y-5 shadow-2xl my-8">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div>
+          <span id="editClientIdBadge" class="font-mono-code text-xs text-amber-400">FH0001</span>
+          <h3 class="font-display text-2xl text-white uppercase">Edit Member Profile &amp; Plan</h3>
+        </div>
+        <button type="button" id="editClientClose" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <form id="editClientForm" class="space-y-4">
+        <input type="hidden" id="editClientIdInput">
+        <div class="grid sm:grid-cols-2 gap-3.5">
+          <div>
+            <label for="editName" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Full Name</label>
+            <input type="text" id="editName" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+          </div>
+          <div>
+            <label for="editFatherName" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Father's Name</label>
+            <input type="text" id="editFatherName" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+          </div>
+          <div>
+            <label for="editPhone" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Phone</label>
+            <input type="tel" id="editPhone" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+          </div>
+          <div>
+            <label for="editPlan" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Membership Plan</label>
+            <select id="editPlan" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+              <option value="Monthly">Monthly (Rs. 3,500)</option>
+              <option value="Quarterly">Quarterly (Rs. 9,500)</option>
+              <option value="Annual">Annual (Rs. 32,000)</option>
+            </select>
+          </div>
+          <div>
+            <label for="editCnic" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">CNIC</label>
+            <input type="text" id="editCnic" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+          </div>
+          <div>
+            <label for="editLastPaid" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Last Fee Paid Date</label>
+            <input type="date" id="editLastPaid" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+          </div>
+          <div class="sm:col-span-2">
+            <label for="editAddress" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Address</label>
+            <input type="text" id="editAddress" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+          </div>
+          <div class="sm:col-span-2">
+            <label for="editEmergency" class="block font-mono-code text-[11px] text-gray-400 uppercase mb-1">Emergency Contact</label>
+            <input type="text" id="editEmergency" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3 py-2 text-sm text-white">
+          </div>
+        </div>
+        <div class="flex justify-end gap-2.5 pt-3 border-t border-white/10">
+          <button type="button" id="editClientCancel" class="px-4 py-2.5 rounded-xl bg-ink-800 text-gray-300 text-xs font-semibold">Cancel</button>
+          <button type="submit" class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-xs sm:text-sm transition">Save Changes</button>
+        </div>
+      </form>
     </div>
   </div>
-  <div class="container footer-bottom">
-    <span>© <span id="year"></span> IronPeak Gym</span>
-  </div>
-</footer>
 
-<script src="script.js"></script>
+  <!-- 3. PRINTABLE FEE PAYMENT RECEIPT MODAL -->
+  <div id="receiptOverlay" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-ink-900 border border-white/15 rounded-2xl max-w-md w-full p-6 space-y-5 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div>
+          <span class="font-mono-code text-[10px] text-emerald-400 uppercase">OFFICIAL PAYMENT VOUCHER</span>
+          <h3 class="font-display text-2xl text-white uppercase">Fitness Hub Fee Receipt</h3>
+        </div>
+        <button type="button" id="receiptCloseBtn" class="text-gray-400 hover:text-white text-2xl leading-none no-print">&times;</button>
+      </div>
+      <div id="receiptBody" class="bg-ink-950 rounded-xl p-5 border border-white/10 space-y-3 text-sm font-mono-code"></div>
+      <div class="flex gap-2.5 no-print">
+        <button type="button" id="printReceiptBtn" class="flex-1 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-xs uppercase tracking-wider transition">
+          Print / Save PDF
+        </button>
+        <button type="button" id="receiptDoneBtn" class="px-4 py-2.5 rounded-xl bg-ink-800 text-gray-300 text-xs font-semibold">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. DELETE CONFIRM MODAL -->
+  <div id="deleteOverlay" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-ink-900 border border-white/15 rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <h3 class="font-display text-2xl text-white uppercase">Remove Client Record?</h3>
+        <button type="button" id="deleteModalClose" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <p class="text-sm text-gray-300">This member record will be permanently removed from the active roster. Please confirm.</p>
+      <div class="flex gap-3 pt-2">
+        <button type="button" id="deleteCancel" class="flex-1 py-2.5 rounded-xl bg-ink-800 text-gray-300 font-semibold text-xs">Cancel</button>
+        <button type="button" id="deleteConfirm" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs">Delete Permanently</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. FREE 1-DAY TRIAL & CLASS RESERVATION MODAL -->
+  <div id="trialModalOverlay" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-ink-900 border border-white/15 rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div>
+          <span id="bookingModalEyebrow" class="font-mono-code text-[10px] text-amber-400 uppercase">VIP GUEST ACCESS</span>
+          <h3 id="bookingModalTitle" class="font-display text-2xl text-white uppercase">Claim Free 1-Day Trial Pass</h3>
+        </div>
+        <button type="button" id="trialModalClose" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <form id="trialBookingForm" class="space-y-4">
+        <input type="hidden" id="bookingSessionLabel" value="1-Day Full Gym Trial Pass">
+        <div>
+          <label for="trialVisitorName" class="block font-mono-code text-xs text-gray-300 uppercase mb-1">Your Full Name *</label>
+          <input type="text" id="trialVisitorName" required placeholder="Enter your full name" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+        </div>
+        <div>
+          <label for="trialVisitorPhone" class="block font-mono-code text-xs text-gray-300 uppercase mb-1">Phone / WhatsApp *</label>
+          <input type="tel" id="trialVisitorPhone" required placeholder="03001234567" class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+        </div>
+        <div>
+          <label for="trialPreferredDate" class="block font-mono-code text-xs text-gray-300 uppercase mb-1">Preferred Visit Date *</label>
+          <input type="date" id="trialPreferredDate" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-sm transition">
+          Confirm Reservation Pass
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6. STAFF VIEW OF CLASS & TRIAL BOOKINGS MODAL -->
+  <div id="staffBookingsOverlay" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-ink-900 border border-white/15 rounded-2xl max-w-2xl w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div>
+          <span class="font-mono-code text-[10px] text-amber-400 uppercase">FRONT DESK RESERVATIONS</span>
+          <h3 class="font-display text-2xl text-white uppercase">Class &amp; 1-Day Trial Bookings</h3>
+        </div>
+        <button type="button" id="staffBookingsClose" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <div id="staffBookingsList" class="space-y-2.5 max-h-96 overflow-y-auto pr-1"></div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       APPLICATION LOGIC (Unified Public + Member Portal + Staff Dashboard)
+       =================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ---- Constants & Plan Config ---- */
+      const WHATSAPP_COUNTRY_CODE = '92';
+      const PLANS = { Monthly: 3500, Quarterly: 9500, Annual: 32000 };
+      const STORAGE_KEY_CLIENTS = 'fitness_hub_clients_final_v1';
+      const STORAGE_KEY_BOOKINGS = 'fitness_hub_bookings_final_v1';
+      const VALID_STAFF_USER = 'admin';
+      const VALID_STAFF_PASSWORDS = ['fitnesshub@2026', 'ironpeak@2026'];
+
+      function planCycleDays(plan) {
+        if (plan === 'Quarterly') return 90;
+        if (plan === 'Annual') return 365;
+        return 30;
+      }
+
+      /* ---- Local Date Helpers (Karachi Timezone Safe) ---- */
+      function todayStr() {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      }
+      function addDays(dateStr, days) {
+        if (!dateStr) return todayStr();
+        const parts = String(dateStr).split('-').map(Number);
+        if (parts.length !== 3) return todayStr();
+        const dt = new Date(parts[0], parts[1] - 1, parts[2]);
+        dt.setDate(dt.getDate() + days);
+        return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+      }
+      function daysBetween(a, b) {
+        const [ay, am, ad] = String(a).split('-').map(Number);
+        const [by, bm, bd] = String(b).split('-').map(Number);
+        return Math.round((new Date(by, bm - 1, bd) - new Date(ay, am - 1, ad)) / 86400000);
+      }
+      function displayId(n) {
+        return 'FH' + String(n).padStart(4, '0');
+      }
+      function enrichClient(row) {
+        const cid = row.clientId || displayId(row.id);
+        const checkins = Number(row.checkins || 0);
+        if (row.approvalStatus === 'pending') {
+          return { ...row, clientId: cid, dueDate: 'Pending', status: 'pending', daysLeft: null, checkins };
+        }
+        const dueDate = addDays(row.lastPaidDate || todayStr(), planCycleDays(row.plan));
+        const daysLeft = daysBetween(todayStr(), dueDate);
+        let status = 'paid';
+        if (daysLeft < 0) status = 'overdue';
+        else if (daysLeft <= 5) status = 'due';
+        return { ...row, clientId: cid, dueDate, status, daysLeft, checkins };
+      }
+
+      /* ---- Toast Notification Helper (Replaces alert/confirm) ---- */
+      function showToast(message, type = 'ok') {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+        const toast = document.createElement('div');
+        const borderColors = {
+          ok: 'border-emerald-500/50 bg-ink-900 text-emerald-300',
+          warn: 'border-amber-500/50 bg-ink-900 text-amber-300',
+          danger: 'border-rose-500/50 bg-ink-900 text-rose-300'
+        };
+        toast.className = `pointer-events-auto px-4 py-3 rounded-xl border shadow-2xl text-xs sm:text-sm font-medium flex items-center justify-between gap-3 transition-all duration-300 ${borderColors[type] || borderColors.ok}`;
+        toast.innerHTML = `<span>${escapeHtml(message)}</span><button type="button" class="text-gray-400 hover:text-white font-bold">&times;</button>`;
+        toast.querySelector('button').addEventListener('click', () => toast.remove());
+        container.appendChild(toast);
+        setTimeout(() => {
+          if (toast.parentNode) toast.remove();
+        }, 4200);
+      }
+
+      function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str == null ? '' : String(str);
+        return div.innerHTML;
+      }
+
+      function formatPhoneForWhatsapp(phone) {
+        let digits = String(phone).replace(/\D/g, '');
+        if (digits.startsWith('00')) digits = digits.slice(2);
+        if (digits.startsWith('0')) return WHATSAPP_COUNTRY_CODE + digits.slice(1);
+        if (!digits.startsWith(WHATSAPP_COUNTRY_CODE)) return WHATSAPP_COUNTRY_CODE + digits;
+        return digits;
+      }
+
+      /* ---- Seed Initial Records (Includes Existing DB Record IP0013 + Realistic Roster) ---- */
+      const today = todayStr();
+      const INITIAL_CLIENTS = [];
+
+      const WEEKLY_CLASSES = [
+        { id: 'c1', day: 'Monday', time: '07:00 AM – 08:00 AM', title: 'Morning Barbell Strength Foundations', coach: 'Coach Zohaib Ali', cat: 'Strength', kcal: '480 kcal', spots: 6 },
+        { id: 'c2', day: 'Monday', time: '05:30 PM – 06:30 PM', title: 'Ladies Core, Glutes & Mobility', coach: 'Coach Ayesha Zafar', cat: 'Mobility', kcal: '410 kcal', spots: 5 },
+        { id: 'c3', day: 'Monday', time: '07:30 PM – 08:30 PM', title: 'Metabolic Turf Sled & Battle Ropes HIIT', coach: 'Coach Hamza Khan', cat: 'HIIT', kcal: '650 kcal', spots: 4 },
+        { id: 'c4', day: 'Tuesday', time: '07:30 AM – 08:30 AM', title: 'Boxing Padwork & Footwork Conditioning', coach: 'Coach Zohaib Ali', cat: 'Combat', kcal: '620 kcal', spots: 7 },
+        { id: 'c5', day: 'Tuesday', time: '06:00 PM – 07:00 PM', title: 'Squat & Deadlift Technique Clinic', coach: 'Coach Hamza Khan', cat: 'Strength', kcal: '520 kcal', spots: 3 },
+        { id: 'c6', day: 'Tuesday', time: '08:00 PM – 09:00 PM', title: 'Shoulder & Spine Decompression Flow', coach: 'Dr. Usman Siddiqui', cat: 'Mobility', kcal: '310 kcal', spots: 8 },
+        { id: 'c7', day: 'Wednesday', time: '07:00 AM – 08:00 AM', title: 'Concept2 Row & Kettlebell Engine', coach: 'Coach Zohaib Ali', cat: 'HIIT', kcal: '590 kcal', spots: 5 },
+        { id: 'c8', day: 'Wednesday', time: '05:00 PM – 06:00 PM', title: 'Ladies Strength & Metabolic Circuit', coach: 'Coach Ayesha Zafar', cat: 'Strength', kcal: '490 kcal', spots: 4 },
+        { id: 'c9', day: 'Wednesday', time: '08:00 PM – 09:00 PM', title: 'Heavy Bag & Core Conditioning', coach: 'Coach Zohaib Ali', cat: 'Combat', kcal: '640 kcal', spots: 6 },
+        { id: 'c10', day: 'Thursday', time: '06:00 PM – 07:00 PM', title: 'Olympic Bench & Upper Hypertrophy', coach: 'Coach Hamza Khan', cat: 'Strength', kcal: '510 kcal', spots: 4 },
+        { id: 'c11', day: 'Thursday', time: '07:30 PM – 08:30 PM', title: 'Athletic Injury Rehab & Joint Stability', coach: 'Dr. Usman Siddiqui', cat: 'Mobility', kcal: '340 kcal', spots: 7 },
+        { id: 'c12', day: 'Friday', time: '07:00 AM – 08:00 AM', title: 'Friday Redline Sled & AirBike Sprint', coach: 'Coach Zohaib Ali', cat: 'HIIT', kcal: '680 kcal', spots: 5 },
+        { id: 'c13', day: 'Friday', time: '06:30 PM – 07:30 PM', title: 'Friday Night Heavy Pulls & Platforms', coach: 'Coach Hamza Khan', cat: 'Strength', kcal: '550 kcal', spots: 3 },
+        { id: 'c14', day: 'Saturday', time: '10:00 AM – 11:15 AM', title: 'Weekend Team Partner Turf Gauntlet', coach: 'Coach Hamza & Ayesha', cat: 'HIIT', kcal: '700 kcal', spots: 6 },
+        { id: 'c15', day: 'Saturday', time: '04:30 PM – 05:30 PM', title: 'Full-Body Myofascial Release & Sauna Prep', coach: 'Dr. Usman Siddiqui', cat: 'Mobility', kcal: '290 kcal', spots: 9 }
+      ];
+
+      let clientsCache = [];
+      let bookingsCache = [];
+      let reservedClassIds = new Set();
+      let currentView = 'public';
+      let isAdminAuthenticated = false;
+      let currentFilter = 'all';
+      let currentPlanFilter = 'all';
+      let currentSort = 'urgent';
+      let currentSearch = '';
+      let pendingDeleteId = null;
+      let currentPortalClientId = 'IP0013';
+      let selectedDayTab = 'Monday';
+      let selectedClassCategory = 'all';
+      let statusChartInstance = null;
+      let planChartInstance = null;
+
+      /* ---- Local Storage + Backend API Hybrid Persistence ---- */
+      function loadLocalState() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY_CLIENTS);
+          if (saved) {
+            clientsCache = JSON.parse(saved).map(enrichClient);
+          } else {
+            clientsCache = INITIAL_CLIENTS.map(enrichClient);
+          }
+          const savedBookings = localStorage.getItem(STORAGE_KEY_BOOKINGS);
+          if (savedBookings) {
+            bookingsCache = JSON.parse(savedBookings);
+          }
+        } catch (err) {
+          clientsCache = INITIAL_CLIENTS.map(enrichClient);
+        }
+      }
+
+      function saveLocalState() {
+        try {
+          localStorage.setItem(STORAGE_KEY_CLIENTS, JSON.stringify(clientsCache));
+          localStorage.setItem(STORAGE_KEY_BOOKINGS, JSON.stringify(bookingsCache));
+        } catch (err) {
+          /* ignore storage quota errors in sandboxed iframes */
+        }
+      }
+
+      async function tryServerApi(endpoint, options = {}) {
+        if (!window.location.protocol.startsWith('http')) return null;
+        try {
+          const url = '/api' + endpoint;
+          const res = await fetch(url, {
+            headers: { 'Content-Type': 'application/json' },
+            ...options
+          });
+          if (!res.ok) return null;
+          return await res.json();
+        } catch {
+          return null;
+        }
+      }
+
+      async function syncClientsFromServerOrLocal() {
+        loadLocalState();
+        const serverList = await tryServerApi('/clients');
+        if (Array.isArray(serverList) && serverList.length > 0) {
+          clientsCache = serverList.map(enrichClient);
+          saveLocalState();
+        }
+        updateNavBadges();
+      }
+
+      function updateNavBadges() {
+        const pendingCount = clientsCache.filter(c => c.approvalStatus === 'pending').length;
+        const navBadge = document.getElementById('navPendingBadge');
+        if (navBadge) {
+          navBadge.textContent = String(pendingCount);
+          navBadge.classList.toggle('hidden', !isAdminAuthenticated || pendingCount === 0);
+        }
+        const bookingsBadge = document.getElementById('bookingsCountBadge');
+        if (bookingsBadge) {
+          bookingsBadge.textContent = String(bookingsCache.length);
+        }
+      }
+
+      /* ===================================================================
+         1. VIEW SWITCHING (PUBLIC / PORTAL / ADMIN)
+         =================================================================== */
+      function switchView(targetView) {
+        currentView = targetView;
+        const vPublic = document.getElementById('viewPublic');
+                const vAdmin = document.getElementById('viewAdmin');
+        const pubNav = document.getElementById('publicSectionNav');
+
+        vPublic.classList.toggle('hidden', targetView !== 'public');
+                vAdmin.classList.toggle('hidden', targetView !== 'admin');
+        if (pubNav) pubNav.classList.toggle('lg:flex', targetView === 'public');
+
+        document.querySelectorAll('.view-tab-btn').forEach(btn => {
+          const isMatch = btn.dataset.viewTarget === targetView;
+          btn.className = isMatch
+            ? 'view-tab-btn px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 bg-amber-500 text-ink-950 shadow'
+            : 'view-tab-btn px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-gray-300 hover:text-white relative';
+        });
+
+        if (targetView === 'admin') {
+          renderAdminDashboard();
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      /* ===================================================================
+         2. PUBLIC WEBSITE INTERACTIVE FEATURES
+         =================================================================== */
+      function initLiveClubStatus() {
+        const hour = new Date().getHours();
+        const day = new Date().getDay();
+        const isOpen = day === 0 ? (hour >= 8 && hour < 18) : (hour >= 6 && hour < 23);
+        const statusText = document.getElementById('liveGymStatusText');
+        const pulseDot = document.getElementById('livePulseDot');
+        const pulsePing = document.getElementById('livePulsePing');
+        if (statusText && pulseDot && pulsePing) {
+          if (isOpen) {
+            statusText.textContent = 'OPEN NOW';
+            pulseDot.className = 'relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500';
+            pulsePing.className = 'animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75';
+          } else {
+            statusText.textContent = 'OPENS 6 AM';
+            pulseDot.className = 'relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500';
+            pulsePing.className = 'hidden';
+          }
+        }
+      }
+
+      function initFacilityFilter() {
+        const buttons = document.querySelectorAll('.fac-filter-btn');
+        const cards = document.querySelectorAll('.facility-item');
+        buttons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            const filter = btn.dataset.facFilter;
+            buttons.forEach(b => {
+              b.className = b === btn
+                ? 'fac-filter-btn px-4 py-2 rounded-lg text-xs font-semibold bg-amber-500 text-ink-950 transition'
+                : 'fac-filter-btn px-4 py-2 rounded-lg text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition';
+            });
+            cards.forEach(card => {
+              const show = filter === 'all' || card.dataset.facCat === filter;
+              card.classList.toggle('hidden', !show);
+            });
+          });
+        });
+      }
+
+      function renderSchedule() {
+        const grid = document.getElementById('scheduleGrid');
+        if (!grid) return;
+        const filtered = WEEKLY_CLASSES.filter(item => {
+          const dayMatch = item.day === selectedDayTab;
+          const catMatch = selectedClassCategory === 'all' || item.cat === selectedClassCategory;
+          return dayMatch && catMatch;
+        });
+
+        if (filtered.length === 0) {
+          grid.innerHTML = `<div class="col-span-full bg-ink-950 rounded-2xl p-8 text-center text-gray-400 border border-white/10">No classes in the <strong>${escapeHtml(selectedClassCategory)}</strong> category on ${escapeHtml(selectedDayTab)}. Try switching to "All Classes".</div>`;
+          return;
+        }
+
+        const badgeColors = {
+          Strength: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
+          HIIT: 'bg-rose-500/15 text-rose-400 border-rose-500/30',
+          Mobility: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+          Combat: 'bg-sky-500/15 text-sky-400 border-sky-500/30'
+        };
+
+        grid.innerHTML = filtered.map(c => {
+          const isBooked = reservedClassIds.has(c.id);
+          const spotsLeft = isBooked ? Math.max(0, c.spots - 1) : c.spots;
+          return `
+            <div class="card-glow bg-ink-950 rounded-2xl p-6 border border-white/10 flex flex-col justify-between gap-4">
+              <div>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                  <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono-code border ${badgeColors[c.cat] || badgeColors.Strength}">${escapeHtml(c.cat)}</span>
+                  <span class="font-mono-code text-xs text-gray-400">${escapeHtml(c.time)}</span>
+                </div>
+                <h3 class="font-bold text-white text-base">${escapeHtml(c.title)}</h3>
+                <p class="text-xs text-gray-400 mt-1">${escapeHtml(c.coach)} · Est. Burn: <span class="text-amber-400">${escapeHtml(c.kcal)}</span></p>
+              </div>
+              <div class="flex items-center justify-between pt-3 border-t border-white/10">
+                <span class="font-mono-code text-xs ${spotsLeft <= 3 ? 'text-amber-400' : 'text-emerald-400'}">${spotsLeft} spots left</span>
+                <button type="button" data-book-class-id="${c.id}" class="reserve-class-btn px-4 py-2 rounded-xl text-xs font-bold transition ${
+                  isBooked
+                    ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                    : 'bg-amber-500 hover:bg-amber-400 text-ink-950'
+                }">
+                  ${isBooked ? 'Reserved ✓' : 'Reserve Spot'}
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function initScheduleControls() {
+        document.querySelectorAll('.day-tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            selectedDayTab = btn.dataset.day;
+            document.querySelectorAll('.day-tab-btn').forEach(b => {
+              b.className = b === btn
+                ? 'day-tab-btn py-3 rounded-xl font-mono-code text-xs uppercase font-bold bg-amber-500 text-ink-950 transition'
+                : 'day-tab-btn py-3 rounded-xl font-mono-code text-xs uppercase font-bold text-gray-400 hover:text-white transition';
+            });
+            renderSchedule();
+          });
+        });
+
+        document.querySelectorAll('.class-cat-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            selectedClassCategory = btn.dataset.classCat;
+            document.querySelectorAll('.class-cat-btn').forEach(b => {
+              b.className = b === btn
+                ? 'class-cat-btn px-3.5 py-2 rounded-lg text-xs font-semibold bg-amber-500 text-ink-950 transition'
+                : 'class-cat-btn px-3.5 py-2 rounded-lg text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition';
+            });
+            renderSchedule();
+          });
+        });
+
+        const grid = document.getElementById('scheduleGrid');
+        if (grid) {
+          grid.addEventListener('click', (e) => {
+            const btn = e.target.closest('.reserve-class-btn');
+            if (!btn) return;
+            const classId = btn.dataset.bookClassId;
+            const cls = WEEKLY_CLASSES.find(item => item.id === classId);
+            if (!cls) return;
+            if (reservedClassIds.has(classId)) {
+              reservedClassIds.delete(classId);
+              renderSchedule();
+              showToast(`Cancelled reservation for ${cls.title}.`, 'warn');
+              return;
+            }
+            openBookingModal(`Class: ${cls.title} (${cls.day})`, 'RESERVE GROUP CLASS SPOT');
+            document.getElementById('trialBookingForm').dataset.pendingClassId = classId;
+          });
+        }
+        renderSchedule();
+      }
+
+      /* ---- 3-in-1 Fitness Calculators ---- */
+      function initCalculators() {
+        // Tab switcher
+        document.querySelectorAll('.calc-tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const tab = btn.dataset.calcTab;
+            document.querySelectorAll('.calc-tab-btn').forEach(b => {
+              b.className = b === btn
+                ? 'calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold bg-amber-500 text-ink-950 transition'
+                : 'calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-gray-300 hover:text-white transition';
+            });
+            document.getElementById('calcPanelBmi').classList.toggle('hidden', tab !== 'bmi');
+            document.getElementById('calcPanelTdee').classList.toggle('hidden', tab !== 'tdee');
+            document.getElementById('calcPanelOnerm').classList.toggle('hidden', tab !== 'onerm');
+          });
+        });
+
+        // 1. BMI Calculator
+        const hSlider = document.getElementById('bmiHeight');
+        const wSlider = document.getElementById('bmiWeight');
+        const updateBmi = () => {
+          const h = Number(hSlider.value);
+          const w = Number(wSlider.value);
+          document.getElementById('bmiHeightVal').textContent = `${h} cm`;
+          document.getElementById('bmiWeightVal').textContent = `${w} kg`;
+          const bmi = w / Math.pow(h / 100, 2);
+          document.getElementById('bmiResultValue').textContent = bmi.toFixed(1);
+
+          const minIdeal = (18.5 * Math.pow(h / 100, 2)).toFixed(1);
+          const maxIdeal = (24.9 * Math.pow(h / 100, 2)).toFixed(1);
+          const badge = document.getElementById('bmiCategoryBadge');
+          const advice = document.getElementById('bmiAdviceText');
+          const marker = document.getElementById('bmiGaugeMarker');
+
+          const pct = Math.max(4, Math.min(96, ((bmi - 15) / 22) * 100));
+          marker.style.left = `${pct}%`;
+
+          if (bmi < 18.5) {
+            badge.textContent = 'Underweight · Hypertrophy Focus';
+            badge.className = 'px-4 py-1.5 rounded-full text-xs font-mono-code font-bold uppercase bg-sky-500/20 text-sky-400 border border-sky-500/30';
+            advice.textContent = `Target healthy range: ${minIdeal} kg – ${maxIdeal} kg. Focus on progressive barbell compound lifts + a +350 kcal daily surplus with Coach Hamza.`;
+          } else if (bmi < 25) {
+            badge.textContent = 'Athletic / Optimal Range';
+            badge.className = 'px-4 py-1.5 rounded-full text-xs font-mono-code font-bold uppercase bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
+            advice.textContent = `Healthy athletic baseline (Ideal range: ${minIdeal} kg – ${maxIdeal} kg). Pair 4x/week progressive overload on the main strength floor with our Quarterly Plan.`;
+          } else if (bmi < 30) {
+            badge.textContent = 'Overweight · Recomp Focus';
+            badge.className = 'px-4 py-1.5 rounded-full text-xs font-mono-code font-bold uppercase bg-amber-500/20 text-amber-400 border border-amber-500/30';
+            advice.textContent = `Target athletic range: ${minIdeal} kg – ${maxIdeal} kg. Combine 3x/week strength training with 2x/week Metabolic Turf HIIT sessions for high-retention fat loss.`;
+          } else {
+            badge.textContent = 'High BMI · Structured Fat Loss';
+            badge.className = 'px-4 py-1.5 rounded-full text-xs font-mono-code font-bold uppercase bg-rose-500/20 text-rose-400 border border-rose-500/30';
+            advice.textContent = `Target range: ${minIdeal} kg – ${maxIdeal} kg. Start with low-impact Concept2 rowing, joint-friendly resistance machines, and monthly nutrition coaching.`;
+          }
+        };
+        hSlider.addEventListener('input', updateBmi);
+        wSlider.addEventListener('input', updateBmi);
+        updateBmi();
+
+        document.getElementById('applyBmiGoalToFormBtn').addEventListener('click', () => {
+          const goal = document.getElementById('bmiGoalSelect').value;
+          const formGoal = document.getElementById('fitnessGoal');
+          if (formGoal) formGoal.value = goal;
+          document.getElementById('admission').scrollIntoView({ behavior: 'smooth' });
+          showToast(`Pre-selected "${goal}" in the Admission Form.`, 'ok');
+        });
+
+        // 2. TDEE & Macro Calculator
+        const updateTdee = () => {
+          const gender = document.getElementById('tdeeGender').value;
+          const age = Number(document.getElementById('tdeeAge').value) || 25;
+          const weight = Number(document.getElementById('tdeeWeight').value) || 75;
+          const height = Number(document.getElementById('tdeeHeight').value) || 175;
+          const act = Number(document.getElementById('tdeeActivity').value) || 1.55;
+          const goalDelta = Number(document.getElementById('tdeeGoal').value) || 0;
+
+          const bmr = Math.round(10 * weight + 6.25 * height - 5 * age + (gender === 'male' ? 5 : -161));
+          const targetKcal = Math.max(1200, Math.round(bmr * act + goalDelta));
+
+          const proteinG = Math.round((targetKcal * 0.30) / 4);
+          const carbsG = Math.round((targetKcal * 0.45) / 4);
+          const fatsG = Math.round((targetKcal * 0.25) / 9);
+
+          document.getElementById('tdeeBmrOut').textContent = `${bmr.toLocaleString()} kcal`;
+          document.getElementById('tdeeCaloriesOut').textContent = targetKcal.toLocaleString();
+          document.getElementById('macroProteinOut').textContent = `${proteinG}g`;
+          document.getElementById('macroCarbsOut').textContent = `${carbsG}g`;
+          document.getElementById('macroFatsOut').textContent = `${fatsG}g`;
+        };
+        ['tdeeGender', 'tdeeAge', 'tdeeWeight', 'tdeeHeight', 'tdeeActivity', 'tdeeGoal'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.addEventListener('input', updateTdee);
+          if (el) el.addEventListener('change', updateTdee);
+        });
+        updateTdee();
+
+        // 3. 1RM & Barbell Plate Loader
+        const updateOneRm = () => {
+          const weight = Math.max(20, Number(document.getElementById('rmWeightInput').value) || 100);
+          const reps = Math.max(1, Math.min(15, Number(document.getElementById('rmRepsInput').value) || 5));
+          const raw1Rm = reps === 1 ? weight : weight * (1 + reps / 30);
+          const rounded1Rm = Math.round(raw1Rm / 2.5) * 2.5;
+
+          document.getElementById('rmMaxOut').textContent = String(rounded1Rm);
+
+          // Percentages grid
+          const pcts = [95, 90, 85, 80, 75, 70];
+          document.getElementById('rmPercentagesGrid').innerHTML = pcts.map(p => {
+            const w = Math.round((rounded1Rm * (p / 100)) / 2.5) * 2.5;
+            return `<div class="p-2.5 rounded-xl bg-ink-950 border border-white/10 text-center">
+              <span class="font-mono-code text-[10px] text-gray-400 block">${p}% Load</span>
+              <span class="font-mono-code text-sm font-bold text-white">${w} kg</span>
+            </div>`;
+          }).join('');
+
+          // Plate loader per side (20kg Olympic Bar)
+          let perSide = Math.max(0, (rounded1Rm - 20) / 2);
+          document.getElementById('rmPerSideOut').textContent = `${perSide.toFixed(2).replace(/\.00$/, '')} kg per side`;
+
+          const plateDefs = [
+            { kg: 25, color: 'bg-rose-600 text-white h-24 w-5', label: '25' },
+            { kg: 20, color: 'bg-sky-600 text-white h-24 w-5', label: '20' },
+            { kg: 15, color: 'bg-amber-400 text-ink-950 h-20 w-4', label: '15' },
+            { kg: 10, color: 'bg-emerald-600 text-white h-16 w-4', label: '10' },
+            { kg: 5, color: 'bg-gray-100 text-ink-950 h-14 w-3.5', label: '5' },
+            { kg: 2.5, color: 'bg-zinc-700 text-white h-12 w-3', label: '2.5' },
+            { kg: 1.25, color: 'bg-amber-200 text-ink-950 h-10 w-2.5', label: '1.25' }
+          ];
+
+          let rem = perSide;
+          const loadedSummary = [];
+          const visualPlates = [];
+          plateDefs.forEach(p => {
+            const count = Math.floor((rem + 0.001) / p.kg);
+            if (count > 0) {
+              loadedSummary.push(`${count}×${p.kg}kg`);
+              for (let i = 0; i < count; i++) {
+                visualPlates.push(`<div class="${p.color} rounded-sm flex items-center justify-center font-mono-code text-[9px] font-bold shadow border border-black/30">${p.label}</div>`);
+              }
+              rem -= count * p.kg;
+            }
+          });
+
+          document.getElementById('rmPlateListText').textContent = loadedSummary.length ? loadedSummary.join(' + ') : 'Empty 20kg Olympic Bar';
+          document.getElementById('rmPlateVisualStack').innerHTML = visualPlates.length
+            ? visualPlates.join('')
+            : '<span class="text-xs font-mono-code text-gray-500 px-3">Bar Only (20kg)</span>';
+        };
+
+        ['rmLiftSelect', 'rmWeightInput', 'rmRepsInput'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.addEventListener('input', updateOneRm);
+          if (el) el.addEventListener('change', updateOneRm);
+        });
+        updateOneRm();
+      }
+
+      /* ---- Plan Selection & Package Estimator ---- */
+      let selectedBasePlan = { name: 'Quarterly', price: 9500 };
+
+      function updatePackageEstimator() {
+        let addonTotal = 0;
+        const addonNames = [];
+        document.querySelectorAll('.addon-checkbox:checked').forEach(cb => {
+          addonTotal += Number(cb.dataset.addonPrice || 0);
+          addonNames.push(cb.dataset.addonName);
+        });
+        const total = selectedBasePlan.price + addonTotal;
+        document.getElementById('estimatorPlanLabel').textContent =
+          `${selectedBasePlan.name} Base${addonNames.length ? ` + ${addonNames.length} Add-On(s)` : ''}`;
+        document.getElementById('estimatorTotalOut').textContent = `Rs. ${total.toLocaleString()}`;
+      }
+
+      function initPlansAndTrainers() {
+        document.querySelectorAll('.plan-select-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const val = btn.dataset.selectPlan;
+            const [name, priceStr] = val.split('|');
+            selectedBasePlan = { name, price: Number(priceStr) };
+            updatePackageEstimator();
+            const planSelect = document.getElementById('plan');
+            if (planSelect) planSelect.value = val;
+            document.getElementById('admission').scrollIntoView({ behavior: 'smooth' });
+            showToast(`Selected ${name} Plan (Rs. ${Number(priceStr).toLocaleString()}). Complete your form below!`, 'ok');
+          });
+        });
+
+        document.querySelectorAll('.addon-checkbox').forEach(cb => {
+          cb.addEventListener('change', updatePackageEstimator);
+        });
+
+        document.querySelectorAll('.select-trainer-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const trainer = btn.dataset.trainer;
+            const coachInput = document.getElementById('preferredCoach');
+            if (coachInput) coachInput.value = trainer;
+            document.getElementById('admission').scrollIntoView({ behavior: 'smooth' });
+            showToast(`Preferred trainer set to ${trainer}.`, 'ok');
+          });
+        });
+      }
+
+      /* ---- Admission Form Validation & Submission ---- */
+      function initAdmissionForm() {
+        const form = document.getElementById('admissionForm');
+        const cnicInput = document.getElementById('cnic');
+        if (cnicInput) {
+          cnicInput.addEventListener('input', (e) => {
+            let digits = e.target.value.replace(/\D/g, '').slice(0, 13);
+            if (digits.length > 12) {
+              e.target.value = `${digits.slice(0, 5)}-${digits.slice(5, 12)}-${digits.slice(12)}`;
+            } else if (digits.length > 5) {
+              e.target.value = `${digits.slice(0, 5)}-${digits.slice(5)}`;
+            } else {
+              e.target.value = digits;
+            }
+          });
+        }
+
+        const validators = {
+          fullName: v => v.trim().length >= 3,
+          fatherName: v => v.trim().length >= 3,
+          phone: v => /^[0-9+\s-]{10,15}$/.test(v.trim()),
+          email: v => v.trim() === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+          gender: v => v !== '',
+          dob: v => v !== '',
+          plan: v => v !== '',
+          address: v => v.trim().length >= 5,
+          emergencyContact: v => v.trim().length >= 5
+        };
+
+        const errorText = {
+          fullName: 'Enter full name (at least 3 characters).',
+          fatherName: "Enter father's name (at least 3 characters).",
+          phone: 'Enter a valid phone number (e.g. 03001234567).',
+          email: 'Enter a valid email address.',
+          gender: 'Select your gender.',
+          dob: 'Select your date of birth.',
+          plan: 'Select a membership fee plan.',
+          address: 'Enter your residential address.',
+          emergencyContact: 'Enter an emergency contact name & number.'
+        };
+
+        const validateField = (id) => {
+          const input = document.getElementById(id);
+          const errorEl = document.getElementById(id + 'Error');
+          if (!input || !validators[id]) return true;
+          const isValid = validators[id](input.value);
+          input.classList.toggle('border-rose-500', !isValid);
+          if (errorEl) errorEl.textContent = isValid ? '' : errorText[id];
+          return isValid;
+        };
+
+        Object.keys(validators).forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.addEventListener('blur', () => validateField(id));
+        });
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const allValid = Object.keys(validators).map(validateField).every(Boolean);
+          if (!allValid) {
+            showToast('Please check the highlighted form fields.', 'danger');
+            return;
+          }
+
+          const [planName] = document.getElementById('plan').value.split('|');
+          const payload = {
+            name: document.getElementById('fullName').value.trim(),
+            fatherName: document.getElementById('fatherName').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            cnic: document.getElementById('cnic').value.trim(),
+            gender: document.getElementById('gender').value,
+            dob: document.getElementById('dob').value,
+            address: document.getElementById('address').value.trim(),
+            emergencyContact: document.getElementById('emergencyContact').value.trim(),
+            plan: planName,
+            fitnessGoal: document.getElementById('fitnessGoal').value
+          };
+
+          let assignedId = null;
+          const serverRes = await tryServerApi('/clients', {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+
+          if (serverRes && serverRes.id) {
+            assignedId = serverRes.id;
+            await syncClientsFromServerOrLocal();
+          } else {
+            const nextNum = clientsCache.reduce((max, c) => Math.max(max, Number(c.id) || 0), 0) + 1;
+            const newRecord = enrichClient({
+              id: nextNum,
+              ...payload,
+              planPrice: PLANS[planName] || 3500,
+              joinDate: todayStr(),
+              lastPaidDate: todayStr(),
+              approvalStatus: 'pending',
+              checkins: 0
+            });
+            clientsCache.unshift(newRecord);
+            saveLocalState();
+            updateNavBadges();
+            assignedId = newRecord.clientId;
+          }
+
+          currentPortalClientId = assignedId;
+          document.getElementById('successClientId').textContent = assignedId;
+          const successBox = document.getElementById('formSuccess');
+          successBox.classList.remove('hidden');
+          form.reset();
+          showToast(`Admission submitted! Assigned Client ID: ${assignedId}`, 'ok');
+          successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        
+        
+      }
+
+      
+      /* ===================================================================
+         4. STAFF ADMIN DASHBOARD (#viewAdmin)
+         =================================================================== */
+      function renderAdminDashboard() {
+        const loginGate = document.getElementById('adminLoginGate');
+        const unlocked = document.getElementById('adminUnlockedContent');
+        const authBadge = document.getElementById('authStatusBadge');
+
+        const toolbar = document.getElementById('adminToolbarActions');
+        if (!isAdminAuthenticated) {
+          loginGate.classList.remove('hidden');
+          unlocked.classList.add('hidden');
+          if (toolbar) { toolbar.classList.add('hidden'); toolbar.classList.remove('flex'); }
+          authBadge.textContent = 'Locked';
+          authBadge.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-mono-code bg-rose-500/15 text-rose-400 border border-rose-500/30';
+          return;
+        }
+
+        loginGate.classList.add('hidden');
+        unlocked.classList.remove('hidden');
+        if (toolbar) { toolbar.classList.remove('hidden'); toolbar.classList.add('flex'); }
+        authBadge.textContent = 'Authenticated: admin';
+        authBadge.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-mono-code bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
+
+        const activeClients = clientsCache.filter(c => c.approvalStatus !== 'pending');
+        const pendingClients = clientsCache.filter(c => c.approvalStatus === 'pending');
+
+        let paid = 0, due = 0, overdue = 0, mrr = 0;
+        activeClients.forEach(c => {
+          if (c.status === 'paid') paid++;
+          else if (c.status === 'due') due++;
+          else overdue++;
+
+          if (c.plan === 'Monthly') mrr += 3500;
+          else if (c.plan === 'Quarterly') mrr += Math.round(9500 / 3);
+          else if (c.plan === 'Annual') mrr += Math.round(32000 / 12);
+        });
+
+        document.getElementById('statTotal').textContent = String(activeClients.length);
+        document.getElementById('statPaid').textContent = String(paid);
+        document.getElementById('statDue').textContent = String(due);
+        document.getElementById('statOverdue').textContent = String(overdue);
+        document.getElementById('statPending').textContent = String(pendingClients.length);
+        document.getElementById('statRevenue').textContent = `Rs. ${mrr.toLocaleString()}`;
+
+        updateNavBadges();
+        renderPendingQueue(pendingClients);
+        renderClientRosterTable(activeClients);
+        renderAdminCharts(paid, due, overdue, pendingClients.length, activeClients);
+      }
+
+      function renderPendingQueue(pendingClients) {
+        const section = document.getElementById('pendingSection');
+        const badge = document.getElementById('pendingCountBadge');
+        const list = document.getElementById('pendingList');
+
+        section.classList.toggle('hidden', pendingClients.length === 0);
+        badge.textContent = String(pendingClients.length);
+
+        list.innerHTML = pendingClients.map(client => `
+          <div class="bg-ink-950 rounded-xl p-4 border border-amber-500/30 flex flex-col justify-between gap-3">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <span class="font-bold text-white text-base">${escapeHtml(client.name)}</span>
+                <span class="font-mono-code text-xs text-amber-400">${escapeHtml(client.clientId)}</span>
+              </div>
+              <p class="text-xs text-gray-400 mt-0.5">Father: ${escapeHtml(client.fatherName || '—')} · Phone: <strong class="text-gray-200">${escapeHtml(client.phone)}</strong></p>
+              <p class="text-xs text-gray-400 mt-0.5">Plan: <strong class="text-amber-400">${escapeHtml(client.plan)} (Rs. ${Number(client.planPrice).toLocaleString()})</strong> · Submitted: ${escapeHtml(client.joinDate)}</p>
+              <p class="text-[11px] text-gray-500 mt-1 truncate">Address: ${escapeHtml(client.address || '—')}</p>
+            </div>
+            <div class="flex gap-2 pt-2 border-t border-white/10">
+              <button type="button" data-approve-id="${client.id}" class="action-approve flex-1 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-ink-950 font-bold text-xs transition">
+                ✔ Approve &amp; Activate
+              </button>
+              <button type="button" data-reject-id="${client.id}" class="action-reject px-4 py-2 rounded-lg bg-rose-500/15 hover:bg-rose-500/30 text-rose-400 border border-rose-500/30 font-semibold text-xs transition">
+                Reject
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      function renderClientRosterTable(activeClients) {
+        const tbody = document.getElementById('clientTableBody');
+        const emptyState = document.getElementById('emptyState');
+        const q = currentSearch.trim().toLowerCase();
+
+        const filtered = activeClients.filter(c => {
+          const matchesStatus = currentFilter === 'all' || c.status === currentFilter;
+          const matchesPlan = currentPlanFilter === 'all' || c.plan === currentPlanFilter;
+          const matchesQuery = q === '' ||
+            c.name.toLowerCase().includes(q) ||
+            c.clientId.toLowerCase().includes(q) ||
+            String(c.phone).includes(q) ||
+            String(c.cnic || '').toLowerCase().includes(q);
+          return matchesStatus && matchesPlan && matchesQuery;
+        });
+
+        filtered.sort((a, b) => {
+          if (currentSort === 'urgent') return (a.daysLeft ?? 999) - (b.daysLeft ?? 999);
+          if (currentSort === 'newest') return Number(b.id) - Number(a.id);
+          if (currentSort === 'name') return a.name.localeCompare(b.name);
+          if (currentSort === 'price') return (b.planPrice || 0) - (a.planPrice || 0);
+          return 0;
+        });
+
+        emptyState.classList.toggle('hidden', filtered.length > 0);
+
+        const badgeClass = {
+          paid: 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30',
+          due: 'bg-amber-500/15 text-amber-400 border border-amber-500/30',
+          overdue: 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+        };
+
+        tbody.innerHTML = filtered.map(c => {
+          const label = c.status === 'paid' ? 'Paid' : c.status === 'due' ? 'Due Soon' : 'Overdue';
+          const daysSub = c.daysLeft < 0
+            ? `${Math.abs(c.daysLeft)}d overdue`
+            : `${c.daysLeft}d remaining`;
+          return `
+            <tr class="hover:bg-white/[0.02] transition">
+              <td class="py-3.5 px-4 font-mono-code">
+                <div class="text-amber-400 font-bold text-xs">${escapeHtml(c.clientId)}</div>
+                <div class="text-[11px] text-gray-500">${c.checkins || 0} check-ins</div>
+              </td>
+              <td class="py-3.5 px-4">
+                <div class="font-semibold text-white">${escapeHtml(c.name)}</div>
+                <div class="text-xs text-gray-400">F/N: ${escapeHtml(c.fatherName || '—')}</div>
+              </td>
+              <td class="py-3.5 px-4 font-mono-code text-xs">
+                <div class="text-gray-200">${escapeHtml(c.phone)}</div>
+                <div class="text-[11px] text-gray-500">${escapeHtml(c.cnic || c.email || '—')}</div>
+              </td>
+              <td class="py-3.5 px-4">
+                <div class="font-semibold text-white text-xs">${escapeHtml(c.plan)}</div>
+                <div class="font-mono-code text-xs text-amber-400">Rs. ${Number(c.planPrice || PLANS[c.plan] || 3500).toLocaleString()}</div>
+              </td>
+              <td class="py-3.5 px-4 font-mono-code text-xs">
+                <div class="text-gray-300">Joined: ${escapeHtml(c.joinDate)}</div>
+                <div class="text-[11px] text-gray-500">Paid: ${escapeHtml(c.lastPaidDate)}</div>
+              </td>
+              <td class="py-3.5 px-4 font-mono-code text-xs">
+                <div class="text-white font-semibold">${escapeHtml(c.dueDate)}</div>
+                <div class="text-[11px] ${c.daysLeft < 0 ? 'text-rose-400' : c.daysLeft <= 5 ? 'text-amber-400' : 'text-gray-400'}">${daysSub}</div>
+              </td>
+              <td class="py-3.5 px-4">
+                <span class="px-2.5 py-1 rounded-full font-mono-code text-[10px] uppercase font-bold ${badgeClass[c.status] || badgeClass.paid}">${label}</span>
+              </td>
+              <td class="py-3.5 px-4 text-right">
+                <div class="inline-flex flex-wrap justify-end gap-1.5">
+                  <button type="button" data-action="paid" data-id="${c.id}" class="px-2.5 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-ink-950 font-semibold text-xs transition">Mark Paid</button>
+                  <button type="button" data-action="remind" data-id="${c.id}" class="px-2.5 py-1.5 rounded-lg bg-green-600/20 hover:bg-green-500 text-green-300 hover:text-ink-950 font-semibold text-xs transition">WhatsApp</button>
+                  <button type="button" data-action="receipt" data-id="${c.id}" class="px-2.5 py-1.5 rounded-lg bg-ink-800 hover:bg-ink-700 text-gray-300 text-xs transition">Receipt</button>
+                  <button type="button" data-action="edit" data-id="${c.id}" class="px-2.5 py-1.5 rounded-lg bg-ink-800 hover:bg-amber-500 text-gray-300 hover:text-ink-950 text-xs transition">Edit</button>
+                  <button type="button" data-action="delete" data-id="${c.id}" class="px-2.5 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-600 text-rose-400 hover:text-white text-xs transition">Delete</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      function renderAdminCharts(paid, due, overdue, pending, activeClients) {
+        if (typeof Chart === 'undefined') return;
+        const doughnutCtx = document.getElementById('statusDoughnutChart');
+        const barCtx = document.getElementById('planRevenueBarChart');
+        if (!doughnutCtx || !barCtx) return;
+
+        if (statusChartInstance) statusChartInstance.destroy();
+        statusChartInstance = new Chart(doughnutCtx, {
+          type: 'doughnut',
+          data: {
+            labels: ['Paid / Active', 'Due Soon (≤5d)', 'Overdue', 'Pending Approval'],
+            datasets: [{
+              data: [paid, due, overdue, pending],
+              backgroundColor: ['#10B981', '#FFA630', '#F43F5E', '#38BDF8'],
+              borderColor: '#161B23',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'right',
+                labels: { color: '#D1D5DB', font: { family: 'Inter', size: 11 } }
+              }
+            }
+          }
+        });
+
+        const counts = { Monthly: 0, Quarterly: 0, Annual: 0 };
+        activeClients.forEach(c => {
+          if (counts[c.plan] != null) counts[c.plan]++;
+        });
+
+        if (planChartInstance) planChartInstance.destroy();
+        planChartInstance = new Chart(barCtx, {
+          type: 'bar',
+          data: {
+            labels: ['Monthly (Rs. 3.5k)', 'Quarterly (Rs. 9.5k)', 'Annual (Rs. 32k)'],
+            datasets: [{
+              label: 'Active Members',
+              data: [counts.Monthly, counts.Quarterly, counts.Annual],
+              backgroundColor: ['#60A5FA', '#FFA630', '#34D399'],
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: { beginAtZero: true, ticks: { stepSize: 1, color: '#9CA3AF' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+              x: { ticks: { color: '#D1D5DB' }, grid: { display: false } }
+            },
+            plugins: {
+              legend: { display: false }
+            }
+          }
+        });
+      }
+
+      /* ---- Receipt Generator Modal ---- */
+      function openReceiptModal(client) {
+        const body = document.getElementById('receiptBody');
+        const overlay = document.getElementById('receiptOverlay');
+        if (!body || !overlay) return;
+        const receiptNo = 'REC-' + client.clientId + '-' + String(client.lastPaidDate || todayStr()).replace(/-/g, '');
+        body.innerHTML = `
+          <div class="flex justify-between border-b border-white/10 pb-2">
+            <span class="text-gray-400">RECEIPT NO:</span>
+            <strong class="text-amber-400">${escapeHtml(receiptNo)}</strong>
+          </div>
+          <div class="flex justify-between py-1">
+            <span class="text-gray-400">CLIENT ID:</span>
+            <strong class="text-white">${escapeHtml(client.clientId)}</strong>
+          </div>
+          <div class="flex justify-between py-1">
+            <span class="text-gray-400">MEMBER NAME:</span>
+            <strong class="text-white">${escapeHtml(client.name)}</strong>
+          </div>
+          <div class="flex justify-between py-1">
+            <span class="text-gray-400">PLAN TIER:</span>
+            <strong class="text-white">${escapeHtml(client.plan)} (${planCycleDays(client.plan)} Days)</strong>
+          </div>
+          <div class="flex justify-between py-1">
+            <span class="text-gray-400">PAID DATE:</span>
+            <strong class="text-white">${escapeHtml(client.lastPaidDate)}</strong>
+          </div>
+          <div class="flex justify-between py-1">
+            <span class="text-gray-400">VALID UNTIL:</span>
+            <strong class="text-emerald-400">${escapeHtml(client.dueDate)}</strong>
+          </div>
+          <div class="flex justify-between pt-3 border-t border-white/10 text-base">
+            <span class="text-gray-300 font-bold">AMOUNT PAID:</span>
+            <strong class="text-amber-400">Rs. ${Number(client.planPrice || PLANS[client.plan] || 3500).toLocaleString()}</strong>
+          </div>
+        `;
+        overlay.classList.remove('hidden');
+      }
+
+      /* ---- CSV Export ---- */
+      function exportRosterToCsv() {
+        const headers = ['ClientID', 'Name', 'FatherName', 'Phone', 'CNIC', 'Plan', 'PlanPrice', 'JoinDate', 'LastPaidDate', 'DueDate', 'Status', 'CheckIns'];
+        const rows = clientsCache.map(c => [
+          c.clientId, c.name, c.fatherName || '', c.phone, c.cnic || '', c.plan, c.planPrice, c.joinDate, c.lastPaidDate, c.dueDate, c.status, c.checkins || 0
+        ]);
+        const csvContent = [headers, ...rows]
+          .map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(','))
+          .join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `fitness_hub_members_${todayStr()}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showToast('Exported client roster to CSV!', 'ok');
+      }
+
+      /* ---- Trial & Class Booking Modal Helpers ---- */
+      function openBookingModal(sessionTitle, eyebrowText) {
+        document.getElementById('bookingSessionLabel').value = sessionTitle;
+        document.getElementById('bookingModalTitle').textContent = sessionTitle;
+        document.getElementById('bookingModalEyebrow').textContent = eyebrowText || 'RESERVATION DESK';
+        document.getElementById('trialPreferredDate').value = todayStr();
+        document.getElementById('trialModalOverlay').classList.remove('hidden');
+      }
+
+      function renderStaffBookingsModal() {
+        const list = document.getElementById('staffBookingsList');
+        if (!list) return;
+        if (bookingsCache.length === 0) {
+          list.innerHTML = '<p class="text-sm text-gray-400 text-center py-6">No class or trial bookings recorded yet.</p>';
+          return;
+        }
+        list.innerHTML = bookingsCache.map(b => `
+          <div class="p-3.5 rounded-xl bg-ink-950 border border-white/10 flex items-center justify-between gap-3">
+            <div>
+              <div class="font-bold text-white text-sm">${escapeHtml(b.name)} <span class="font-mono-code text-xs text-amber-400 ml-1">${escapeHtml(b.phone)}</span></div>
+              <div class="text-xs text-gray-300 mt-0.5">${escapeHtml(b.session)}</div>
+              <div class="text-[11px] font-mono-code text-gray-500">Visit Date: ${escapeHtml(b.date)}</div>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 font-mono-code text-[10px] uppercase">Confirmed</span>
+          </div>
+        `).join('');
+      }
+
+      /* ===================================================================
+         5. INITIALIZE EVENT LISTENERS
+         =================================================================== */
+      document.addEventListener('DOMContentLoaded', async () => {
+        await syncClientsFromServerOrLocal();
+        initLiveClubStatus();
+        initFacilityFilter();
+        initScheduleControls();
+        initCalculators();
+        initPlansAndTrainers();
+        initAdmissionForm();
+
+        // Footer year
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+        // Quote rotator
+        const quotes = [
+          "Discipline is choosing between what you want now and what you want most.",
+          "The body achieves what the mind believes.",
+          "Small daily reps beat one big effort you never repeat.",
+          "You don't have to be extreme, just consistent.",
+          "The only bad workout is the one that didn't happen."
+        ];
+        let qIdx = 0;
+        const quoteBox = document.getElementById('quoteBox');
+        if (quoteBox) {
+          setInterval(() => {
+            qIdx = (qIdx + 1) % quotes.length;
+            quoteBox.style.opacity = '0';
+            setTimeout(() => {
+              quoteBox.textContent = `"${quotes[qIdx]}"`;
+              quoteBox.style.opacity = '1';
+            }, 300);
+          }, 5000);
+        }
+
+        // View switcher tabs
+        document.querySelectorAll('.view-tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => switchView(btn.dataset.viewTarget));
+        });
+        document.getElementById('brandLogoLink').addEventListener('click', () => switchView('public'));
+        
+
+        // Mobile menu toggle
+        const mobileBtn = document.getElementById('mobileMenuBtn');
+        const mobileDrawer = document.getElementById('mobileMenuDrawer');
+        if (mobileBtn && mobileDrawer) {
+          mobileBtn.addEventListener('click', () => mobileDrawer.classList.toggle('hidden'));
+          mobileDrawer.querySelectorAll('a').forEach(a => {
+            a.addEventListener('click', () => {
+              mobileDrawer.classList.add('hidden');
+              if (currentView !== 'public') switchView('public');
+            });
+          });
+        }
+
+        
+
+        
+
+        // Trial & Class booking modal
+        document.getElementById('openTrialModalBtn').addEventListener('click', () => {
+          delete document.getElementById('trialBookingForm').dataset.pendingClassId;
+          openBookingModal('1-Day Full Gym Trial Pass', 'VIP GUEST ACCESS');
+        });
+        document.getElementById('trialModalClose').addEventListener('click', () => {
+          document.getElementById('trialModalOverlay').classList.add('hidden');
+        });
+        document.getElementById('trialBookingForm').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('trialVisitorName').value.trim();
+          const phone = document.getElementById('trialVisitorPhone').value.trim();
+          const date = document.getElementById('trialPreferredDate').value || todayStr();
+          const session = document.getElementById('bookingSessionLabel').value;
+          if (!name || !phone) return;
+
+          bookingsCache.unshift({ id: Date.now(), name, phone, session, date, createdAt: 'Just now' });
+          const pendingClassId = e.target.dataset.pendingClassId;
+          if (pendingClassId) {
+            reservedClassIds.add(pendingClassId);
+            delete e.target.dataset.pendingClassId;
+            renderSchedule();
+          }
+          saveLocalState();
+          updateNavBadges();
+          e.target.reset();
+          document.getElementById('trialModalOverlay').classList.add('hidden');
+          showToast(`Confirmed reservation for ${name}: ${session}`, 'ok');
+        });
+
+        // Staff Bookings view modal
+        document.getElementById('openBookingsModalBtn').addEventListener('click', () => {
+          renderStaffBookingsModal();
+          document.getElementById('staffBookingsOverlay').classList.remove('hidden');
+        });
+        document.getElementById('staffBookingsClose').addEventListener('click', () => {
+          document.getElementById('staffBookingsOverlay').classList.add('hidden');
+        });
+
+        // Strict Staff Auth (Username & Password Protected)
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const u = document.getElementById('loginUser').value.trim();
+          const p = document.getElementById('loginPass').value;
+          const errorEl = document.getElementById('loginError');
+          errorEl.textContent = '';
+
+          const serverRes = await tryServerApi('/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({ username: u, password: p })
+          });
+          if (serverRes && serverRes.ok) {
+            isAdminAuthenticated = true;
+            e.target.reset();
+            await syncClientsFromServerOrLocal();
+            renderAdminDashboard();
+            showToast('Staff dashboard unlocked.', 'ok');
+            return;
+          }
+          if (u === VALID_STAFF_USER && VALID_STAFF_PASSWORDS.includes(p)) {
+            isAdminAuthenticated = true;
+            e.target.reset();
+            renderAdminDashboard();
+            showToast('Staff dashboard unlocked.', 'ok');
+          } else {
+            errorEl.textContent = 'Invalid staff username or password.';
+            showToast('Invalid username or password.', 'danger');
+          }
+        });
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+          await tryServerApi('/auth/logout', { method: 'POST' });
+          isAdminAuthenticated = false;
+          renderAdminDashboard();
+          showToast('Staff session locked.', 'warn');
+        });
+
+        // Staff Search, Filter & Sort
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+          currentSearch = e.target.value;
+          renderAdminDashboard();
+        });
+        document.getElementById('planFilterSelect').addEventListener('change', (e) => {
+          currentPlanFilter = e.target.value;
+          renderAdminDashboard();
+        });
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+          currentSort = e.target.value;
+          renderAdminDashboard();
+        });
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+          chip.addEventListener('click', () => {
+            currentFilter = chip.dataset.status;
+            document.querySelectorAll('.filter-chip').forEach(c => {
+              c.className = c === chip
+                ? 'filter-chip active px-3.5 py-2 rounded-xl text-xs font-semibold bg-amber-500 text-ink-950 transition'
+                : 'filter-chip px-3.5 py-2 rounded-xl text-xs font-semibold bg-ink-800 text-gray-300 hover:text-white border border-white/10 transition';
+            });
+            renderAdminDashboard();
+          });
+        });
+
+        // Export CSV
+        document.getElementById('exportCsvBtn').addEventListener('click', exportRosterToCsv);
+
+        // Pending Queue Actions (Approve / Reject)
+        document.getElementById('pendingList').addEventListener('click', async (e) => {
+          const approveBtn = e.target.closest('.action-approve');
+          const rejectBtn = e.target.closest('.action-reject');
+          if (approveBtn) {
+            const id = approveBtn.dataset.approveId;
+            await tryServerApi(`/clients/${id}/approve`, { method: 'POST' });
+            const idx = clientsCache.findIndex(c => String(c.id) === String(id));
+            if (idx !== -1) {
+              clientsCache[idx].approvalStatus = 'active';
+              clientsCache[idx].joinDate = todayStr();
+              clientsCache[idx].lastPaidDate = todayStr();
+              clientsCache[idx] = enrichClient(clientsCache[idx]);
+              saveLocalState();
+              renderAdminDashboard();
+              showToast(`Approved and activated ${clientsCache[idx].name} (${clientsCache[idx].clientId})!`, 'ok');
+            }
+          } else if (rejectBtn) {
+            const id = rejectBtn.dataset.rejectId;
+            await tryServerApi(`/clients/${id}/reject`, { method: 'POST' });
+            const removed = clientsCache.find(c => String(c.id) === String(id));
+            clientsCache = clientsCache.filter(c => String(c.id) !== String(id));
+            saveLocalState();
+            renderAdminDashboard();
+            showToast(`Rejected pending request for ${removed ? removed.name : id}.`, 'warn');
+          }
+        });
+
+        // Client Table Row Actions (Mark Paid, WhatsApp, Receipt, Edit, Delete)
+        document.getElementById('clientTableBody').addEventListener('click', async (e) => {
+          const btn = e.target.closest('button[data-action]');
+          if (!btn) return;
+          const action = btn.dataset.action;
+          const id = btn.dataset.id;
+          const clientIdx = clientsCache.findIndex(c => String(c.id) === String(id));
+          if (clientIdx === -1) return;
+          const client = clientsCache[clientIdx];
+
+          if (action === 'paid') {
+            await tryServerApi(`/clients/${id}/pay`, { method: 'POST' });
+            const dueDate = addDays(client.lastPaidDate, planCycleDays(client.plan));
+            const newLastPaid = daysBetween(todayStr(), dueDate) >= 0 ? dueDate : todayStr();
+            client.lastPaidDate = newLastPaid;
+            clientsCache[clientIdx] = enrichClient(client);
+            saveLocalState();
+            renderAdminDashboard();
+            showToast(`Marked fee paid for ${client.name}. Next due: ${clientsCache[clientIdx].dueDate}`, 'ok');
+          } else if (action === 'remind') {
+            const message = `Hello ${client.name}, this is a reminder from Fitness Hub (3 Imran Khan Rd, Metroville Sector 3, SITE, Karachi). Your ${client.plan} membership fee (Rs. ${Number(client.planPrice).toLocaleString()}) is due on ${client.dueDate}. Kindly pay on time. Thank you!`;
+            const phone = formatPhoneForWhatsapp(client.phone);
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+            showToast(`Opened WhatsApp reminder for ${client.name} (+${phone}).`, 'ok');
+          } else if (action === 'receipt') {
+            openReceiptModal(client);
+          } else if (action === 'edit') {
+            document.getElementById('editClientIdInput').value = String(client.id);
+            document.getElementById('editClientIdBadge').textContent = client.clientId;
+            document.getElementById('editName').value = client.name || '';
+            document.getElementById('editFatherName').value = client.fatherName || '';
+            document.getElementById('editPhone').value = client.phone || '';
+            document.getElementById('editPlan').value = client.plan || 'Monthly';
+            document.getElementById('editCnic').value = client.cnic || '';
+            document.getElementById('editLastPaid').value = client.lastPaidDate || todayStr();
+            document.getElementById('editAddress').value = client.address || '';
+            document.getElementById('editEmergency').value = client.emergencyContact || '';
+            document.getElementById('editClientOverlay').classList.remove('hidden');
+          } else if (action === 'delete') {
+            pendingDeleteId = id;
+            document.getElementById('deleteOverlay').classList.remove('hidden');
+          }
+        });
+
+        // Quick Add Modal
+        const modalOverlay = document.getElementById('modalOverlay');
+        document.getElementById('addClientBtn').addEventListener('click', () => modalOverlay.classList.remove('hidden'));
+        document.getElementById('modalClose').addEventListener('click', () => modalOverlay.classList.add('hidden'));
+        document.getElementById('quickAddForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const name = document.getElementById('qaName').value.trim();
+          const phone = document.getElementById('qaPhone').value.trim();
+          const [plan] = document.getElementById('qaPlan').value.split('|');
+          if (!name || !phone || !plan) return;
+
+          await tryServerApi('/clients/quick', {
+            method: 'POST',
+            body: JSON.stringify({ name, phone, plan })
+          });
+
+          const nextId = clientsCache.reduce((max, c) => Math.max(max, Number(c.id) || 0), 0) + 1;
+          const newClient = enrichClient({
+            id: nextId,
+            name,
+            fatherName: '',
+            phone,
+            email: '',
+            cnic: '',
+            gender: '',
+            dob: '',
+            address: 'Karachi',
+            emergencyContact: '',
+            plan,
+            planPrice: PLANS[plan] || 3500,
+            joinDate: todayStr(),
+            lastPaidDate: todayStr(),
+            approvalStatus: 'active',
+            checkins: 1
+          });
+          clientsCache.unshift(newClient);
+          saveLocalState();
+          e.target.reset();
+          modalOverlay.classList.add('hidden');
+          renderAdminDashboard();
+          showToast(`Added active client ${newClient.name} (${newClient.clientId}).`, 'ok');
+        });
+
+        // Edit Client Modal Save
+        const editOverlay = document.getElementById('editClientOverlay');
+        document.getElementById('editClientClose').addEventListener('click', () => editOverlay.classList.add('hidden'));
+        document.getElementById('editClientCancel').addEventListener('click', () => editOverlay.classList.add('hidden'));
+        document.getElementById('editClientForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const id = document.getElementById('editClientIdInput').value;
+          const idx = clientsCache.findIndex(c => String(c.id) === String(id));
+          if (idx === -1) return;
+
+          const newPlan = document.getElementById('editPlan').value;
+          const updated = {
+            ...clientsCache[idx],
+            name: document.getElementById('editName').value.trim(),
+            fatherName: document.getElementById('editFatherName').value.trim(),
+            phone: document.getElementById('editPhone').value.trim(),
+            plan: newPlan,
+            planPrice: PLANS[newPlan] || 3500,
+            cnic: document.getElementById('editCnic').value.trim(),
+            lastPaidDate: document.getElementById('editLastPaid').value || todayStr(),
+            address: document.getElementById('editAddress').value.trim(),
+            emergencyContact: document.getElementById('editEmergency').value.trim()
+          };
+          await tryServerApi(`/clients/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(updated)
+          });
+          clientsCache[idx] = enrichClient(updated);
+          saveLocalState();
+          editOverlay.classList.add('hidden');
+          renderAdminDashboard();
+          showToast(`Updated profile for ${updated.name} (${clientsCache[idx].clientId}).`, 'ok');
+        });
+
+        // Receipt Modal Close & Print
+        const receiptOverlay = document.getElementById('receiptOverlay');
+        document.getElementById('receiptCloseBtn').addEventListener('click', () => receiptOverlay.classList.add('hidden'));
+        document.getElementById('receiptDoneBtn').addEventListener('click', () => receiptOverlay.classList.add('hidden'));
+        document.getElementById('printReceiptBtn').addEventListener('click', () => window.print());
+
+        // Delete Confirm Modal
+        const deleteOverlay = document.getElementById('deleteOverlay');
+        document.getElementById('deleteModalClose').addEventListener('click', () => { pendingDeleteId = null; deleteOverlay.classList.add('hidden'); });
+        document.getElementById('deleteCancel').addEventListener('click', () => { pendingDeleteId = null; deleteOverlay.classList.add('hidden'); });
+        document.getElementById('deleteConfirm').addEventListener('click', async () => {
+          if (pendingDeleteId != null) {
+            await tryServerApi(`/clients/${pendingDeleteId}`, { method: 'DELETE' });
+            const target = clientsCache.find(c => String(c.id) === String(pendingDeleteId));
+            clientsCache = clientsCache.filter(c => String(c.id) !== String(pendingDeleteId));
+            saveLocalState();
+            renderAdminDashboard();
+            showToast(`Removed client record ${target ? target.name : pendingDeleteId}.`, 'warn');
+          }
+          pendingDeleteId = null;
+          deleteOverlay.classList.add('hidden');
+        });
+
+        // ESC key closes any open modal
+        document.addEventListener('keydown', (e) => {
+          if (e.key !== 'Escape') return;
+          ['modalOverlay', 'editClientOverlay', 'receiptOverlay', 'deleteOverlay', 'trialModalOverlay', 'staffBookingsOverlay'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.classList.add('hidden');
+          });
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
