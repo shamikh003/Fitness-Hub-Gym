@@ -55,9 +55,9 @@
 
     const hours=settings.hours;
 
-    const weekday=`Mon to Sat: ${time(hours.weekdayOpen)}  to  ${time(hours.weekdayClose)}`;
+    const weekday=`Mon to Sat: ${time(hours.weekdayOpen)} to ${time(hours.weekdayClose)}`;
 
-    const sunday=`Sunday: ${time(hours.sundayOpen)}  to  ${time(hours.sundayClose)}`;
+    const sunday=`Sunday: ${time(hours.sundayOpen)} to ${time(hours.sundayClose)}`;
 
     const detail=document.querySelector('#viewPublic>section:nth-of-type(2) .border-l-2');
 
