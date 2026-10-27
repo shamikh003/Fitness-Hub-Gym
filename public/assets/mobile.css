@@ -52,3 +52,43 @@
   #viewPublic .card-glow{padding:17px}
   #admissionForm{padding:16px}
 }
+/* Staff views must fit the viewport even when their data tables are wide. */
+#viewAdmin{width:100%;min-width:0;max-width:100%}
+#viewAdmin>div,#adminUnlockedContent,#viewAdmin>div>*,#adminUnlockedContent>*{min-width:0;max-width:100%}
+#viewAdmin .grid>*,#viewAdmin .flex>*{min-width:0}
+#viewAdmin h1.font-display{font-size:clamp(26px,3.5vw,40px);line-height:1.15;overflow-wrap:anywhere}
+#viewAdmin>div>div:first-child>div:first-child>div:first-child{flex-wrap:wrap}
+#adminLoginGate{width:100%;max-width:420px;padding:28px}
+#adminLoginGate h2.font-display{font-size:26px;line-height:1.2}
+#loginForm input{min-height:48px;font-size:16px;min-width:0;max-width:100%}
+#loginForm button[type=submit]{width:100%;min-height:48px}
+#viewAdmin .overflow-x-auto{width:100%;min-width:0;max-width:100%;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+#viewAdmin input,#viewAdmin select,#viewAdmin textarea{min-width:0;max-width:100%}
+#brandLogoLink .brand-mark{display:block;width:100%;height:100%;border-radius:4px;object-fit:contain}
+@media(max-width:639px){
+ #viewAdmin{padding:24px 0}
+ #viewAdmin>div{padding-left:14px;padding-right:14px}
+ #viewAdmin>div>div:first-child{padding-bottom:20px}
+ #viewAdmin>div>div:first-child>div:first-child>div:first-child{gap:8px}
+ #viewAdmin>div>div:first-child .font-mono-code{font-size:9px;letter-spacing:1px}
+ #viewAdmin h1.font-display{font-size:28px;margin-top:10px}
+ #adminLoginGate{padding:22px 18px;margin-top:24px;border-radius:12px}
+ #adminLoginGate h2.font-display{font-size:24px}
+ #adminLoginGate>p{font-size:13px;line-height:1.75}
+ #adminToolbarActions.flex{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:8px}
+ #adminToolbarActions button{width:100%;min-height:46px;padding:10px 8px;justify-content:center;text-align:center;font-size:11px;overflow-wrap:anywhere}
+ #adminToolbarActions #openBookingsModalBtn{grid-column:1/-1}
+ #adminUnlockedContent>.grid{gap:10px}
+ #adminUnlockedContent>.grid>div{padding:14px}
+ #viewAdmin .font-mono-code{overflow-wrap:anywhere}
+ #viewAdmin input,#viewAdmin select,#viewAdmin textarea{font-size:16px}
+ #pendingSection{padding:18px}
+ #pendingSection h2{font-size:24px}
+ #pendingSection>div:first-child{gap:12px}
+ #viewAdmin button{min-height:40px}
+ [id$="Overlay"].fixed{overflow-y:auto;align-items:flex-start;padding:18px 12px}
+ [id$="Overlay"].fixed>div{max-width:100%;margin:auto 0}
+ [id$="Overlay"] input,[id$="Overlay"] select,[id$="Overlay"] textarea{font-size:16px}
+ .owner-workspace fieldset{min-width:0}
+ .owner-dialog{max-height:calc(100svh - 24px);padding:20px}
+}

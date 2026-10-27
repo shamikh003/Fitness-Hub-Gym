@@ -29,6 +29,8 @@ test('owner CMS, media, cash ledger, idempotency and monthly reports',async()=>{
  const jsonUpload=await call('/site-image','POST',{contentType:'image/png',data:image.toString('base64')});assert.equal(jsonUpload.status,201);
  assert.equal((await call('/site-image','POST',{contentType:'image/png',data:'not-base64'})).status,400);
  const withPhoto=(await call('/site')).data;withPhoto.trainers[0].photo=jsonUpload.data.url;assert.equal((await call('/site','PUT',withPhoto)).status,200);assert.equal((await call('/site')).data.trainers[0].photo,jsonUpload.data.url);
+ const framed=(await call('/site')).data;framed.trainers[0].photoFrame={fit:'contain',zoom:1.5,x:40,y:20};framed.framing={hero:{fit:'cover',zoom:1.1,x:60,y:50}};assert.equal((await call('/site','PUT',framed)).status,200);assert.deepEqual((await call('/site')).data.trainers[0].photoFrame,framed.trainers[0].photoFrame);
+ const badFrame=(await call('/site')).data;badFrame.trainers[0].photoFrame.zoom=999;assert.equal((await call('/site','PUT',badFrame)).status,400);
  upload=await fetch(base+'/site-image',{method:'POST',headers:{cookie,'Content-Type':'image/png'},body:Buffer.from('<script>invalid</script>')});assert.equal(upload.status,400);
  const requestKey='initial-cash-test-0001';
  let quick=await call('/clients/quick','POST',{name:'Cash Test Member',phone:'03001234567',plan:'Monthly',requestKey});assert.equal(quick.status,201);assert.equal(quick.data.payment.amount,4200);

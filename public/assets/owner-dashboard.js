@@ -81,9 +81,10 @@
     const s=settings;
     $('#editorFields').innerHTML=`<fieldset><legend>Membership prices (PKR)</legend><p>New admissions use these prices. Existing agreed member fees are preserved.</p><div class="owner-fields">${['Monthly','Quarterly','Annual'].map(p=>field(p,'prices.'+p,s.prices[p],'number','required min="1" max="1000000" step="1"')).join('')}</div></fieldset>
       <fieldset><legend>Opening hours · Karachi time</legend><div class="owner-fields">${[['Mon–Sat opens','weekdayOpen'],['Mon–Sat closes','weekdayClose'],['Sunday opens','sundayOpen'],['Sunday closes','sundayClose']].map(([label,key])=>field(label,'hours.'+key,s.hours[key],'time','required')).join('')}</div></fieldset>
-      <fieldset><legend>Website photos</legend><p>Use an HTTPS image link, a local asset, or upload a photo up to 15 MB; large photos are automatically resized before upload.</p><div class="owner-fields">${[['Hero photo','hero'],['Training turf','turf'],['Recovery photo','recovery']].map(([label,key])=>`<div>${field(label,'photos.'+key,s.photos[key],'text','required')}<img class="editor-image" src="${esc(s.photos[key])}" alt="${label} preview"><label>Upload photo<input type="file" data-upload="photos.${key}" accept="image/*"></label></div>`).join('')}</div></fieldset>
+      <fieldset><legend>Website photos</legend><p>Use an HTTPS image link, a local asset, or upload a photo up to 15 MB; large photos are automatically resized before upload.</p><div class="owner-fields">${[['Hero photo','hero'],['Training turf','turf'],['Recovery photo','recovery']].map(([label,key])=>`<div>${field(label,'photos.'+key,s.photos[key],'text','required')}<img class="editor-image" data-frame-preview="photos.${key}" src="${esc(s.photos[key])}" alt="${label} preview"><button type="button" data-edit-photo="photos.${key}">Edit photo / framing</button><label>Upload photo<input type="file" data-upload="photos.${key}" accept="image/*"></label></div>`).join('')}</div></fieldset>
       <fieldset><legend>Current offer</legend><p>Leave the title empty to hide the offer. Offers describe your promotion; membership prices above remain the charged fee.</p>${field('Offer title','offer.title',s.offer.title,'text','maxlength="100"')}${field('Offer description','offer.description',s.offer.description,'text','maxlength="500"')}${field('Show until (optional)','offer.endsOn',s.offer.endsOn,'date')}</fieldset>
       <fieldset><legend>Trainers</legend><div id="trainerEditor">${s.trainers.map((t,i)=>trainerFields(t,i)).join('')}</div><button type="button" id="addTrainer">+ Add trainer</button></fieldset>`;
+    $('#editorFields').querySelectorAll('[data-frame-preview]').forEach(img=>{const path=img.dataset.framePreview;window.GymPhotoFraming.preview(img,readFrame(path),path.startsWith('trainers.'));});
     failedUploads.clear();
     settingsDirty=false;
     $('#addTrainer').onclick=()=>{
@@ -91,14 +92,42 @@
       collectSettings();settings.trainers.push({name:'New Coach',specialty:'Personal Training',bio:'',shift:'',photo:''});renderEditor();settingsDirty=true;
     };
   }
-  function trainerFields(t,i){return `<div class="trainer-editor"><h4>Trainer ${i+1}</h4><div class="owner-fields">${field('Full name',`trainers.${i}.name`,t.name,'text','required maxlength="80"')}${field('Specialty',`trainers.${i}.specialty`,t.specialty,'text','required maxlength="100"')}${field('Shift / availability',`trainers.${i}.shift`,t.shift,'text','maxlength="100"')}${field('Photo link (optional)',`trainers.${i}.photo`,t.photo,'text','maxlength="500"')}</div>${field('Biography',`trainers.${i}.bio`,t.bio,'text','maxlength="500"')}<label>Upload trainer photo<input type="file" data-upload="trainers.${i}.photo" accept="image/*">${t.photo?`<img class="editor-image uploaded-preview" src="${esc(t.photo)}" alt="${esc(t.name)} photo preview">`:""}</label><button type="button" data-remove-trainer="${i}">Remove trainer</button></div>`;}
+  function trainerFields(t,i){return `<div class="trainer-editor"><h4>Trainer ${i+1}</h4><div class="owner-fields">${field('Full name',`trainers.${i}.name`,t.name,'text','required maxlength="80"')}${field('Specialty',`trainers.${i}.specialty`,t.specialty,'text','required maxlength="100"')}${field('Shift / availability',`trainers.${i}.shift`,t.shift,'text','maxlength="100"')}${field('Photo link (optional)',`trainers.${i}.photo`,t.photo,'text','maxlength="500"')}</div>${field('Biography',`trainers.${i}.bio`,t.bio,'text','maxlength="500"')}<label>Upload trainer photo<input type="file" data-upload="trainers.${i}.photo" accept="image/*">${t.photo?`<img class="editor-image uploaded-preview" data-frame-preview="trainers.${i}.photo" src="${esc(t.photo)}" alt="${esc(t.name)} photo preview">`:""}</label><button type="button" data-edit-photo="trainers.${i}.photo" ${t.photo?"":"disabled"}>Edit photo / framing</button><button type="button" data-remove-trainer="${i}">Remove trainer</button></div>`;}
+  function readFrame(path){
+    const parts=path.split('.');return parts[0]==='trainers'?settings.trainers[Number(parts[1])]?.photoFrame:settings.framing?.[parts[1]];
+  }
+  function saveFrame(path,value){
+    const parts=path.split('.');
+    if(parts[0]==='trainers')settings.trainers[Number(parts[1])].photoFrame=value;
+    else {settings.framing ||= {};settings.framing[parts[1]]=value;}
+  }
+  function openPhotoEditor(path){
+    if(uploadsInFlight)return;
+    collectSettings();
+    const input=$(`[data-setting="${path}"]`),source=input?.value.trim();if(!source){status($('#siteEditor'),'Upload or choose a photo first.');return;}
+    const trainer=path.startsWith('trainers.'),initial=window.GymPhotoFraming.normalize(readFrame(path),trainer);
+    let draft={...initial};
+    $('#ownerDialogBody').innerHTML=`<h2>Edit photo</h2><p>Drag the photo or use the sliders. Your original image stays unchanged.</p><div id="photoEditorStage" class="photo-frame ${trainer?'':'wide-photo-frame'}"><img id="framingPhoto" src="${esc(source)}" alt="Photo framing preview" draggable="false"></div><form id="framingForm"><label>Photo display<select id="photoFit"><option value="contain">Show full photo</option><option value="cover">Fill frame / crop edges</option></select></label><label>Zoom <output id="photoZoomValue"></output><input id="photoZoom" aria-label="Zoom" type="range" min="1" max="3" step="0.05" value="${draft.zoom}"></label><label>Horizontal focus<input id="photoX" type="range" min="0" max="100" step="1" value="${draft.x}"></label><label>Vertical focus<input id="photoY" type="range" min="0" max="100" step="1" value="${draft.y}"></label><div class="owner-actions"><button type="submit">Apply framing</button><button type="button" id="resetFraming">Reset</button><button type="button" id="cancelFraming">Cancel</button></div><p role="status" aria-live="polite">Apply framing, then save website changes to publish.</p></form>`;
+    $('#photoFit').value=draft.fit;
+    const render=()=>{window.GymPhotoFraming.apply($('#framingPhoto'),draft,trainer);$('#photoZoomValue').textContent=Number(draft.zoom).toFixed(2)+'x';};
+    const sync=()=>{draft={fit:$('#photoFit').value,zoom:Number($('#photoZoom').value),x:Number($('#photoX').value),y:Number($('#photoY').value)};render();};
+    ['photoFit','photoZoom','photoX','photoY'].forEach(id=>$('#'+id).addEventListener('input',sync));
+    $('#resetFraming').onclick=()=>{draft=window.GymPhotoFraming.normalize(undefined,trainer);$('#photoFit').value=draft.fit;$('#photoZoom').value=draft.zoom;$('#photoX').value=draft.x;$('#photoY').value=draft.y;render();};
+    $('#cancelFraming').onclick=()=>dialog.close();
+    const stage=$('#photoEditorStage');let drag;
+    stage.addEventListener('pointerdown',event=>{drag={x:event.clientX,y:event.clientY,frame:{...draft}};stage.setPointerCapture(event.pointerId);});
+    stage.addEventListener('pointermove',event=>{if(!drag)return;const rect=stage.getBoundingClientRect();draft.x=Math.max(0,Math.min(100,drag.frame.x-(event.clientX-drag.x)/rect.width*100));draft.y=Math.max(0,Math.min(100,drag.frame.y-(event.clientY-drag.y)/rect.height*100));$('#photoX').value=draft.x;$('#photoY').value=draft.y;render();});
+    stage.addEventListener('pointerup',()=>drag=null);stage.addEventListener('pointercancel',()=>drag=null);
+    $('#framingForm').onsubmit=event=>{event.preventDefault();saveFrame(path,{...draft});settingsDirty=true;$('#editorFields').querySelectorAll('[data-frame-preview]').forEach(img=>{if(img.dataset.framePreview===path)window.GymPhotoFraming.preview(img,draft,trainer);});status($('#siteEditor'),'Photo framing applied. Save website changes to publish it.');dialog.close();};
+    render();if(!dialog.open)dialog.showModal();
+  }
   function collectSettings(){
     $('#editorFields').querySelectorAll('[data-setting]').forEach(input=>{
       const keys=input.dataset.setting.split('.');let target=settings;
       keys.slice(0,-1).forEach(key=>target=target[key]);target[keys.at(-1)]=input.type==='number'?Number(input.value):input.value.trim();
     });return settings;
   }
-  $('#siteEditor').addEventListener('input',()=>settingsDirty=true);
+  $('#siteEditor').addEventListener('input',event=>{settingsDirty=true;const path=event.target.dataset.setting;if(path){const button=$(`[data-edit-photo="${path}"]`);if(button)button.disabled=!event.target.value.trim()||uploadsInFlight>0;}});
   async function preparePhoto(file) {
     if(!file.type.startsWith('image/'))throw new Error('Choose a photo, not a document or video.');
     if(file.size>15*1024*1024)throw new Error('Choose a photo smaller than 15 MB.');
@@ -137,9 +166,11 @@
       const input=$(`[data-setting="${path}"]`);input.value=data.url;
       const keys=path.split('.');let target=settings;keys.slice(0,-1).forEach(key=>target=target[key]);target[keys.at(-1)]=data.url;
       let preview=chooser.parentElement.querySelector('.uploaded-preview');
-      if(!preview){preview=document.createElement('img');preview.className='editor-image uploaded-preview';preview.alt='Selected photo preview';chooser.parentElement.append(preview);}preview.src=data.url;
+      if(!preview){preview=document.createElement('img');preview.className='editor-image uploaded-preview';preview.alt='Selected photo preview';chooser.parentElement.append(preview);}preview.src=data.url;preview.dataset.framePreview=path;
+      window.GymPhotoFraming.preview(preview,readFrame(path),path.startsWith('trainers.'));
+      const editButton=$(`[data-edit-photo="${path}"]`);if(editButton)editButton.disabled=false;
       const existing=input.closest('div')?.querySelector('.editor-image');if(existing)existing.src=data.url;
-      setFeedback('Photo ready. Press Save website changes to publish it.');
+      setFeedback('Photo ready. Use Edit photo to adjust framing, then Save website changes.');
       status($('#siteEditor'),'Photo ready. Save website changes to publish your updates.');
     }catch(error){failedUploads.add(path);setFeedback(error.message || 'Photo upload failed. Please try again.');
       const retry=document.createElement('button');retry.type='button';retry.textContent='Keep previous photo';retry.className='cancel-photo';retry.onclick=()=>{failedUploads.delete(path);chooser.value='';feedback.textContent='Previous photo kept.';retry.remove();};chooser.parentElement.append(retry);
@@ -152,6 +183,7 @@
   };
   $('#reloadSettings').onclick=async()=>{try{settings=await api('/site');renderEditor();status($('#siteEditor'),'Loaded the saved website version.');}catch(error){status($('#siteEditor'),error.message);}};
   workspace.addEventListener('click',event=>{
+    const editPhoto=event.target.closest('[data-edit-photo]');if(editPhoto){openPhotoEditor(editPhoto.dataset.editPhoto);return;}
     const receiptButton=event.target.closest('[data-ledger-receipt]');if(receiptButton)receipt(payments.find(p=>p.id===Number(receiptButton.dataset.ledgerReceipt)));
     const paymentButton=event.target.closest('[data-record-cash]');if(paymentButton)openPayment(paymentButton.dataset.recordCash);
     const reminder=event.target.closest('[data-remind]');

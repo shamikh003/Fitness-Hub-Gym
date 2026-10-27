@@ -24,7 +24,7 @@
     }));
     document.querySelector('.hero-plan strong').textContent=`Membership from Rs. ${money(settings.prices.Monthly)}`;
     const imageSlots={hero:'img[alt="Fitness Hub strength training floor"]',turf:'img[alt="Functional Turf and Conditioning Zone"]',recovery:'img[alt="Cedar Sauna and Recovery Suite"]'};
-    Object.entries(imageSlots).forEach(([key,selector])=>{document.querySelector(selector).src=settings.photos[key];});
+    Object.entries(imageSlots).forEach(([key,selector])=>{const img=document.querySelector(selector);img.src=settings.photos[key];window.GymPhotoFraming.apply(img,settings.framing?.[key]);});
     const hours=settings.hours;
     const weekday=`Mon–Sat: ${time(hours.weekdayOpen)} – ${time(hours.weekdayClose)}`;
     const sunday=`Sunday: ${time(hours.sundayOpen)} – ${time(hours.sundayClose)}`;
@@ -38,7 +38,7 @@
     trainerGrid.replaceChildren();
     settings.trainers.forEach(trainer=>{
       const card=document.createElement('article');card.className='card-glow cms-trainer';
-      if(trainer.photo){const img=document.createElement('img');img.src=trainer.photo;img.alt=trainer.name;img.loading='lazy';card.append(img);}
+      if(trainer.photo){const img=document.createElement('img');img.src=trainer.photo;img.alt=trainer.name;img.loading='lazy';const frame=document.createElement('div');frame.className='photo-frame trainer-photo-frame';frame.append(img);window.GymPhotoFraming.apply(img,trainer.photoFrame,true);card.append(frame);}
       else {const monogram=document.createElement('div');monogram.className='trainer-monogram';monogram.textContent=trainer.name.split(' ').filter(Boolean).slice(-2).map(n=>n[0]).join('');card.append(monogram);}
       for(const [tag,text] of [['h3',trainer.name],['strong',trainer.specialty],['p',trainer.bio],['small','Shift: '+trainer.shift]]){const node=document.createElement(tag);node.textContent=text;card.append(node);}
       const button=document.createElement('button');button.type='button';button.dataset.trainer=trainer.name;button.className='select-trainer-btn';button.textContent='Train with '+trainer.name.replace(/^Coach /,'');
