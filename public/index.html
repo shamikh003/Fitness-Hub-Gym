@@ -8,36 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="stylesheet" href="/assets/site.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            ink: {
-              950: '#090B0E',
-              900: '#0F1217',
-              800: '#161B23',
-              700: '#1E2530',
-              600: '#2A3342'
-            },
-            amber: {
-              400: '#FFB649',
-              500: '#FFA630',
-              600: '#E58A13'
-            }
-          },
-          fontFamily: {
-            display: ['Anton', 'sans-serif'],
-            sans: ['Inter', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace']
-          }
-        }
-      }
-    };
-  </script>
+
   <style>
     :root {
       --accent: #FFA630;
@@ -89,16 +62,16 @@
       .no-print { display: none !important; }
     }
   </style>
+  <link rel="stylesheet" href="/assets/refinement.css">
+  <link rel="stylesheet" href="/assets/owner.css">
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-ink-950">
 
-  <!-- ============ TOAST NOTIFICATION CONTAINER ============ -->
-  <div id="toastContainer" class="fixed bottom-5 right-5 z-[100] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
-
-  <!-- ============ TOP STICKY HEADER & VIEW SWITCHER ============ -->
+  <a href="#facilities" class="skip-link">Skip to content</a>
+<!-- ============ TOP STICKY HEADER & VIEW SWITCHER ============ -->
   <header id="siteHeader" class="sticky top-0 z-50 bg-ink-950/90 backdrop-blur-md border-b border-white/10 no-print">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20 gap-3">
+      <div class="flex items-center justify-between h-[72px] gap-3">
         <!-- Brand Logo -->
         <div class="flex items-center gap-3">
           <a href="#top" id="brandLogoLink" class="flex items-center gap-2.5 group">
@@ -123,19 +96,6 @@
           </div>
         </div>
 
-        <!-- Primary In-App Mode Switcher (Public Site / Member Portal / Staff Dashboard) -->
-        <div class="flex items-center bg-ink-900 p-1 rounded-xl border border-white/10">
-          <button type="button" id="tabBtnPublic" data-view-target="public" class="view-tab-btn px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 bg-amber-500 text-ink-950 shadow">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-            <span>Public Site</span>
-          </button>
-          <button type="button" id="tabBtnAdmin" data-view-target="admin" class="view-tab-btn px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition flex items-center gap-1.5 text-gray-300 hover:text-white relative">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-            <span>Staff Dashboard</span>
-            <span id="navPendingBadge" class="hidden ml-1 px-1.5 py-0.5 text-[10px] font-mono-code font-bold rounded-full bg-amber-500 text-ink-950">0</span>
-          </button>
-        </div>
-
         <!-- Desktop Section Nav (shown in Public View) -->
         <nav id="publicSectionNav" class="hidden lg:flex items-center gap-5 text-sm font-medium text-gray-300">
           <a href="#facilities" class="hover:text-amber-400 transition">Facilities</a>
@@ -147,7 +107,7 @@
         </nav>
 
         <!-- Mobile Menu Button -->
-        <button type="button" id="mobileMenuBtn" aria-label="Toggle Menu" class="lg:hidden p-2 rounded-lg bg-ink-800 text-gray-300 hover:text-white border border-white/10">
+        <button type="button" id="mobileMenuBtn" aria-label="Toggle Menu" aria-expanded="false" aria-controls="mobileMenuDrawer" class="lg:hidden p-2 rounded-lg bg-ink-800 text-gray-300 hover:text-white border border-white/10">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
       </div>
@@ -175,7 +135,7 @@
     <!-- ============ HERO SECTION ============ -->
     <section class="relative min-h-[86vh] flex items-center overflow-hidden border-b border-white/10">
       <div class="absolute inset-0 z-0">
-        <img src="assets/hero_gym.jpg" alt="IronPeak Gym strength floor" class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000">
+        <img src="assets/hero_gym.jpg" alt="Fitness Hub strength training floor" class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000">
         <div class="absolute inset-0 hero-gradient"></div>
       </div>
 
@@ -188,25 +148,25 @@
             </div>
 
             <h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.03] uppercase text-white">
-              TRAIN HARDER.<br>
-              <span class="text-amber-500">TRACK EVERYTHING.</span>
+              BUILD STRENGTH.<br>
+              <span class="text-amber-500">FIND YOUR STRONG.</span>
             </h1>
 
             <p class="text-gray-300 text-base sm:text-lg max-w-xl leading-relaxed">
-              Success doesn't start in the mirror—it starts on the platform. Train with calibrated free weights, functional turf conditioning, sauna recovery, and certified coaching at 3 Imran Khan Rd, Metroville Sector 3 Sindh Industrial Trading Estate, Karachi.
+              Your next chapter starts with one rep. Discover serious strength training, energising group classes and personal coaching in the heart of Metroville, Karachi.
             </p>
 
             <div class="flex flex-wrap items-center gap-4 pt-2">
               <a href="#admission" class="px-7 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-sm sm:text-base transition transform hover:-translate-y-0.5 shadow-lg shadow-amber-500/25 flex items-center gap-2">
-                <span>Apply for Admission</span>
+                <span>Start Your Journey</span>
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
               </a>
               <button type="button" id="openTrialModalBtn" class="px-6 py-4 rounded-xl bg-white/5 hover:bg-white/10 text-white border border-white/15 font-semibold text-sm sm:text-base transition flex items-center gap-2">
                 <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>
-                <span>Claim Free 1-Day Trial Pass</span>
+                <span>Book a Free Trial</span>
               </button>
               <a href="#calculators" class="px-5 py-4 rounded-xl text-gray-300 hover:text-amber-400 font-medium text-sm transition flex items-center gap-1.5">
-                <span>Try Fitness Calculators</span>
+                <span>Explore the Fitness Lab</span>
                 <span>→</span>
               </a>
             </div>
@@ -214,66 +174,29 @@
             <!-- Live Quick Highlights -->
             <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/10 max-w-lg">
               <div>
-                <div class="font-display text-3xl text-white">500<span class="text-amber-500">+</span></div>
-                <div class="font-mono-code text-[11px] text-gray-400 uppercase tracking-wider">Active Athletes</div>
+                <div class="font-display text-3xl text-white">01</div>
+                <div class="font-mono-code text-[11px] text-gray-400 uppercase tracking-wider">Show up</div>
               </div>
               <div>
-                <div class="font-display text-3xl text-white">40<span class="text-amber-500">+</span></div>
-                <div class="font-mono-code text-[11px] text-gray-400 uppercase tracking-wider">Weekly Classes</div>
+                <div class="font-display text-3xl text-white">02</div>
+                <div class="font-mono-code text-[11px] text-gray-400 uppercase tracking-wider">Get stronger</div>
               </div>
               <div>
-                <div class="font-display text-3xl text-white">1kg–50kg</div>
-                <div class="font-mono-code text-[11px] text-gray-400 uppercase tracking-wider">Calibrated Iron</div>
+                <div class="font-display text-3xl text-white">03</div>
+                <div class="font-mono-code text-[11px] text-gray-400 uppercase tracking-wider">Keep going</div>
               </div>
             </div>
           </div>
 
-          <!-- Right Hero Club Overview Card -->
-          <div class="lg:col-span-5">
-            <div class="glass-panel rounded-2xl p-6 sm:p-7 shadow-2xl space-y-5 border border-white/15">
-              <div class="flex items-center justify-between border-b border-white/10 pb-4">
-                <div>
-                  <span class="font-mono-code text-[11px] text-amber-400 uppercase tracking-widest">OFFICIAL CLUB DESK</span>
-                  <h2 class="font-display text-2xl text-white uppercase mt-0.5">Fitness Hub Karachi</h2>
-                </div>
-                <span class="px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono-code text-xs">AC Floor · 20°C</span>
-              </div>
-
-              <div class="space-y-3 text-xs sm:text-sm">
-                <div class="p-3.5 rounded-xl bg-ink-900/90 border border-white/10">
-                  <span class="font-mono-code text-[10px] text-amber-400 uppercase block">ADDRESS</span>
-                  <p class="text-white font-semibold mt-0.5">3 Imran Khan Rd, Metroville Sector 3</p>
-                  <p class="text-gray-400 text-xs">Sindh Industrial Trading Estate, Karachi</p>
-                </div>
-
-                <div class="grid grid-cols-2 gap-3">
-                  <div class="p-3.5 rounded-xl bg-ink-900/90 border border-white/10">
-                    <span class="font-mono-code text-[10px] text-amber-400 uppercase block">CONTACT NUMBER</span>
-                    <p class="text-white font-mono-code font-bold mt-0.5">0325 6060570</p>
-                    <p class="text-gray-400 text-[11px]">Call &amp; WhatsApp</p>
-                  </div>
-                  <div class="p-3.5 rounded-xl bg-ink-900/90 border border-white/10">
-                    <span class="font-mono-code text-[10px] text-amber-400 uppercase block">OPERATING HOURS</span>
-                    <p class="text-white font-semibold mt-0.5">6 AM – 11 PM</p>
-                    <p class="text-gray-400 text-[11px]">Sun: 8 AM – 6 PM</p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="pt-1 flex gap-3">
-                <a href="#admission" class="flex-1 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-xs sm:text-sm text-center transition">
-                  Online Admission Form
-                </a>
-                <a href="#calculators" class="px-4 py-3 rounded-xl bg-ink-800 hover:bg-ink-700 text-gray-200 border border-white/10 font-semibold text-xs sm:text-sm text-center transition">
-                  Fitness Lab
-                </a>
-              </div>
-            </div>
+          <div class="lg:col-span-5 hero-side">
+            <div class="hero-stamp"><span>BUILT BY EFFORT.</span><strong>DEFINED<br>BY YOU.</strong><span>EST. IN KARACHI · FITNESS HUB</span></div>
+            <a href="#plans" class="hero-plan"><span><small>YOUR FIRST STEP</small><strong>Membership from Rs. 3,500</strong><small>Find your plan. Build your routine.</small></span><b>↗</b></a>
           </div>
         </div>
       </div>
     </section>
 
+    <div class="training-strip" aria-hidden="true"><span>STRENGTH</span><i>✳</i><span>CONDITIONING</span><i>✳</i><span>COMMUNITY</span><i>✳</i><span>PROGRESS</span><i>✳</i><span>FITNESS HUB</span></div>
     <!-- ============ GYM DETAILS BAR ============ -->
     <section class="bg-ink-900 border-b border-white/10 py-8">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -290,8 +213,8 @@
           </div>
           <div class="border-l-2 border-amber-500 pl-4">
             <span class="font-mono-code text-[11px] text-gray-400 uppercase tracking-widest block">COMMUNITY &amp; STAFF</span>
-            <span class="text-white font-semibold text-base mt-1 block">500+ Active Members</span>
-            <span class="text-gray-400 text-xs">10 Certified Strength &amp; Rehab Coaches</span>
+            <span class="text-white font-semibold text-base mt-1 block">Train at Your Own Pace</span>
+            <span class="text-gray-400 text-xs">Strength, conditioning &amp; recovery</span>
           </div>
           <div class="border-l-2 border-amber-500 pl-4">
             <span class="font-mono-code text-[11px] text-gray-400 uppercase tracking-widest block">DIRECT HELPLINE</span>
@@ -308,7 +231,7 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div>
             <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest"> ENGINEERED TRAINING ZONES</span>
-            <h2 class="font-display text-4xl sm:text-5xl text-white uppercase mt-2">World-Class Facilities</h2>
+            <h2 class="font-display text-4xl sm:text-5xl text-white uppercase mt-2">Your Space. Your Progress.</h2>
           </div>
           <!-- Facility Category Filter -->
           <div class="flex flex-wrap gap-2" id="facilityFilterBar">
@@ -322,7 +245,7 @@
         <!-- Visual Architectural Highlights (2 Featured Photo Banners) -->
         <div class="grid md:grid-cols-2 gap-6">
           <div class="relative rounded-2xl overflow-hidden border border-white/10 group h-72 sm:h-80">
-            <img src="assets/turf_zone.jpg" alt="Functional Turf and Conditioning Zone" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            <img loading="lazy" src="assets/turf_zone.jpg" alt="Functional Turf and Conditioning Zone" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
             <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/55 to-transparent"></div>
             <div class="absolute bottom-0 inset-x-0 p-6">
               <span class="px-2.5 py-1 rounded bg-amber-500 text-ink-950 font-mono-code text-[10px] font-bold uppercase">ZONE 01 · ATHLETIC TURF</span>
@@ -332,7 +255,7 @@
           </div>
 
           <div class="relative rounded-2xl overflow-hidden border border-white/10 group h-72 sm:h-80">
-            <img src="assets/sauna_recovery.jpg" alt="Cedar Sauna and Recovery Suite" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+            <img loading="lazy" src="assets/sauna_recovery.jpg" alt="Cedar Sauna and Recovery Suite" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
             <div class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/55 to-transparent"></div>
             <div class="absolute bottom-0 inset-x-0 p-6">
               <span class="px-2.5 py-1 rounded bg-emerald-400 text-ink-950 font-mono-code text-[10px] font-bold uppercase">ZONE 02 · THERMAL RECOVERY</span>
@@ -461,8 +384,8 @@
         <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div>
             <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">GROUP COACHING &amp; CIRCUITS</span>
-            <h2 class="font-display text-4xl sm:text-5xl text-white uppercase mt-2">Weekly Class Timetable</h2>
-            <p class="text-gray-400 text-sm mt-2 max-w-xl">Filter by day or training style and reserve your spot online. Quarterly &amp; Annual members get complimentary class access.</p>
+            <h2 class="font-display text-4xl sm:text-5xl text-white uppercase mt-2">Find Your Next Session</h2>
+            <p class="text-gray-400 text-sm mt-2 max-w-xl">Filter by day or training style and request your next session. The gym confirms availability by phone. Quarterly &amp; Annual members get complimentary class access.</p>
           </div>
 
           <!-- Category Filter Pills -->
@@ -497,7 +420,7 @@
           <div>
             <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">INTERACTIVE PERFORMANCE LAB</span>
             <h2 class="font-display text-4xl sm:text-5xl text-white uppercase mt-2">Fitness, Macro &amp; Strength Calculators</h2>
-            <p class="text-gray-400 text-sm mt-2 max-w-2xl">Benchmark your body composition, dial in daily protein &amp; calorie targets, or calculate your 1-Rep Max with exact Olympic barbell plate loading.</p>
+            <p class="text-gray-400 text-sm mt-2 max-w-2xl">Explore general fitness estimates for BMI, daily calories and strength. Estimates are starting points; BMI does not measure body composition.</p>
           </div>
 
           <!-- Calculator Switcher Tabs -->
@@ -737,8 +660,8 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div class="text-center max-w-2xl mx-auto space-y-3">
           <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">TRANSPARENT MEMBERSHIP TIERS</span>
-          <h2 class="font-display text-4xl sm:text-5xl text-white uppercase">Fee Plans &amp; Custom Add-Ons</h2>
-          <p class="text-gray-400 text-sm">No hidden registration fees. Pick your membership cycle below and optionally bundle personal coaching or nutrition plans.</p>
+          <h2 class="font-display text-4xl sm:text-5xl text-white uppercase">Invest in Your Stronger Self</h2>
+          <p class="text-gray-400 text-sm">Pick your membership cycle and explore optional coaching or nutrition. Add-ons are one-off estimates; reception confirms your package before payment.</p>
         </div>
 
         <!-- 3 Core Plan Cards -->
@@ -846,7 +769,7 @@
             </div>
             <div id="estimatorTotalOut" class="font-display text-3xl text-white">Rs. 9,500</div>
             <a href="#admission" class="w-full py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-xs uppercase tracking-wider text-center transition">
-              Lock In Package Below →
+              Request This Package →
             </a>
           </div>
         </div>
@@ -951,8 +874,8 @@
       <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div class="text-center space-y-2">
           <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">INSTANT ONLINE REGISTRATION</span>
-          <h2 class="font-display text-4xl sm:text-5xl text-white uppercase">Gym Admission Application</h2>
-          <p class="text-gray-400 text-sm max-w-xl mx-auto">Submit your details below. Your application is immediately logged in the Staff Dashboard and generates your Digital Client ID Card.</p>
+          <h2 class="font-display text-4xl sm:text-5xl text-white uppercase">Your Journey Starts Here</h2>
+          <p class="text-gray-400 text-sm max-w-xl mx-auto">Apply online and receive your admission reference. Visit reception to verify your details, pay your fees and activate your membership.</p>
         </div>
 
         <form id="admissionForm" class="bg-ink-900 rounded-2xl p-6 sm:p-10 border border-white/10 shadow-2xl space-y-6" novalidate>
@@ -1022,6 +945,7 @@
                 <option value="Fat Loss & Conditioning">Fat Loss &amp; Conditioning</option>
                 <option value="Powerlifting & 1RM">Powerlifting &amp; Barbell Strength</option>
                 <option value="Mobility & Injury Rehab">Mobility &amp; Injury Recovery</option>
+              <option value="Athletic Performance">Athletic Sled &amp; HIIT</option>
               </select>
             </div>
 
@@ -1090,7 +1014,7 @@
 
         <div id="adminToolbarActions" class="hidden flex-wrap items-center gap-2.5">
           <button type="button" id="addClientBtn" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-xs sm:text-sm transition flex items-center gap-1.5 shadow-lg shadow-amber-500/15">
-            <span>+ Quick Add Client</span>
+            <span>+ Add Client & Cash Fee</span>
           </button>
           <button type="button" id="exportCsvBtn" class="px-4 py-2.5 rounded-xl bg-ink-800 hover:bg-ink-700 text-gray-200 border border-white/10 font-semibold text-xs sm:text-sm transition flex items-center gap-1.5">
             <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
@@ -1161,7 +1085,7 @@
             <span id="statPending" class="font-display text-3xl text-sky-400 mt-1 block">0</span>
           </div>
           <div class="bg-ink-900 rounded-2xl p-4 border border-white/10 border-t-2 border-t-amber-400">
-            <span class="font-mono-code text-[11px] text-amber-300 uppercase block">Est. Monthly Rev</span>
+            <span class="font-mono-code text-[11px] text-amber-300 uppercase block">Est. Membership Value</span>
             <span id="statRevenue" class="font-display text-2xl sm:text-3xl text-white mt-1 block">Rs. 0</span>
           </div>
         </div>
@@ -1239,7 +1163,7 @@
                   <th class="py-3.5 px-4">Member Details</th>
                   <th class="py-3.5 px-4">Phone / Contact</th>
                   <th class="py-3.5 px-4">Plan &amp; Fee</th>
-                  <th class="py-3.5 px-4">Joined / Last Paid</th>
+                  <th class="py-3.5 px-4">Joined / Coverage Start</th>
                   <th class="py-3.5 px-4">Next Fee Due</th>
                   <th class="py-3.5 px-4">Status</th>
                   <th class="py-3.5 px-4 text-right">Actions</th>
@@ -1262,13 +1186,13 @@
         <div class="md:col-span-2 space-y-2">
           <span class="font-display text-2xl text-white">FITNESS<span class="text-amber-500"> HUB</span></span>
           <p class="text-sm text-gray-400 max-w-md">3 Imran Khan Rd, Metroville Sector 3 Sindh Industrial Trading Estate, Karachi.</p>
-          <p class="text-xs font-mono-code text-amber-400">0325 6060570</p>
+          <div class="flex flex-wrap gap-4 pt-3 text-xs"><a class="text-amber-400" href="tel:+923256060570">Call the Gym ↗</a><a class="text-amber-400" href="https://wa.me/923256060570" target="_blank" rel="noopener noreferrer">WhatsApp ↗</a><a class="text-amber-400" href="https://www.google.com/maps/search/?api=1&amp;query=3+Imran+Khan+Rd+Metroville+Sector+3+Karachi" target="_blank" rel="noopener noreferrer">Get Directions ↗</a></div>
         </div>
         <div class="space-y-2 text-sm">
           <h4 class="font-mono-code text-xs text-white uppercase tracking-wider">Quick Navigation</h4>
           <ul class="space-y-1.5 text-gray-400">
             <li><a href="#facilities" class="hover:text-amber-400">Facilities &amp; Sauna</a></li>
-            <li><a href="#schedule" class="hover:text-amber-400">Weekly Class Timetable</a></li>
+            <li><a href="#schedule" class="hover:text-amber-400">Find Your Next Session</a></li>
             <li><a href="#calculators" class="hover:text-amber-400">BMI, TDEE &amp; 1RM Lab</a></li>
             <li><a href="#admission" class="hover:text-amber-400">Online Admission Form</a></li>
           </ul>
@@ -1282,7 +1206,7 @@
       </div>
       <div class="pt-6 flex flex-wrap justify-between items-center text-xs text-gray-500 gap-4">
         <span>© <span id="year">2026</span> Fitness Hub Karachi. All rights reserved.</span>
-        <span class="font-mono-code">System v2.4 · SQLite + Live Browser Sync</span>
+        <span class="font-mono-code"><a href="/admin.html" class="hover:text-amber-400">Staff Login ↗</a></span>
       </div>
     </div>
   </footer>
@@ -1423,7 +1347,7 @@
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <div>
           <span id="bookingModalEyebrow" class="font-mono-code text-[10px] text-amber-400 uppercase">VIP GUEST ACCESS</span>
-          <h3 id="bookingModalTitle" class="font-display text-2xl text-white uppercase">Claim Free 1-Day Trial Pass</h3>
+          <h3 id="bookingModalTitle" class="font-display text-2xl text-white uppercase">Book a Free Trial</h3>
         </div>
         <button type="button" id="trialModalClose" class="text-gray-400 hover:text-white text-2xl leading-none">&times;</button>
       </div>
@@ -1442,7 +1366,7 @@
           <input type="date" id="trialPreferredDate" required class="w-full bg-ink-950 border border-white/15 rounded-xl px-3.5 py-2.5 text-sm text-white">
         </div>
         <button type="submit" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-sm transition">
-          Confirm Reservation Pass
+          Send Booking Request
         </button>
       </form>
     </div>
@@ -1462,6 +1386,7 @@
     </div>
   </div>
 
+  <script src="/assets/public-content.js"></script>
   <!-- ===================================================================
        APPLICATION LOGIC (Unified Public + Member Portal + Staff Dashboard)
        =================================================================== -->
@@ -1474,8 +1399,6 @@
       const PLANS = { Monthly: 3500, Quarterly: 9500, Annual: 32000 };
       const STORAGE_KEY_CLIENTS = 'fitness_hub_clients_final_v1';
       const STORAGE_KEY_BOOKINGS = 'fitness_hub_bookings_final_v1';
-      const VALID_STAFF_USER = 'admin';
-      const VALID_STAFF_PASSWORDS = ['fitnesshub@2026', 'ironpeak@2026'];
 
       function planCycleDays(plan) {
         if (plan === 'Quarterly') return 90;
@@ -1485,8 +1408,7 @@
 
       /* ---- Local Date Helpers (Karachi Timezone Safe) ---- */
       function todayStr() {
-        const d = new Date();
-        return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        return new Intl.DateTimeFormat('en-CA', {timeZone: 'Asia/Karachi', year:'numeric', month:'2-digit', day:'2-digit'}).format(new Date());
       }
       function addDays(dateStr, days) {
         if (!dateStr) return todayStr();
@@ -1510,7 +1432,7 @@
         if (row.approvalStatus === 'pending') {
           return { ...row, clientId: cid, dueDate: 'Pending', status: 'pending', daysLeft: null, checkins };
         }
-        const dueDate = addDays(row.lastPaidDate || todayStr(), planCycleDays(row.plan));
+        const dueDate = row.paidUntil || row.dueDate || addDays(row.lastPaidDate || todayStr(), planCycleDays(row.plan));
         const daysLeft = daysBetween(todayStr(), dueDate);
         let status = 'paid';
         if (daysLeft < 0) status = 'overdue';
@@ -1518,24 +1440,30 @@
         return { ...row, clientId: cid, dueDate, status, daysLeft, checkins };
       }
 
-      /* ---- Toast Notification Helper (Replaces alert/confirm) ---- */
-      function showToast(message, type = 'ok') {
-        const container = document.getElementById('toastContainer');
-        if (!container) return;
-        const toast = document.createElement('div');
-        const borderColors = {
-          ok: 'border-emerald-500/50 bg-ink-900 text-emerald-300',
-          warn: 'border-amber-500/50 bg-ink-900 text-amber-300',
-          danger: 'border-rose-500/50 bg-ink-900 text-rose-300'
-        };
-        toast.className = `pointer-events-auto px-4 py-3 rounded-xl border shadow-2xl text-xs sm:text-sm font-medium flex items-center justify-between gap-3 transition-all duration-300 ${borderColors[type] || borderColors.ok}`;
-        toast.innerHTML = `<span>${escapeHtml(message)}</span><button type="button" class="text-gray-400 hover:text-white font-bold">&times;</button>`;
-        toast.querySelector('button').addEventListener('click', () => toast.remove());
-        container.appendChild(toast);
-        setTimeout(() => {
-          if (toast.parentNode) toast.remove();
-        }, 4200);
+      /* Essential feedback stays inside the relevant form, without popup banners. */
+      function inlineFeedback(message, scope, isError = false) {
+        if (!scope) return;
+        let feedback = scope.querySelector('[data-inline-feedback]');
+        if (!feedback) {
+          feedback = document.createElement('p');
+          feedback.dataset.inlineFeedback = 'true';
+          feedback.setAttribute('role', 'status');
+          feedback.setAttribute('aria-live', 'polite');
+          feedback.className = 'text-sm mt-3';
+          scope.appendChild(feedback);
+        }
+        feedback.style.color = isError ? '#fca5a5' : '#b9c1bb';
+        feedback.textContent = message;
       }
+      function reportFeedback(message, type = 'ok') {
+        if (type !== 'danger') return;
+        const visibleModalForm = Array.from(document.querySelectorAll('[id$=Overlay]:not(.hidden) form')).find(form => form.offsetParent !== null);
+        const activeForm = document.activeElement?.closest('form');
+        const scope = visibleModalForm || activeForm || document.getElementById(currentView === 'admin' ? 'adminUnlockedContent' : 'admissionForm');
+        inlineFeedback(message, scope, true);
+      }
+
+      function formatPreferences(value) {try {const p=JSON.parse(value || '{}'); return [p.fitnessGoal,p.preferredCoach,...(p.addons || [])].filter(Boolean).join(' · ') || 'None supplied';} catch {return value || 'None supplied';}}
 
       function escapeHtml(str) {
         const div = document.createElement('div');
@@ -1590,54 +1518,25 @@
       let planChartInstance = null;
 
       /* ---- Local Storage + Backend API Hybrid Persistence ---- */
-      function loadLocalState() {
-        try {
-          const saved = localStorage.getItem(STORAGE_KEY_CLIENTS);
-          if (saved) {
-            clientsCache = JSON.parse(saved).map(enrichClient);
-          } else {
-            clientsCache = INITIAL_CLIENTS.map(enrichClient);
-          }
-          const savedBookings = localStorage.getItem(STORAGE_KEY_BOOKINGS);
-          if (savedBookings) {
-            bookingsCache = JSON.parse(savedBookings);
-          }
-        } catch (err) {
-          clientsCache = INITIAL_CLIENTS.map(enrichClient);
-        }
-      }
-
-      function saveLocalState() {
-        try {
-          localStorage.setItem(STORAGE_KEY_CLIENTS, JSON.stringify(clientsCache));
-          localStorage.setItem(STORAGE_KEY_BOOKINGS, JSON.stringify(bookingsCache));
-        } catch (err) {
-          /* ignore storage quota errors in sandboxed iframes */
-        }
-      }
-
+      function saveLocalState() { /* Personal records are stored only on the server. */ }
       async function tryServerApi(endpoint, options = {}) {
-        if (!window.location.protocol.startsWith('http')) return null;
         try {
-          const url = '/api' + endpoint;
-          const res = await fetch(url, {
-            headers: { 'Content-Type': 'application/json' },
-            ...options
-          });
-          if (!res.ok) return null;
-          return await res.json();
-        } catch {
-          return null;
-        }
+          const res = await fetch('/api' + endpoint, { headers: { 'Content-Type': 'application/json' }, ...options, signal: AbortSignal.timeout(12000) });
+          const data = await res.json();
+          if (!res.ok) {
+            if (res.status === 401 && endpoint !== '/auth/login') { isAdminAuthenticated = false; clientsCache = []; bookingsCache = []; renderAdminDashboard(); }
+            if (options.method) reportFeedback(data.error || Object.values(data.errors || {}).join(' ') || 'Request failed. Please try again.', 'danger');
+            return null;
+          }
+          return data;
+        } catch { if (options.method) reportFeedback('Could not reach the gym. Please try again; your request has not been saved.', 'danger'); return null; }
       }
-
       async function syncClientsFromServerOrLocal() {
-        loadLocalState();
-        const serverList = await tryServerApi('/clients');
-        if (Array.isArray(serverList) && serverList.length > 0) {
-          clientsCache = serverList.map(enrichClient);
-          saveLocalState();
-        }
+        if (!isAdminAuthenticated) { clientsCache = []; bookingsCache = []; updateNavBadges(); return; }
+        const list = await tryServerApi('/clients');
+        if (Array.isArray(list)) clientsCache = list.map(enrichClient);
+        const bookings = await tryServerApi('/bookings');
+        if (Array.isArray(bookings)) bookingsCache = bookings;
         updateNavBadges();
       }
 
@@ -1684,9 +1583,15 @@
          2. PUBLIC WEBSITE INTERACTIVE FEATURES
          =================================================================== */
       function initLiveClubStatus() {
-        const hour = new Date().getHours();
-        const day = new Date().getDay();
-        const isOpen = day === 0 ? (hour >= 8 && hour < 18) : (hour >= 6 && hour < 23);
+        const karachi = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Karachi' }));
+        const hour = karachi.getHours();
+        const day = karachi.getDay();
+        const hours = window.gymSettings?.hours;
+        const minutes = hour*60 + karachi.getMinutes();
+        const toMinutes = value => {const [h,m]=value.split(':').map(Number);return h*60+m;};
+        const opens = hours ? toMinutes(day===0?hours.sundayOpen:hours.weekdayOpen) : day===0?480:360;
+        const closes = hours ? toMinutes(day===0?hours.sundayClose:hours.weekdayClose) : day===0?1080:1380;
+        const isOpen = minutes>=opens && minutes<closes;
         const statusText = document.getElementById('liveGymStatusText');
         const pulseDot = document.getElementById('livePulseDot');
         const pulsePing = document.getElementById('livePulsePing');
@@ -1696,7 +1601,7 @@
             pulseDot.className = 'relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500';
             pulsePing.className = 'animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75';
           } else {
-            statusText.textContent = 'OPENS 6 AM';
+            statusText.textContent = 'CLOSED NOW';
             pulseDot.className = 'relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500';
             pulsePing.className = 'hidden';
           }
@@ -1757,13 +1662,13 @@
                 <p class="text-xs text-gray-400 mt-1">${escapeHtml(c.coach)} · Est. Burn: <span class="text-amber-400">${escapeHtml(c.kcal)}</span></p>
               </div>
               <div class="flex items-center justify-between pt-3 border-t border-white/10">
-                <span class="font-mono-code text-xs ${spotsLeft <= 3 ? 'text-amber-400' : 'text-emerald-400'}">${spotsLeft} spots left</span>
+                <span class="font-mono-code text-xs ${spotsLeft <= 3 ? 'text-amber-400' : 'text-emerald-400'}">Confirmation by phone</span>
                 <button type="button" data-book-class-id="${c.id}" class="reserve-class-btn px-4 py-2 rounded-xl text-xs font-bold transition ${
                   isBooked
                     ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
                     : 'bg-amber-500 hover:bg-amber-400 text-ink-950'
                 }">
-                  ${isBooked ? 'Reserved ✓' : 'Reserve Spot'}
+                  ${isBooked ? 'Requested ✓' : 'Request a Spot'}
                 </button>
               </div>
             </div>
@@ -1805,12 +1710,14 @@
             const cls = WEEKLY_CLASSES.find(item => item.id === classId);
             if (!cls) return;
             if (reservedClassIds.has(classId)) {
-              reservedClassIds.delete(classId);
-              renderSchedule();
-              showToast(`Cancelled reservation for ${cls.title}.`, 'warn');
+              reportFeedback('Your request has been sent. Call the gym to change or cancel it.', 'warn');
               return;
             }
-            openBookingModal(`Class: ${cls.title} (${cls.day})`, 'RESERVE GROUP CLASS SPOT');
+            openBookingModal(`Class: ${cls.title} (${cls.day})`, 'REQUEST A GROUP CLASS');
+            const nextDate = new Date(todayStr() + 'T12:00:00Z');
+            const targetDay = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'].indexOf(cls.day);
+            nextDate.setUTCDate(nextDate.getUTCDate() + (targetDay - nextDate.getUTCDay() + 7) % 7);
+            document.getElementById('trialPreferredDate').value = nextDate.toISOString().slice(0,10);
             document.getElementById('trialBookingForm').dataset.pendingClassId = classId;
           });
         }
@@ -1859,7 +1766,7 @@
             badge.className = 'px-4 py-1.5 rounded-full text-xs font-mono-code font-bold uppercase bg-sky-500/20 text-sky-400 border border-sky-500/30';
             advice.textContent = `Target healthy range: ${minIdeal} kg – ${maxIdeal} kg. Focus on progressive barbell compound lifts + a +350 kcal daily surplus with Coach Hamza.`;
           } else if (bmi < 25) {
-            badge.textContent = 'Athletic / Optimal Range';
+            badge.textContent = 'Standard BMI Range';
             badge.className = 'px-4 py-1.5 rounded-full text-xs font-mono-code font-bold uppercase bg-emerald-500/20 text-emerald-400 border border-emerald-500/30';
             advice.textContent = `Healthy athletic baseline (Ideal range: ${minIdeal} kg – ${maxIdeal} kg). Pair 4x/week progressive overload on the main strength floor with our Quarterly Plan.`;
           } else if (bmi < 30) {
@@ -1881,13 +1788,17 @@
           const formGoal = document.getElementById('fitnessGoal');
           if (formGoal) formGoal.value = goal;
           document.getElementById('admission').scrollIntoView({ behavior: 'smooth' });
-          showToast(`Pre-selected "${goal}" in the Admission Form.`, 'ok');
+          reportFeedback(`Pre-selected "${goal}" in the Admission Form.`, 'ok');
         });
 
         // 2. TDEE & Macro Calculator
         const updateTdee = () => {
           const gender = document.getElementById('tdeeGender').value;
-          const age = Number(document.getElementById('tdeeAge').value) || 25;
+          for (const id of ['tdeeAge','tdeeWeight','tdeeHeight']) {
+            const input = document.getElementById(id);
+            if (!input.value || !input.checkValidity()) {document.getElementById('tdeeCaloriesOut').textContent = '—'; return;}
+          }
+          const age = Number(document.getElementById('tdeeAge').value);
           const weight = Number(document.getElementById('tdeeWeight').value) || 75;
           const height = Number(document.getElementById('tdeeHeight').value) || 175;
           const act = Number(document.getElementById('tdeeActivity').value) || 1.55;
@@ -2000,10 +1911,12 @@
             const planSelect = document.getElementById('plan');
             if (planSelect) planSelect.value = val;
             document.getElementById('admission').scrollIntoView({ behavior: 'smooth' });
-            showToast(`Selected ${name} Plan (Rs. ${Number(priceStr).toLocaleString()}). Complete your form below!`, 'ok');
+            reportFeedback(`Selected ${name} Plan (Rs. ${Number(priceStr).toLocaleString()}). Complete your form below!`, 'ok');
           });
         });
 
+        document.querySelector('#plans a[href="#admission"]').addEventListener('click', () => {document.getElementById('plan').value = selectedBasePlan.name + '|' + selectedBasePlan.price;});
+        document.getElementById('plan').addEventListener('change', event => {const [name,price] = event.target.value.split('|'); selectedBasePlan = {name,price:Number(price)}; updatePackageEstimator();});
         document.querySelectorAll('.addon-checkbox').forEach(cb => {
           cb.addEventListener('change', updatePackageEstimator);
         });
@@ -2014,7 +1927,7 @@
             const coachInput = document.getElementById('preferredCoach');
             if (coachInput) coachInput.value = trainer;
             document.getElementById('admission').scrollIntoView({ behavior: 'smooth' });
-            showToast(`Preferred trainer set to ${trainer}.`, 'ok');
+            reportFeedback(`Preferred trainer set to ${trainer}.`, 'ok');
           });
         });
       }
@@ -2042,7 +1955,7 @@
           phone: v => /^[0-9+\s-]{10,15}$/.test(v.trim()),
           email: v => v.trim() === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
           gender: v => v !== '',
-          dob: v => v !== '',
+          dob: v => /^\d{4}-\d{2}-\d{2}$/.test(v) && v < todayStr(),
           plan: v => v !== '',
           address: v => v.trim().length >= 5,
           emergencyContact: v => v.trim().length >= 5
@@ -2079,7 +1992,7 @@
           e.preventDefault();
           const allValid = Object.keys(validators).map(validateField).every(Boolean);
           if (!allValid) {
-            showToast('Please check the highlighted form fields.', 'danger');
+            reportFeedback('Please check the highlighted form fields.', 'danger');
             return;
           }
 
@@ -2095,41 +2008,31 @@
             address: document.getElementById('address').value.trim(),
             emergencyContact: document.getElementById('emergencyContact').value.trim(),
             plan: planName,
-            fitnessGoal: document.getElementById('fitnessGoal').value
+            fitnessGoal: document.getElementById('fitnessGoal').value,
+            preferredCoach: document.getElementById('preferredCoach').value.trim(),
+            addons: Array.from(document.querySelectorAll('.addon-checkbox:checked')).map(el => el.dataset.addonName)
           };
 
           let assignedId = null;
+          if (form.dataset.saving) return;
+          form.dataset.saving = '1';
           const serverRes = await tryServerApi('/clients', {
             method: 'POST',
             body: JSON.stringify(payload)
           });
 
+          delete form.dataset.saving;
           if (serverRes && serverRes.id) {
             assignedId = serverRes.id;
             await syncClientsFromServerOrLocal();
-          } else {
-            const nextNum = clientsCache.reduce((max, c) => Math.max(max, Number(c.id) || 0), 0) + 1;
-            const newRecord = enrichClient({
-              id: nextNum,
-              ...payload,
-              planPrice: PLANS[planName] || 3500,
-              joinDate: todayStr(),
-              lastPaidDate: todayStr(),
-              approvalStatus: 'pending',
-              checkins: 0
-            });
-            clientsCache.unshift(newRecord);
-            saveLocalState();
-            updateNavBadges();
-            assignedId = newRecord.clientId;
-          }
+          } else { return; }
 
           currentPortalClientId = assignedId;
           document.getElementById('successClientId').textContent = assignedId;
           const successBox = document.getElementById('formSuccess');
           successBox.classList.remove('hidden');
           form.reset();
-          showToast(`Admission submitted! Assigned Client ID: ${assignedId}`, 'ok');
+          reportFeedback(`Admission submitted! Assigned Client ID: ${assignedId}`, 'ok');
           successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
 
@@ -2151,6 +2054,7 @@
           loginGate.classList.remove('hidden');
           unlocked.classList.add('hidden');
           if (toolbar) { toolbar.classList.add('hidden'); toolbar.classList.remove('flex'); }
+          document.dispatchEvent(new CustomEvent('gym-admin-locked'));
           authBadge.textContent = 'Locked';
           authBadge.className = 'px-2.5 py-0.5 rounded-full text-[11px] font-mono-code bg-rose-500/15 text-rose-400 border border-rose-500/30';
           return;
@@ -2171,9 +2075,7 @@
           else if (c.status === 'due') due++;
           else overdue++;
 
-          if (c.plan === 'Monthly') mrr += 3500;
-          else if (c.plan === 'Quarterly') mrr += Math.round(9500 / 3);
-          else if (c.plan === 'Annual') mrr += Math.round(32000 / 12);
+          mrr += Math.round(c.planPrice / (c.plan==='Annual'?12:c.plan==='Quarterly'?3:1));
         });
 
         document.getElementById('statTotal').textContent = String(activeClients.length);
@@ -2187,6 +2089,7 @@
         renderPendingQueue(pendingClients);
         renderClientRosterTable(activeClients);
         renderAdminCharts(paid, due, overdue, pendingClients.length, activeClients);
+        document.dispatchEvent(new CustomEvent('gym-admin-ready'));
       }
 
       function renderPendingQueue(pendingClients) {
@@ -2207,10 +2110,11 @@
               <p class="text-xs text-gray-400 mt-0.5">Father: ${escapeHtml(client.fatherName || '—')} · Phone: <strong class="text-gray-200">${escapeHtml(client.phone)}</strong></p>
               <p class="text-xs text-gray-400 mt-0.5">Plan: <strong class="text-amber-400">${escapeHtml(client.plan)} (Rs. ${Number(client.planPrice).toLocaleString()})</strong> · Submitted: ${escapeHtml(client.joinDate)}</p>
               <p class="text-[11px] text-gray-500 mt-1 truncate">Address: ${escapeHtml(client.address || '—')}</p>
+              <p class="text-xs text-gray-400 mt-1">Preferences: ${escapeHtml(formatPreferences(client.preferences))}</p>
             </div>
             <div class="flex gap-2 pt-2 border-t border-white/10">
               <button type="button" data-approve-id="${client.id}" class="action-approve flex-1 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-ink-950 font-bold text-xs transition">
-                ✔ Approve &amp; Activate
+                Verify Cash &amp; Activate
               </button>
               <button type="button" data-reject-id="${client.id}" class="action-reject px-4 py-2 rounded-lg bg-rose-500/15 hover:bg-rose-500/30 text-rose-400 border border-rose-500/30 font-semibold text-xs transition">
                 Reject
@@ -2407,7 +2311,7 @@
           c.clientId, c.name, c.fatherName || '', c.phone, c.cnic || '', c.plan, c.planPrice, c.joinDate, c.lastPaidDate, c.dueDate, c.status, c.checkins || 0
         ]);
         const csvContent = [headers, ...rows]
-          .map(r => r.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(','))
+          .map(r => r.map(v => `"${String(v ?? '').replace(/^[=+@\-\t\r]/, match => "'" + match).replace(/"/g, '""')}"`).join(','))
           .join('\n');
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
@@ -2418,14 +2322,17 @@
         a.click();
         a.remove();
         URL.revokeObjectURL(url);
-        showToast('Exported client roster to CSV!', 'ok');
+        reportFeedback('Exported client roster to CSV!', 'ok');
       }
 
       /* ---- Trial & Class Booking Modal Helpers ---- */
       function openBookingModal(sessionTitle, eyebrowText) {
+        document.querySelector('#trialBookingForm [data-inline-feedback]')?.remove();
         document.getElementById('bookingSessionLabel').value = sessionTitle;
         document.getElementById('bookingModalTitle').textContent = sessionTitle;
+        document.querySelector('#trialModalOverlay > div').setAttribute('aria-label', sessionTitle);
         document.getElementById('bookingModalEyebrow').textContent = eyebrowText || 'RESERVATION DESK';
+        document.getElementById('trialPreferredDate').min = todayStr();
         document.getElementById('trialPreferredDate').value = todayStr();
         document.getElementById('trialModalOverlay').classList.remove('hidden');
       }
@@ -2444,7 +2351,7 @@
               <div class="text-xs text-gray-300 mt-0.5">${escapeHtml(b.session)}</div>
               <div class="text-[11px] font-mono-code text-gray-500">Visit Date: ${escapeHtml(b.date)}</div>
             </div>
-            <span class="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 font-mono-code text-[10px] uppercase">Confirmed</span>
+            <span class="px-2.5 py-1 rounded-full bg-emerald-500/15 text-emerald-400 font-mono-code text-[10px] uppercase">Requested</span>
           </div>
         `).join('');
       }
@@ -2453,14 +2360,52 @@
          5. INITIALIZE EVENT LISTENERS
          =================================================================== */
       document.addEventListener('DOMContentLoaded', async () => {
+        const siteSettings = await window.gymSettingsReady;
+        if (siteSettings) {Object.assign(PLANS, siteSettings.prices); selectedBasePlan = {name:'Quarterly',price:PLANS.Quarterly}; updatePackageEstimator();}
+        document.addEventListener('gym-settings-applied', event => {Object.assign(PLANS,event.detail.prices); selectedBasePlan.price=PLANS[selectedBasePlan.name]; updatePackageEstimator();});
+        document.addEventListener('gym-data-changed',async () => {await syncClientsFromServerOrLocal();renderAdminDashboard();});
+        try { localStorage.removeItem(STORAGE_KEY_CLIENTS); localStorage.removeItem(STORAGE_KEY_BOOKINGS); } catch {}
+        const session = await tryServerApi('/auth/me');
+        isAdminAuthenticated = !!session?.authenticated;
         await syncClientsFromServerOrLocal();
+        if (new URLSearchParams(location.search).get('view') === 'admin') switchView('admin');
         initLiveClubStatus();
+        setInterval(initLiveClubStatus, 60000);
+        setInterval(async () => {if (isAdminAuthenticated && currentView === 'admin' && !document.hidden) {await syncClientsFromServerOrLocal(); renderAdminDashboard();}},30000);
         initFacilityFilter();
         initScheduleControls();
         initCalculators();
         initPlansAndTrainers();
         initAdmissionForm();
 
+        document.getElementById('dob').max = todayStr();
+        document.querySelectorAll('form').forEach(form => form.addEventListener('submit', () => {
+          const button = form.querySelector('[type=submit]');
+          if (!button) return;
+          button.disabled = true;
+          const unlock = () => {if (form.dataset.saving) setTimeout(unlock,250); else button.disabled = false;};
+          setTimeout(unlock,500);
+        }));
+        document.querySelectorAll('[id$=Overlay]').forEach(overlay => {
+          const panel = overlay.firstElementChild;
+          if (!panel) return;
+          panel.setAttribute('role','dialog'); panel.setAttribute('aria-modal','true'); panel.setAttribute('aria-label', panel.querySelector('h2,h3')?.textContent || 'Gym dialog');
+          panel.tabIndex = -1;
+          let previousFocus;
+          new MutationObserver(() => {
+            if (!overlay.classList.contains('hidden')) { previousFocus = document.activeElement; panel.focus(); }
+            else previousFocus?.focus();
+            document.body.style.overflow = Array.from(document.querySelectorAll('[id$=Overlay]')).some(el => !el.classList.contains('hidden')) ? 'hidden' : '';
+          }).observe(overlay, {attributes:true, attributeFilter:['class']});
+          overlay.addEventListener('click', event => { if (event.target === overlay) overlay.classList.add('hidden'); });
+          overlay.addEventListener('keydown', event => {
+            if (event.key !== 'Tab') return;
+            const nodes = Array.from(panel.querySelectorAll('button,input,select,textarea,a[href]')).filter(el => !el.disabled && el.offsetParent !== null);
+            const first = nodes[0], last = nodes[nodes.length-1];
+            if (event.shiftKey && (document.activeElement === first || document.activeElement === panel)) {event.preventDefault(); last?.focus();}
+            else if (!event.shiftKey && document.activeElement === last) {event.preventDefault(); first?.focus();}
+          });
+        });
         // Footer year
         const yearEl = document.getElementById('year');
         if (yearEl) yearEl.textContent = String(new Date().getFullYear());
@@ -2490,17 +2435,18 @@
         document.querySelectorAll('.view-tab-btn').forEach(btn => {
           btn.addEventListener('click', () => switchView(btn.dataset.viewTarget));
         });
-        document.getElementById('brandLogoLink').addEventListener('click', () => switchView('public'));
+        document.getElementById('brandLogoLink').addEventListener('click', () => {switchView('public'); history.replaceState(null,'',location.pathname+'#top');});
+        document.addEventListener('click',event=>{const link=event.target.closest('a[href^="#"]');if(!link || currentView==='public')return;const target=document.getElementById(link.getAttribute('href').slice(1));if(target && document.getElementById('viewPublic').contains(target)){event.preventDefault();switchView('public');history.replaceState(null,'',location.pathname+link.getAttribute('href'));requestAnimationFrame(()=>target.scrollIntoView({behavior:'smooth'}));}});
         
 
         // Mobile menu toggle
         const mobileBtn = document.getElementById('mobileMenuBtn');
         const mobileDrawer = document.getElementById('mobileMenuDrawer');
         if (mobileBtn && mobileDrawer) {
-          mobileBtn.addEventListener('click', () => mobileDrawer.classList.toggle('hidden'));
+          mobileBtn.addEventListener('click', () => { const closed = mobileDrawer.classList.toggle('hidden'); mobileBtn.setAttribute('aria-expanded', String(!closed)); });
           mobileDrawer.querySelectorAll('a').forEach(a => {
             a.addEventListener('click', () => {
-              mobileDrawer.classList.add('hidden');
+              mobileDrawer.classList.add('hidden'); mobileBtn.setAttribute('aria-expanded', 'false');
               if (currentView !== 'public') switchView('public');
             });
           });
@@ -2518,15 +2464,21 @@
         document.getElementById('trialModalClose').addEventListener('click', () => {
           document.getElementById('trialModalOverlay').classList.add('hidden');
         });
-        document.getElementById('trialBookingForm').addEventListener('submit', (e) => {
+        document.getElementById('trialBookingForm').addEventListener('submit', async (e) => {
           e.preventDefault();
           const name = document.getElementById('trialVisitorName').value.trim();
           const phone = document.getElementById('trialVisitorPhone').value.trim();
           const date = document.getElementById('trialPreferredDate').value || todayStr();
           const session = document.getElementById('bookingSessionLabel').value;
           if (!name || !phone) return;
+          const pendingClass = WEEKLY_CLASSES.find(c => c.id === e.target.dataset.pendingClassId);
+          if (pendingClass && ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][new Date(date + 'T12:00:00Z').getUTCDay()] !== pendingClass.day) {reportFeedback('Choose a ' + pendingClass.day + ' for this class.', 'danger'); return;}
 
-          bookingsCache.unshift({ id: Date.now(), name, phone, session, date, createdAt: 'Just now' });
+          if (e.target.dataset.saving) return;
+          e.target.dataset.saving = '1';
+          const booking = await tryServerApi('/bookings', {method:'POST', body:JSON.stringify({name, phone, session, date})});
+          delete e.target.dataset.saving;
+          if (!booking) return;
           const pendingClassId = e.target.dataset.pendingClassId;
           if (pendingClassId) {
             reservedClassIds.add(pendingClassId);
@@ -2536,8 +2488,7 @@
           saveLocalState();
           updateNavBadges();
           e.target.reset();
-          document.getElementById('trialModalOverlay').classList.add('hidden');
-          showToast(`Confirmed reservation for ${name}: ${session}`, 'ok');
+          inlineFeedback(`Booking request received for ${name}. The gym will confirm by phone.`, e.target);
         });
 
         // Staff Bookings view modal
@@ -2566,24 +2517,16 @@
             e.target.reset();
             await syncClientsFromServerOrLocal();
             renderAdminDashboard();
-            showToast('Staff dashboard unlocked.', 'ok');
+            reportFeedback('Staff dashboard unlocked.', 'ok');
             return;
           }
-          if (u === VALID_STAFF_USER && VALID_STAFF_PASSWORDS.includes(p)) {
-            isAdminAuthenticated = true;
-            e.target.reset();
-            renderAdminDashboard();
-            showToast('Staff dashboard unlocked.', 'ok');
-          } else {
-            errorEl.textContent = 'Invalid staff username or password.';
-            showToast('Invalid username or password.', 'danger');
-          }
+          errorEl.textContent = 'Unable to sign in. Check the message below, your credentials and connection.';
         });
         document.getElementById('logoutBtn').addEventListener('click', async () => {
           await tryServerApi('/auth/logout', { method: 'POST' });
-          isAdminAuthenticated = false;
+          isAdminAuthenticated = false; clientsCache = []; bookingsCache = []; updateNavBadges();
           renderAdminDashboard();
-          showToast('Staff session locked.', 'warn');
+          reportFeedback('Staff session locked.', 'warn');
         });
 
         // Staff Search, Filter & Sort
@@ -2620,25 +2563,23 @@
           const rejectBtn = e.target.closest('.action-reject');
           if (approveBtn) {
             const id = approveBtn.dataset.approveId;
-            await tryServerApi(`/clients/${id}/approve`, { method: 'POST' });
+            const approved = await tryServerApi(`/clients/${id}/approve`, { method: 'POST' });
+            if (!approved) return;
             const idx = clientsCache.findIndex(c => String(c.id) === String(id));
             if (idx !== -1) {
-              clientsCache[idx].approvalStatus = 'active';
-              clientsCache[idx].joinDate = todayStr();
-              clientsCache[idx].lastPaidDate = todayStr();
-              clientsCache[idx] = enrichClient(clientsCache[idx]);
+              clientsCache[idx] = enrichClient(approved);
               saveLocalState();
               renderAdminDashboard();
-              showToast(`Approved and activated ${clientsCache[idx].name} (${clientsCache[idx].clientId})!`, 'ok');
+              reportFeedback(`Approved and activated ${clientsCache[idx].name} (${clientsCache[idx].clientId})!`, 'ok');
             }
           } else if (rejectBtn) {
             const id = rejectBtn.dataset.rejectId;
-            await tryServerApi(`/clients/${id}/reject`, { method: 'POST' });
+            if (!await tryServerApi(`/clients/${id}/reject`, { method: 'POST' })) return;
             const removed = clientsCache.find(c => String(c.id) === String(id));
             clientsCache = clientsCache.filter(c => String(c.id) !== String(id));
             saveLocalState();
             renderAdminDashboard();
-            showToast(`Rejected pending request for ${removed ? removed.name : id}.`, 'warn');
+            reportFeedback(`Rejected pending request for ${removed ? removed.name : id}.`, 'warn');
           }
         });
 
@@ -2653,19 +2594,17 @@
           const client = clientsCache[clientIdx];
 
           if (action === 'paid') {
-            await tryServerApi(`/clients/${id}/pay`, { method: 'POST' });
-            const dueDate = addDays(client.lastPaidDate, planCycleDays(client.plan));
-            const newLastPaid = daysBetween(todayStr(), dueDate) >= 0 ? dueDate : todayStr();
-            client.lastPaidDate = newLastPaid;
-            clientsCache[clientIdx] = enrichClient(client);
+            const paid = await tryServerApi(`/clients/${id}/pay`, { method: 'POST' });
+            if (!paid) return;
+            clientsCache[clientIdx] = enrichClient(paid);
             saveLocalState();
             renderAdminDashboard();
-            showToast(`Marked fee paid for ${client.name}. Next due: ${clientsCache[clientIdx].dueDate}`, 'ok');
+            reportFeedback(`Marked fee paid for ${client.name}. Next due: ${clientsCache[clientIdx].dueDate}`, 'ok');
           } else if (action === 'remind') {
             const message = `Hello ${client.name}, this is a reminder from Fitness Hub (3 Imran Khan Rd, Metroville Sector 3, SITE, Karachi). Your ${client.plan} membership fee (Rs. ${Number(client.planPrice).toLocaleString()}) is due on ${client.dueDate}. Kindly pay on time. Thank you!`;
             const phone = formatPhoneForWhatsapp(client.phone);
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
-            showToast(`Opened WhatsApp reminder for ${client.name} (+${phone}).`, 'ok');
+            reportFeedback(`Opened WhatsApp reminder for ${client.name} (+${phone}).`, 'ok');
           } else if (action === 'receipt') {
             openReceiptModal(client);
           } else if (action === 'edit') {
@@ -2677,6 +2616,7 @@
             document.getElementById('editPlan').value = client.plan || 'Monthly';
             document.getElementById('editCnic').value = client.cnic || '';
             document.getElementById('editLastPaid').value = client.lastPaidDate || todayStr();
+            document.getElementById('editLastPaid').readOnly = true;
             document.getElementById('editAddress').value = client.address || '';
             document.getElementById('editEmergency').value = client.emergencyContact || '';
             document.getElementById('editClientOverlay').classList.remove('hidden');
@@ -2697,36 +2637,23 @@
           const [plan] = document.getElementById('qaPlan').value.split('|');
           if (!name || !phone || !plan) return;
 
-          await tryServerApi('/clients/quick', {
+          if(e.target.dataset.saving)return;
+          e.target.dataset.saving='1';
+          e.target.dataset.requestKey ||= crypto.randomUUID();
+          const added = await tryServerApi('/clients/quick', {
             method: 'POST',
-            body: JSON.stringify({ name, phone, plan })
+            body: JSON.stringify({ name, phone, plan, requestKey:e.target.dataset.requestKey })
           });
 
-          const nextId = clientsCache.reduce((max, c) => Math.max(max, Number(c.id) || 0), 0) + 1;
-          const newClient = enrichClient({
-            id: nextId,
-            name,
-            fatherName: '',
-            phone,
-            email: '',
-            cnic: '',
-            gender: '',
-            dob: '',
-            address: 'Karachi',
-            emergencyContact: '',
-            plan,
-            planPrice: PLANS[plan] || 3500,
-            joinDate: todayStr(),
-            lastPaidDate: todayStr(),
-            approvalStatus: 'active',
-            checkins: 1
-          });
-          clientsCache.unshift(newClient);
-          saveLocalState();
+          delete e.target.dataset.saving;
+          if (!added) return;
+          delete e.target.dataset.requestKey;
+          await syncClientsFromServerOrLocal();
+          const newClient = clientsCache.find(c => c.clientId === added.id) || {name, clientId: added.id};
           e.target.reset();
           modalOverlay.classList.add('hidden');
           renderAdminDashboard();
-          showToast(`Added active client ${newClient.name} (${newClient.clientId}).`, 'ok');
+          reportFeedback(`Added active client ${newClient.name} (${newClient.clientId}).`, 'ok');
         });
 
         // Edit Client Modal Save
@@ -2752,15 +2679,16 @@
             address: document.getElementById('editAddress').value.trim(),
             emergencyContact: document.getElementById('editEmergency').value.trim()
           };
-          await tryServerApi(`/clients/${id}`, {
+          const edited = await tryServerApi(`/clients/${id}`, {
             method: 'PUT',
             body: JSON.stringify(updated)
           });
-          clientsCache[idx] = enrichClient(updated);
+          if (!edited) return;
+          clientsCache[idx] = enrichClient(edited);
           saveLocalState();
           editOverlay.classList.add('hidden');
           renderAdminDashboard();
-          showToast(`Updated profile for ${updated.name} (${clientsCache[idx].clientId}).`, 'ok');
+          reportFeedback(`Updated profile for ${updated.name} (${clientsCache[idx].clientId}).`, 'ok');
         });
 
         // Receipt Modal Close & Print
@@ -2775,12 +2703,12 @@
         document.getElementById('deleteCancel').addEventListener('click', () => { pendingDeleteId = null; deleteOverlay.classList.add('hidden'); });
         document.getElementById('deleteConfirm').addEventListener('click', async () => {
           if (pendingDeleteId != null) {
-            await tryServerApi(`/clients/${pendingDeleteId}`, { method: 'DELETE' });
+            if (!await tryServerApi(`/clients/${pendingDeleteId}`, { method: 'DELETE' })) return;
             const target = clientsCache.find(c => String(c.id) === String(pendingDeleteId));
             clientsCache = clientsCache.filter(c => String(c.id) !== String(pendingDeleteId));
             saveLocalState();
             renderAdminDashboard();
-            showToast(`Removed client record ${target ? target.name : pendingDeleteId}.`, 'warn');
+            reportFeedback(`Removed client record ${target ? target.name : pendingDeleteId}.`, 'warn');
           }
           pendingDeleteId = null;
           deleteOverlay.classList.add('hidden');
@@ -2797,5 +2725,7 @@
       });
     })();
   </script>
+  <script defer src="/assets/owner-dashboard.js"></script>
+  <script defer src="/assets/scroll-reveal.js"></script>
 </body>
 </html>
