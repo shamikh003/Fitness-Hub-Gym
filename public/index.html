@@ -1397,6 +1397,11 @@
       'use strict';
 
       /* ---- Constants & Plan Config ---- */
+      const initialHash = location.hash;
+      let userMovedDuringLoad = false;
+      const markInitialScroll = () => {userMovedDuringLoad = true;};
+      window.addEventListener('wheel',markInitialScroll,{passive:true,once:true});
+      window.addEventListener('touchmove',markInitialScroll,{passive:true,once:true});
       const WHATSAPP_COUNTRY_CODE = '92';
       const PLANS = { Monthly: 3500, Quarterly: 9500, Annual: 32000 };
       const STORAGE_KEY_CLIENTS = 'fitness_hub_clients_final_v1';
@@ -2724,6 +2729,14 @@
             if (el) el.classList.add('hidden');
           });
         });
+        // Timetable cards and fonts change layout after the browser's first hash jump.
+        const alignInitialSection = () => {
+          if (userMovedDuringLoad || currentView !== 'public' || !initialHash || location.hash !== initialHash) return;
+          const target = document.getElementById(initialHash.slice(1));
+          if (target && document.getElementById('viewPublic').contains(target)) target.scrollIntoView({behavior:'instant',block:'start'});
+        };
+        requestAnimationFrame(alignInitialSection);
+        document.fonts?.ready.then(alignInitialSection);
       });
     })();
   </script>
