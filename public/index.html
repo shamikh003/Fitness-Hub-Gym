@@ -64,6 +64,7 @@
   </style>
   <link rel="stylesheet" href="/assets/refinement.css">
   <link rel="stylesheet" href="/assets/owner.css">
+  <link rel="stylesheet" href="/assets/mobile.css">
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-ink-950">
 
@@ -425,9 +426,9 @@
 
           <!-- Calculator Switcher Tabs -->
           <div class="flex flex-wrap bg-ink-900 p-1.5 rounded-xl border border-white/10 gap-1">
-            <button type="button" data-calc-tab="bmi" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold bg-amber-500 text-ink-950 transition">1. BMI &amp; Body Comp</button>
-            <button type="button" data-calc-tab="tdee" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-gray-300 hover:text-white transition">2. Daily Macros (TDEE)</button>
-            <button type="button" data-calc-tab="onerm" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-gray-300 hover:text-white transition">3. 1RM &amp; Plate Loader</button>
+            <button type="button" aria-label="1. BMI &amp; Body Comp" data-calc-tab="bmi" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold bg-amber-500 text-ink-950 transition"><span class="calc-label-full">1. BMI &amp; Body Comp</span><span class="calc-label-short" aria-hidden="true">BMI</span></button>
+            <button type="button" aria-label="2. Daily Macros (TDEE)" data-calc-tab="tdee" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-gray-300 hover:text-white transition"><span class="calc-label-full">2. Daily Macros (TDEE)</span><span class="calc-label-short" aria-hidden="true">Calories</span></button>
+            <button type="button" aria-label="3. 1RM &amp; Plate Loader" data-calc-tab="onerm" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-gray-300 hover:text-white transition"><span class="calc-label-full">3. 1RM &amp; Plate Loader</span><span class="calc-label-short" aria-hidden="true">Strength</span></button>
           </div>
         </div>
 

@@ -1,0 +1,54 @@
+/* Keep intrinsic grid/select widths from pushing content off a phone screen. */
+#viewPublic,.owner-workspace,.owner-workspace>*{min-width:0;max-width:100%}
+#viewPublic .grid>*,#viewPublic .flex>*,.owner-fields>*,.owner-filters>*{min-width:0}
+#viewPublic img{max-width:100%}
+#viewPublic input,#viewPublic select,#viewPublic textarea{min-width:0;max-width:100%}
+.calc-label-short{display:none}
+.upload-feedback{display:block;font-size:12px!important;line-height:1.7;color:#e6bd7b!important;overflow-wrap:anywhere;white-space:normal}
+.uploaded-preview{width:100%;max-width:260px;height:160px;object-fit:cover;margin-top:12px;border:1px solid #ffffff26}
+.cancel-photo{align-self:flex-start;font-size:11px!important;margin-top:8px}
+@supports(overflow:clip){body{overflow-x:clip}}
+@media(max-width:639px){
+  html,body{width:100%;max-width:100%}
+  #viewPublic>section[id]{padding-top:48px;padding-bottom:48px;scroll-margin-top:-48px}
+  #viewPublic>section[id]>div{padding-left:16px;padding-right:16px}
+  #viewPublic h2.font-display{font-size:clamp(28px,8vw,34px);line-height:1.15;overflow-wrap:anywhere}
+  #viewPublic h3{overflow-wrap:anywhere}
+  #viewPublic section[id] .space-y-12>*+*{margin-top:28px}
+  #viewPublic .card-glow{padding:20px}
+  #viewPublic .facility-item p,#scheduleGrid p,.cms-trainer p{font-size:13px;line-height:1.75}
+  #viewPublic .facility-item .font-mono-code{line-height:1.65}
+  #facilityFilterBar{display:flex;flex-wrap:wrap;gap:8px}
+  #facilityFilterBar button{flex:1 1 calc(50% - 8px);padding:10px 7px;min-height:42px}
+  #scheduleDayTabs{gap:6px}
+  #scheduleDayTabs button{min-height:44px;font-size:10px;padding:10px 3px}
+  #classCategoryFilters{gap:6px}
+  #scheduleGrid>div>div:last-child{gap:12px;flex-wrap:wrap}
+  #scheduleGrid .reserve-class-btn{min-height:42px;flex-shrink:0;white-space:nowrap}
+  #scheduleGrid>div>div:last-child>span{font-size:10px;flex:1 1 100px}
+  #calculators .calc-tab-btn{flex:1 1 0;min-width:0;min-height:44px;padding:10px 5px;font-size:11px;line-height:1.35;text-align:center}
+  .calc-label-full{display:none}.calc-label-short{display:block}
+  #calculators .calc-panel{padding:20px;gap:24px;grid-template-columns:minmax(0,1fr)}
+  #calculators .calc-panel h3{font-size:23px}
+  #calculators .calc-panel .grid.grid-cols-2{gap:12px}
+  #admissionForm{padding:20px;gap:16px}
+  #admissionForm button[type=submit]{width:100%;padding:15px;min-height:48px}
+  #calculators input,#calculators select,#admissionForm input,#admissionForm select,#admissionForm textarea,.owner-workspace input,.owner-workspace select,.owner-dialog input,.owner-dialog select{font-size:16px}
+  .cms-trainer>img{height:220px}
+  .cms-trainer button{min-height:44px}
+  #viewPublic>section:first-of-type .inline-flex{font-size:8px;line-height:1.8;letter-spacing:.7px}
+  #viewPublic>section:first-of-type .inline-flex span:last-child{white-space:normal}
+  #viewPublic>section:first-of-type h1{overflow-wrap:normal;word-break:normal}
+  #contact{padding-top:36px;padding-bottom:28px}
+  #contact .grid{gap:26px}
+  #mobileMenuDrawer a{min-height:44px;display:flex;align-items:center;justify-content:center;text-align:center}
+  #mobileMenuDrawer{max-height:calc(100svh - 64px);overflow-y:auto}
+  .owner-dialog{max-height:calc(100svh - 32px)}
+}
+@media(max-width:359px){
+  #viewPublic>section:first-of-type .flex.flex-wrap>a:first-child,#openTrialModalBtn{width:100%;justify-content:center;min-height:46px}
+  #viewPublic>section:first-of-type>.relative{padding-top:36px;padding-bottom:32px}
+  #brandLogoLink .font-mono-code{font-size:7px;letter-spacing:1px}
+  #viewPublic .card-glow{padding:17px}
+  #admissionForm{padding:16px}
+}

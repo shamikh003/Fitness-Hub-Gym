@@ -268,7 +268,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json({limit:'48kb'}));
+app.use(express.json({limit:'2mb'}));
 app.use('/api', (req, res, next) => { res.set('Cache-Control','no-store'); next(); });
 const attempts = new Map();
 function limitRequests(max) { return (req,res,next) => {
@@ -284,6 +284,8 @@ app.use('/api/auth/login',limitRequests(15));
 app.post(['/api/clients','/api/bookings'],limitRequests(25));
 // Reject unexpected types before validators or SQL see them.
 app.use('/api', (req,res,next) => {
+  if (req.path === '/site-image' && req.method === 'POST') return next();
+  if (Number(req.get('content-length') || 0)>49152) return res.status(413).json({error:'Request is too large.'});
   if (req.path === '/site' && req.method === 'PUT') return next();
   if (req.body && (typeof req.body !== 'object' || Array.isArray(req.body))) return res.status(400).json({error:'Invalid request.'});
   for (const [key,value] of Object.entries(req.body || {})) {

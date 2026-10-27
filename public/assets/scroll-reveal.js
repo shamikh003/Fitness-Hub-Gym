@@ -13,12 +13,13 @@
       const element = entry.target;
       observer.unobserve(element);
       if (reducedMotion.matches) return;
+      const phone = window.matchMedia('(max-width: 639px)').matches;
       const animation = element.animate([
-        { opacity: 0, translate: '0 26px' },
+        { opacity: 0, translate: phone ? '0 12px' : '0 26px' },
         { opacity: 1, translate: '0 0' }
       ], {
-        duration: 650,
-        delay: Math.min(index * 65, 195),
+        duration: phone ? 400 : 650,
+        delay: Math.min(index * (phone ? 35 : 65), phone ? 100 : 195),
         easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
         fill: 'backwards'
       });

@@ -41,7 +41,7 @@ Set unique production credentials, use HTTPS, back up the database, and use dura
 
 Open `/admin.html`, sign in, then use the owner tabs:
 
-- **Edit website:** membership prices, weekday/Sunday opening hours, coach details, website/trainer photos and an optional dated offer. Upload JPEG/PNG/WebP up to 1 MB, or supply an HTTPS image URL. Changes persist in the database; conflicting editor saves are rejected instead of overwriting.
+- **Edit website:** membership prices, weekday/Sunday opening hours, coach details, website/trainer photos and an optional dated offer. Select a photo up to 15 MB; the editor resizes it to a compact JPEG before uploading (stored image under 1 MB). An HTTPS image URL also works. Photo preview and upload errors appear beside the file input. Changes persist in the database; conflicting editor saves are rejected instead of overwriting.
 - **Cash payments:** record a received cash renewal, browse/search payment history, download CSV, and print or save a receipt as PDF. The dashboard supports cash only; online payments are intentionally excluded.
 - **Overview & reports:** month-specific cash collection, receipt count, renewal count, current memberships, outstanding fees and monthly income chart.
 - **Renewals:** overdue and due-within-five-days members, with individual WhatsApp reminder links. Staff review and send messages themselves; the site does not send automatic messages.

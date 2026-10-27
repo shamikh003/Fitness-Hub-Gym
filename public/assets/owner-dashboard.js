@@ -4,6 +4,7 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const money = n => 'Rs. '+Number(n || 0).toLocaleString('en-PK');
   const today = () => new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Karachi',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  const failedUploads=new Set(); let uploadsInFlight=0;
   let settings, clients=[], payments=[], report, refreshAt=0, loading=false, unlocked=false, settingsDirty=false;
   async function api(path,options={}) {
     const response=await fetch('/api'+path,{headers:{'Content-Type':'application/json'},signal:AbortSignal.timeout(15000),...options});
@@ -80,16 +81,17 @@
     const s=settings;
     $('#editorFields').innerHTML=`<fieldset><legend>Membership prices (PKR)</legend><p>New admissions use these prices. Existing agreed member fees are preserved.</p><div class="owner-fields">${['Monthly','Quarterly','Annual'].map(p=>field(p,'prices.'+p,s.prices[p],'number','required min="1" max="1000000" step="1"')).join('')}</div></fieldset>
       <fieldset><legend>Opening hours · Karachi time</legend><div class="owner-fields">${[['Mon–Sat opens','weekdayOpen'],['Mon–Sat closes','weekdayClose'],['Sunday opens','sundayOpen'],['Sunday closes','sundayClose']].map(([label,key])=>field(label,'hours.'+key,s.hours[key],'time','required')).join('')}</div></fieldset>
-      <fieldset><legend>Website photos</legend><p>Use an HTTPS image link, a local asset, or upload a JPEG, PNG or WebP up to 1 MB.</p><div class="owner-fields">${[['Hero photo','hero'],['Training turf','turf'],['Recovery photo','recovery']].map(([label,key])=>`<div>${field(label,'photos.'+key,s.photos[key],'text','required')}<img class="editor-image" src="${esc(s.photos[key])}" alt="${label} preview"><label>Upload photo<input type="file" data-upload="photos.${key}" accept="image/jpeg,image/png,image/webp"></label></div>`).join('')}</div></fieldset>
+      <fieldset><legend>Website photos</legend><p>Use an HTTPS image link, a local asset, or upload a photo up to 15 MB; large photos are automatically resized before upload.</p><div class="owner-fields">${[['Hero photo','hero'],['Training turf','turf'],['Recovery photo','recovery']].map(([label,key])=>`<div>${field(label,'photos.'+key,s.photos[key],'text','required')}<img class="editor-image" src="${esc(s.photos[key])}" alt="${label} preview"><label>Upload photo<input type="file" data-upload="photos.${key}" accept="image/*"></label></div>`).join('')}</div></fieldset>
       <fieldset><legend>Current offer</legend><p>Leave the title empty to hide the offer. Offers describe your promotion; membership prices above remain the charged fee.</p>${field('Offer title','offer.title',s.offer.title,'text','maxlength="100"')}${field('Offer description','offer.description',s.offer.description,'text','maxlength="500"')}${field('Show until (optional)','offer.endsOn',s.offer.endsOn,'date')}</fieldset>
       <fieldset><legend>Trainers</legend><div id="trainerEditor">${s.trainers.map((t,i)=>trainerFields(t,i)).join('')}</div><button type="button" id="addTrainer">+ Add trainer</button></fieldset>`;
+    failedUploads.clear();
     settingsDirty=false;
     $('#addTrainer').onclick=()=>{
       if(settings.trainers.length>=12){status($('#siteEditor'),'Maximum 12 trainers.');return;}
       collectSettings();settings.trainers.push({name:'New Coach',specialty:'Personal Training',bio:'',shift:'',photo:''});renderEditor();settingsDirty=true;
     };
   }
-  function trainerFields(t,i){return `<div class="trainer-editor"><h4>Trainer ${i+1}</h4><div class="owner-fields">${field('Full name',`trainers.${i}.name`,t.name,'text','required maxlength="80"')}${field('Specialty',`trainers.${i}.specialty`,t.specialty,'text','required maxlength="100"')}${field('Shift / availability',`trainers.${i}.shift`,t.shift,'text','maxlength="100"')}${field('Photo link (optional)',`trainers.${i}.photo`,t.photo,'text','maxlength="500"')}</div>${field('Biography',`trainers.${i}.bio`,t.bio,'text','maxlength="500"')}<label>Upload trainer photo<input type="file" data-upload="trainers.${i}.photo" accept="image/jpeg,image/png,image/webp"></label><button type="button" data-remove-trainer="${i}">Remove trainer</button></div>`;}
+  function trainerFields(t,i){return `<div class="trainer-editor"><h4>Trainer ${i+1}</h4><div class="owner-fields">${field('Full name',`trainers.${i}.name`,t.name,'text','required maxlength="80"')}${field('Specialty',`trainers.${i}.specialty`,t.specialty,'text','required maxlength="100"')}${field('Shift / availability',`trainers.${i}.shift`,t.shift,'text','maxlength="100"')}${field('Photo link (optional)',`trainers.${i}.photo`,t.photo,'text','maxlength="500"')}</div>${field('Biography',`trainers.${i}.bio`,t.bio,'text','maxlength="500"')}<label>Upload trainer photo<input type="file" data-upload="trainers.${i}.photo" accept="image/*">${t.photo?`<img class="editor-image uploaded-preview" src="${esc(t.photo)}" alt="${esc(t.name)} photo preview">`:""}</label><button type="button" data-remove-trainer="${i}">Remove trainer</button></div>`;}
   function collectSettings(){
     $('#editorFields').querySelectorAll('[data-setting]').forEach(input=>{
       const keys=input.dataset.setting.split('.');let target=settings;
@@ -97,13 +99,51 @@
     });return settings;
   }
   $('#siteEditor').addEventListener('input',()=>settingsDirty=true);
+  async function preparePhoto(file) {
+    if(!file.type.startsWith('image/'))throw new Error('Choose a photo, not a document or video.');
+    if(file.size>15*1024*1024)throw new Error('Choose a photo smaller than 15 MB.');
+    const source=URL.createObjectURL(file);
+    const image=new Image();
+    try {
+      image.src=source;await image.decode();
+      const scale=Math.min(1,1600/Math.max(image.naturalWidth,image.naturalHeight));
+      const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(image.naturalWidth*scale));canvas.height=Math.max(1,Math.round(image.naturalHeight*scale));
+      const context=canvas.getContext('2d');if(!context)throw new Error('Photo processing is unavailable in this browser.');
+      context.fillStyle='#111516';context.fillRect(0,0,canvas.width,canvas.height);context.drawImage(image,0,0,canvas.width,canvas.height);
+      let blob;
+      for(const quality of [.85,.72,.58,.42]) {
+        blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',quality));
+        if(blob && blob.size<850*1024)break;
+      }
+      if(!blob || blob.size>=1024*1024)throw new Error('This photo is still too large after resizing. Try another photo.');
+      const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result.split(',')[1]);reader.onerror=()=>reject(new Error('Could not read the photo.'));reader.readAsDataURL(blob);});
+      return {contentType:'image/jpeg',data};
+    } catch(error) {throw new Error(error.message.includes('source image') || error.name==='EncodingError'?'This photo format cannot be opened. Export it as JPEG or PNG and try again.':error.message);}
+    finally{URL.revokeObjectURL(source);}
+  }
   $('#siteEditor').addEventListener('change',async event=>{
     if(!event.target.matches('[data-upload]'))return;
-    const file=event.target.files[0];if(!file)return;
-    if(file.size>1048576){status($('#siteEditor'),'Choose an image smaller than 1 MB.');return;}
-    const button=$('#siteEditor button[type=submit]');button.disabled=true;status($('#siteEditor'),'Uploading photo…');
-    try{const response=await fetch('/api/site-image',{method:'POST',headers:{'Content-Type':file.type},body:file,signal:AbortSignal.timeout(20000)});const data=await response.json();if(!response.ok)throw new Error(data.error);const input=$(`[data-setting="${event.target.dataset.upload}"]`);input.value=data.url;const preview=input.closest('div')?.querySelector('.editor-image');if(preview)preview.src=data.url;settingsDirty=true;status($('#siteEditor'),'Photo uploaded. Save website changes to publish it.');}
-    catch(error){status($('#siteEditor'),error.message || 'Photo upload failed.');}finally{button.disabled=false;}
+    const chooser=event.target,file=chooser.files[0],path=chooser.dataset.upload;if(!file)return;
+    let feedback=chooser.parentElement.querySelector('.upload-feedback');
+    if(!feedback){feedback=document.createElement('p');feedback.className='upload-feedback';feedback.setAttribute('role','status');chooser.parentElement.append(feedback);}
+    const setFeedback=message=>{feedback.textContent=message;};
+    failedUploads.delete(path);uploadsInFlight++;settingsDirty=true;
+    $('#siteEditor').querySelectorAll('button').forEach(button=>button.disabled=true);
+    setFeedback('Preparing and uploading photo�');
+    try {
+      const payload=await preparePhoto(file);
+      const data=await api('/site-image',{method:'POST',body:JSON.stringify(payload)});
+      if(!unlocked || !chooser.isConnected)return;
+      const input=$(`[data-setting="${path}"]`);input.value=data.url;
+      const keys=path.split('.');let target=settings;keys.slice(0,-1).forEach(key=>target=target[key]);target[keys.at(-1)]=data.url;
+      let preview=chooser.parentElement.querySelector('.uploaded-preview');
+      if(!preview){preview=document.createElement('img');preview.className='editor-image uploaded-preview';preview.alt='Selected photo preview';chooser.parentElement.append(preview);}preview.src=data.url;
+      const existing=input.closest('div')?.querySelector('.editor-image');if(existing)existing.src=data.url;
+      setFeedback('Photo ready. Press Save website changes to publish it.');
+      status($('#siteEditor'),'Photo ready. Save website changes to publish your updates.');
+    }catch(error){failedUploads.add(path);setFeedback(error.message || 'Photo upload failed. Please try again.');
+      const retry=document.createElement('button');retry.type='button';retry.textContent='Keep previous photo';retry.className='cancel-photo';retry.onclick=()=>{failedUploads.delete(path);chooser.value='';feedback.textContent='Previous photo kept.';retry.remove();};chooser.parentElement.append(retry);
+    }finally{uploadsInFlight--;if(!uploadsInFlight)$('#siteEditor').querySelectorAll('button').forEach(button=>button.disabled=false);}
   });
   $('#siteEditor').onsubmit=async event=>{
     event.preventDefault();const form=event.target,button=form.querySelector('[type=submit]');button.disabled=true;status(form,'Saving website…');
