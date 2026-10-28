@@ -1,0 +1,55 @@
+/* Readable text sizes without scaling the page or changing its content. */
+#publicSectionNav{font-size:16px;gap:28px}
+#publicSectionNav>a:last-child{padding:14px 26px}
+#brandLogoLink .font-display{font-size:28px}
+#brandLogoLink .font-mono-code{font-size:10px}
+#brandLogoLink>div:first-child{width:44px;height:44px;flex-shrink:0}
+#siteHeader>div:first-child>div{min-height:84px}
+#viewPublic p,#viewPublic li{font-size:16px;line-height:1.75}
+#viewPublic h1+p{font-size:18px!important;line-height:1.8!important;max-width:640px!important}
+#viewPublic .facility-item h3,.cms-trainer h3{font-size:22px;line-height:1.35}
+#viewPublic .font-mono-code{font-size:13px;line-height:1.6}
+#viewPublic button,#viewPublic select,#viewPublic input,#viewPublic textarea{font-size:16px}
+#viewPublic>section:first-of-type .flex.flex-wrap>a:first-child,#openTrialModalBtn{font-size:16px;padding:17px 24px}
+#viewPublic>section:first-of-type .flex.flex-wrap>a:last-child{font-size:15px}
+#viewPublic>section:first-of-type .inline-flex{font-size:12px}
+#viewPublic>section:first-of-type .grid.grid-cols-3 .font-mono-code{font-size:12px}
+.hero-plan strong{font-size:18px}.hero-plan small{font-size:14px}.hero-plan small:first-child{font-size:11px}
+.cms-trainer p{font-size:16px}.cms-trainer strong,.cms-trainer small{font-size:13px}.cms-trainer button{font-size:15px}
+#calculatorTabs .calc-tab-btn{font-size:15px;min-height:48px}
+#viewAdmin #adminLoginGate{max-width:480px;padding:32px}
+#adminLoginGate h2.font-display{font-size:36px}
+#adminLoginGate>p{font-size:16px;line-height:1.7}
+#adminLoginGate .font-mono-code,#loginForm label{font-size:13px}
+#loginForm input,#loginForm button[type=submit]{font-size:16px;min-height:52px}
+#staffBackLink{font-size:14px}
+.owner-workspace p,.owner-workspace label,.owner-workspace input,.owner-workspace select,.owner-workspace textarea{font-size:16px}
+.owner-tabs button,.owner-workspace button{font-size:14px}
+.owner-workspace table{font-size:14px}.owner-workspace th,.owner-workspace td small,.owner-stat small{font-size:12px}
+#contact p,#contact a{font-size:16px;line-height:1.7}
+@media(min-width:1024px){
+ .max-w-7xl{max-width:1600px}
+ #viewPublic>section:first-of-type>.relative{padding-top:64px;padding-bottom:64px}
+}
+@media(max-width:1100px){#publicSectionNav{gap:16px;font-size:14px}}
+@media(max-width:767px){
+ #siteHeader>div:first-child>div{min-height:64px}
+ #brandLogoLink .font-display{font-size:23px}
+ #brandLogoLink .font-mono-code{font-size:8px;letter-spacing:1px}
+ #brandLogoLink>div:first-child{width:38px;height:38px}
+ #viewPublic p,#viewPublic li{font-size:16px;line-height:1.7}
+ #viewPublic h1+p{font-size:16px!important}
+ #viewPublic .font-mono-code{font-size:12px}
+ #viewPublic>section:first-of-type .inline-flex{font-size:10px;letter-spacing:1px}
+ #viewPublic .facility-item h3,.cms-trainer h3{font-size:20px}
+ #calculatorTabs .calc-tab-btn{font-size:14px;padding:10px 4px}
+ #bmiGoalActions{grid-template-columns:minmax(0,1fr)}
+ #applyBmiGoalToFormBtn{min-height:48px}
+ #viewAdmin #adminLoginGate{padding:24px 20px}
+ #adminLoginGate h2.font-display{font-size:32px}
+ #adminLoginGate .font-mono-code,#loginForm label{font-size:12px}
+ #memberRosterTable td,.owner-workspace table td{font-size:14px}
+ #memberRosterTable td:before,.owner-workspace table td:before{font-size:11px}
+ .owner-tabs button{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
