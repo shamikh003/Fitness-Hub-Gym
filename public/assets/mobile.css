@@ -92,3 +92,74 @@
  .owner-workspace fieldset{min-width:0}
  .owner-dialog{max-height:calc(100svh - 24px);padding:20px}
 }
+/* Render the requested view before API calls finish, without a homepage flash. */
+html[data-page=staff] #viewPublic{display:none!important}
+html[data-page=staff] #viewAdmin{display:block}
+html[data-staff-state=locked] #adminPageHeading{display:none}
+html[data-staff-state=locked] #adminLoginGate{margin:0 auto}
+html[data-staff-state=locked] #viewAdmin{padding-top:28px;padding-bottom:32px}
+#staffBackLink{display:block;text-align:center;color:#b5bcb7;font-size:12px;padding:12px 0 0}
+@media(max-width:767px){
+ #viewAdmin>div{padding-left:14px;padding-right:14px}
+ #viewAdmin,#adminUnlockedContent,.owner-workspace{width:100%;max-width:100%;min-width:0}
+ #adminLoginGate{padding:24px 20px;border-radius:12px}
+ #adminLoginGate>div:first-child{gap:12px;align-items:flex-start}
+ #adminLoginGate>div:first-child>div:last-child{flex:0 0 36px;width:36px;height:36px}
+ #adminLoginGate h2.font-display{font-size:28px;line-height:1.1}
+ #adminLoginGate .font-mono-code{font-size:10px;letter-spacing:1px}
+ #adminLoginGate>p{font-size:13px;line-height:1.6}
+ #loginForm{margin-top:18px}
+ #loginForm label{font-size:10px;letter-spacing:1px;margin-bottom:7px}
+ #loginForm input{width:100%;font-size:16px;min-height:48px;padding:12px}
+ #loginForm button{min-height:48px}
+ #adminLoginGate>*+*{margin-top:18px}
+ #legacyStaffStats,#legacyStaffCharts{display:none}
+ #adminUnlockedContent>*+*{margin-top:22px}
+ .owner-workspace{padding:16px;border-radius:12px}
+ .owner-heading{margin-bottom:16px;gap:12px}
+ .owner-heading h2{font-size:30px}
+ .owner-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:16px 0;padding-bottom:16px}
+ .owner-tabs button{padding:12px 6px;min-height:44px;font-size:11px}
+ .owner-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
+ .owner-stat{padding:14px 12px}
+ .owner-stat strong{font-size:26px}
+ .owner-split{grid-template-columns:minmax(0,1fr);gap:12px}
+ .owner-fields,.owner-filters{grid-template-columns:minmax(0,1fr);gap:12px}
+ .owner-box{padding:16px}
+ .owner-heading>label{width:100%;margin-bottom:0}
+ .owner-actions>button{flex:1 1 100%;min-height:46px}
+ #memberRosterTable,.owner-workspace table{display:block;width:100%;min-width:0!important;max-width:100%;border:0}
+ #memberRosterTable thead,.owner-workspace table thead{display:none}
+ #memberRosterTable tbody,.owner-workspace table tbody{display:grid;gap:12px;width:100%;padding:0}
+ #memberRosterTable tr,.owner-workspace table tbody tr{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:14px;background:#101615;border:1px solid #ffffff18;border-radius:10px;width:100%;min-width:0}
+ #memberRosterTable td,.owner-workspace table td{display:block;min-width:0;padding:8px 0;border:0;text-align:left;overflow-wrap:anywhere;font-size:12px}
+ #memberRosterTable td:before,.owner-workspace table td:before{content:attr(data-label);display:block;font:9px Inter,sans-serif;text-transform:uppercase;letter-spacing:.7px;color:#9fa9a3;margin-bottom:7px}
+ #memberRosterTable td:nth-child(2){grid-column:1/-1;order:-1}
+ #memberRosterTable td:last-child,.owner-workspace table td:last-child{grid-column:1/-1;border-top:1px solid #ffffff15;padding-top:12px}
+ #memberRosterTable td:last-child>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:8px}
+ #memberRosterTable button,.owner-workspace table button{min-height:42px;max-width:100%;margin:0}
+ .owner-table-wrap{overflow:visible;margin:16px 0}
+ #calculatorTabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;gap:5px;padding:5px;border-radius:10px;align-self:stretch}
+ #calculatorTabs .calc-tab-btn{width:100%;min-width:0;min-height:46px;padding:10px 3px;line-height:1.2;font-size:12px;text-align:center;border-radius:6px}
+ #calculatorTabs .calc-label-full{display:none}#calculatorTabs .calc-label-short{display:block}
+ #calculators>div>div:first-child{gap:18px}
+ #calculators .calc-panel{padding:18px;gap:22px;grid-template-columns:minmax(0,1fr);margin-top:22px}
+ #calculators .calc-panel h3{font-size:23px;line-height:1.2}
+ #calculators .calc-panel input,#calculators .calc-panel select{max-width:100%;font-size:16px}
+ #viewPublic>section[id]{padding-top:36px;padding-bottom:36px;scroll-margin-top:-36px}
+ #viewPublic>section[id]>div{padding-left:16px;padding-right:16px}
+ #viewPublic>section[id] .space-y-12>*+*{margin-top:24px}
+ #viewPublic .card-glow{padding:18px;border-radius:10px}
+ #viewPublic .plan-select-btn{margin-top:20px;min-height:46px}
+ #scheduleGrid{gap:12px}
+ #scheduleGrid .reserve-class-btn{font-size:11px;padding:10px 12px}
+ #pendingList{grid-template-columns:minmax(0,1fr)}
+}
+/* Keep the desktop layout spacious; phone rules stay inside their breakpoint. */
+@media(min-width:1024px){
+ .max-w-7xl{width:100%;max-width:1760px}
+ #viewPublic>section:first-of-type h1+p{max-width:560px!important}
+ #viewPublic>section:first-of-type>.relative{padding-top:64px;padding-bottom:64px}
+}
+/* Preserve the compact sign-in form independently of full-width staff panels. */
+#viewAdmin #adminLoginGate{max-width:420px}

@@ -48,13 +48,16 @@
     $('#memberHealth').innerHTML=`<p><b>${report.activeMembers}</b> members with current coverage</p><p><b>${report.overdue.length}</b> overdue members</p><p><b>${report.dueSoon.length}</b> renewals due within 5 days</p><p><b>${report.registeredMembers}</b> registered members in total</p>`;
   }
   function filteredPayments(){const query=$('#paymentSearch').value.toLowerCase().trim(),month=$('#paymentMonth').value;return payments.filter(p=>(!month||p.paidOn.startsWith(month))&&(!query||[p.memberName,p.memberCode,p.receiptNo].join(' ').toLowerCase().includes(query)));}
+  function mobileTableLabels(container){container.querySelectorAll('table').forEach(table=>{const headings=Array.from(table.querySelectorAll('thead th')).map(th=>th.textContent.trim());table.querySelectorAll('tbody tr').forEach(row=>Array.from(row.cells).forEach((cell,index)=>cell.dataset.label=headings[index] || 'Action'));});}
   function renderPayments(){
     const rows=filteredPayments();
     $('#paymentsTable').innerHTML=rows.length?`<table><thead><tr><th>Receipt / date</th><th>Member</th><th>Plan / coverage</th><th>Cash amount</th><th></th></tr></thead><tbody>${rows.map(p=>`<tr><td>${esc(p.receiptNo)}<small>${esc(p.paidOn)}</small></td><td>${esc(p.memberName)}<small>${esc(p.memberCode)}</small></td><td>${esc(p.plan)}<small>${esc(p.periodStart)} → ${esc(p.periodEnd)}</small></td><td>${money(p.amount)}</td><td><button type="button" data-ledger-receipt="${p.id}">Receipt ↗</button></td></tr>`).join('')}</tbody></table>`:'<p class="owner-empty">No recorded payments match these filters.</p>';
+    mobileTableLabels($('#paymentsTable'));
   }
   function renderReminders(){
     const rows=[...report.overdue,...report.dueSoon].sort((a,b)=>a.daysLeft-b.daysLeft);
     $('#renewalList').innerHTML=rows.length?`<div class="owner-table-wrap"><table><thead><tr><th>Member</th><th>Renewal due</th><th>Fee</th><th>Action</th></tr></thead><tbody>${rows.map(c=>`<tr><td>${esc(c.name)}<small>${esc(c.clientId)} · ${esc(c.phone)}</small></td><td>${esc(c.dueDate)}<small>${c.daysLeft<0?Math.abs(c.daysLeft)+' days overdue':c.daysLeft===0?'Due today':'Due in '+c.daysLeft+' days'}</small></td><td>${money(c.planPrice)}</td><td><button type="button" data-remind="${c.id}">Prepare reminder ↗</button><button type="button" data-record-cash="${c.id}">Record cash</button></td></tr>`).join('')}</tbody></table></div>`:'<p class="owner-empty">No overdue fees or renewals due in the next five days.</p>';
+    mobileTableLabels($('#renewalList'));
   }
   function receipt(payment){
     document.body.dataset.print='ledger';

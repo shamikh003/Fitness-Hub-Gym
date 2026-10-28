@@ -8,6 +8,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <meta name="theme-color" content="#101213">
   <title>Fitness Hub</title>
+  <script>document.documentElement.dataset.page = new URLSearchParams(location.search).get("view") === "admin" ? "staff" : "public"; document.documentElement.dataset.staffState = "locked";</script>
   <meta name="description" content="Fitness Hub (3 Imran Khan Rd, Metroville Sector 3 Sindh Industrial Trading Estate, Karachi. 0325 6060570): Strength &amp; conditioning, interactive fitness calculators, class timetable, online admission, and staff dashboard.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -66,9 +67,9 @@
       .no-print { display: none !important; }
     }
   </style>
-  <link rel="stylesheet" href="/assets/refinement.css">
-  <link rel="stylesheet" href="/assets/owner.css">
-  <link rel="stylesheet" href="/assets/mobile.css">
+  <link rel="stylesheet" href="/assets/refinement.css?v=layout-5">
+  <link rel="stylesheet" href="/assets/owner.css?v=layout-5">
+  <link rel="stylesheet" href="/assets/mobile.css?v=layout-5">
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-500 selection:text-ink-950">
 
@@ -429,7 +430,7 @@
           </div>
 
           <!-- Calculator Switcher Tabs -->
-          <div class="flex flex-wrap bg-ink-900 p-1.5 rounded-xl border border-white/10 gap-1">
+          <div id="calculatorTabs" class="flex flex-wrap bg-ink-900 p-1.5 rounded-xl border border-white/10 gap-1" role="group" aria-label="Choose calculator">
             <button type="button" aria-label="1. BMI &amp; Body Comp" data-calc-tab="bmi" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold bg-amber-500 text-ink-950 transition"><span class="calc-label-full">1. BMI &amp; Body Comp</span><span class="calc-label-short" aria-hidden="true">BMI</span></button>
             <button type="button" aria-label="2. Daily Macros (TDEE)" data-calc-tab="tdee" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-gray-300 hover:text-white transition"><span class="calc-label-full">2. Daily Macros (TDEE)</span><span class="calc-label-short" aria-hidden="true">Calories</span></button>
             <button type="button" aria-label="3. 1RM &amp; Plate Loader" data-calc-tab="onerm" class="calc-tab-btn px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-gray-300 hover:text-white transition"><span class="calc-label-full">3. 1RM &amp; Plate Loader</span><span class="calc-label-short" aria-hidden="true">Strength</span></button>
@@ -1008,13 +1009,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
       <!-- Top Dashboard Header -->
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-6">
+      <div id="adminPageHeading" class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-6">
         <div>
           <div class="flex items-center gap-2.5">
             <span class="font-mono-code text-xs text-amber-500 uppercase tracking-widest">STAFF MANAGEMENT CONSOLE</span>
             <span id="authStatusBadge" class="px-2.5 py-0.5 rounded-full text-[11px] font-mono-code bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Authenticated: admin</span>
           </div>
-          <h1 class="font-display text-3xl sm:text-4xl text-white uppercase mt-1">Clients, Revenue &amp; Fee Reminders</h1>
+          <h1 class="font-display text-3xl sm:text-4xl text-white uppercase mt-1">Manage Your Gym</h1>
         </div>
 
         <div id="adminToolbarActions" class="hidden flex-wrap items-center gap-2.5">
@@ -1036,15 +1037,15 @@
       </div>
 
       <!-- Staff Login Gate Banner (Hidden when authenticated) -->
-      <div id="adminLoginGate" class="hidden bg-ink-900 rounded-2xl p-8 border border-amber-500/40 max-w-md mx-auto space-y-5 shadow-2xl">
+      <div id="adminLoginGate" class="bg-ink-900 rounded-2xl p-8 border border-amber-500/40 max-w-md mx-auto space-y-5 shadow-2xl">
         <div class="flex items-center justify-between">
           <div>
             <span class="font-mono-code text-[11px] text-amber-400 uppercase">PROTECTED STAFF AREA</span>
-            <h2 class="font-display text-2xl text-white uppercase mt-0.5">Staff Dashboard Login</h2>
+            <h2 class="font-display text-2xl text-white uppercase mt-0.5">Staff Login</h2>
           </div>
           <div class="w-10 h-10 rounded-xl bg-amber-500/15 text-amber-400 flex items-center justify-center font-bold">🔒</div>
         </div>
-        <p class="text-xs text-gray-400">Sign in to manage member admissions, approve pending applications, mark fee payments, and send WhatsApp reminders.</p>
+        <p class="text-xs text-gray-400">Manage members, cash payments and your website from one dashboard.</p>
         <form id="loginForm" class="space-y-4">
           <div>
             <label for="loginUser" class="block font-mono-code text-xs text-gray-300 uppercase mb-1">Username</label>
@@ -1057,18 +1058,19 @@
           <span id="loginError" class="text-xs text-rose-400 block"></span>
           <div class="flex gap-2">
             <button type="submit" class="flex-1 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-ink-950 font-bold text-sm transition">
-              Unlock Dashboard
+              Sign in
             </button>
 
           </div>
+                  <a id="staffBackLink" href="#top">Back to website</a>
         </form>
       </div>
 
       <!-- Main Authenticated Dashboard Content -->
-      <div id="adminUnlockedContent" class="space-y-8">
+      <div id="adminUnlockedContent" class="hidden space-y-8">
 
         <!-- 6-Card Executive Stats & Revenue Row -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div id="legacyStaffStats" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <div class="bg-ink-900 rounded-2xl p-4 border border-white/10 border-t-2 border-t-slate-400">
             <span class="font-mono-code text-[11px] text-gray-400 uppercase block">Active Members</span>
             <span id="statTotal" class="font-display text-3xl text-white mt-1 block">0</span>
@@ -1108,7 +1110,7 @@
         </div>
 
         <!-- Visual Analytics Row (Chart.js) -->
-        <div class="grid lg:grid-cols-12 gap-6">
+        <div id="legacyStaffCharts" class="grid lg:grid-cols-12 gap-6">
           <div class="lg:col-span-5 bg-ink-900 rounded-2xl p-5 border border-white/10">
             <div class="flex items-center justify-between mb-3">
               <span class="font-mono-code text-xs text-gray-400 uppercase">FEE STATUS DISTRIBUTION</span>
@@ -1161,7 +1163,7 @@
         <!-- Client Roster Table -->
         <div class="bg-ink-900 rounded-2xl border border-white/10 overflow-hidden shadow-xl">
           <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse min-w-[920px]">
+            <table id="memberRosterTable" class="w-full text-left border-collapse min-w-[920px]">
               <thead>
                 <tr class="border-b border-white/10 bg-ink-950/70 font-mono-code text-[11px] text-gray-400 uppercase">
                   <th class="py-3.5 px-4">ID &amp; Visits</th>
@@ -1518,6 +1520,7 @@
       let reservedClassIds = new Set();
       let currentView = 'public';
       let isAdminAuthenticated = false;
+      let authVersion = 0;
       let currentFilter = 'all';
       let currentPlanFilter = 'all';
       let currentSort = 'urgent';
@@ -1570,6 +1573,7 @@
          =================================================================== */
       function switchView(targetView) {
         currentView = targetView;
+        document.documentElement.dataset.page = targetView === 'admin' ? 'staff' : 'public';
         const vPublic = document.getElementById('viewPublic');
                 const vAdmin = document.getElementById('viewAdmin');
         const pubNav = document.getElementById('publicSectionNav');
@@ -2054,6 +2058,7 @@
          4. STAFF ADMIN DASHBOARD (#viewAdmin)
          =================================================================== */
       function renderAdminDashboard() {
+        document.documentElement.dataset.staffState = isAdminAuthenticated ? 'unlocked' : 'locked';
         const loginGate = document.getElementById('adminLoginGate');
         const unlocked = document.getElementById('adminUnlockedContent');
         const authBadge = document.getElementById('authStatusBadge');
@@ -2172,34 +2177,34 @@
             : `${c.daysLeft}d remaining`;
           return `
             <tr class="hover:bg-white/[0.02] transition">
-              <td class="py-3.5 px-4 font-mono-code">
+              <td data-label="Member ID" class="py-3.5 px-4 font-mono-code">
                 <div class="text-amber-400 font-bold text-xs">${escapeHtml(c.clientId)}</div>
                 <div class="text-[11px] text-gray-500">${c.checkins || 0} check-ins</div>
               </td>
-              <td class="py-3.5 px-4">
+              <td data-label="Member" class="py-3.5 px-4">
                 <div class="font-semibold text-white">${escapeHtml(c.name)}</div>
                 <div class="text-xs text-gray-400">F/N: ${escapeHtml(c.fatherName || 'Not provided')}</div>
               </td>
-              <td class="py-3.5 px-4 font-mono-code text-xs">
+              <td data-label="Contact" class="py-3.5 px-4 font-mono-code text-xs">
                 <div class="text-gray-200">${escapeHtml(c.phone)}</div>
                 <div class="text-[11px] text-gray-500">${escapeHtml(c.cnic || c.email || 'Not provided')}</div>
               </td>
-              <td class="py-3.5 px-4">
+              <td data-label="Membership" class="py-3.5 px-4">
                 <div class="font-semibold text-white text-xs">${escapeHtml(c.plan)}</div>
                 <div class="font-mono-code text-xs text-amber-400">Rs. ${Number(c.planPrice || PLANS[c.plan] || 3500).toLocaleString()}</div>
               </td>
-              <td class="py-3.5 px-4 font-mono-code text-xs">
+              <td data-label="Coverage" class="py-3.5 px-4 font-mono-code text-xs">
                 <div class="text-gray-300">Joined: ${escapeHtml(c.joinDate)}</div>
                 <div class="text-[11px] text-gray-500">Paid: ${escapeHtml(c.lastPaidDate)}</div>
               </td>
-              <td class="py-3.5 px-4 font-mono-code text-xs">
+              <td data-label="Renewal due" class="py-3.5 px-4 font-mono-code text-xs">
                 <div class="text-white font-semibold">${escapeHtml(c.dueDate)}</div>
                 <div class="text-[11px] ${c.daysLeft < 0 ? 'text-rose-400' : c.daysLeft <= 5 ? 'text-amber-400' : 'text-gray-400'}">${daysSub}</div>
               </td>
-              <td class="py-3.5 px-4">
+              <td data-label="Status" class="py-3.5 px-4">
                 <span class="px-2.5 py-1 rounded-full font-mono-code text-[10px] uppercase font-bold ${badgeClass[c.status] || badgeClass.paid}">${label}</span>
               </td>
-              <td class="py-3.5 px-4 text-right">
+              <td data-label="Actions" class="py-3.5 px-4 text-right">
                 <div class="inline-flex flex-wrap justify-end gap-1.5">
                   <button type="button" data-action="paid" data-id="${c.id}" class="px-2.5 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500 text-emerald-300 hover:text-ink-950 font-semibold text-xs transition">Mark Paid</button>
                   <button type="button" data-action="remind" data-id="${c.id}" class="px-2.5 py-1.5 rounded-lg bg-green-600/20 hover:bg-green-500 text-green-300 hover:text-ink-950 font-semibold text-xs transition">WhatsApp</button>
@@ -2369,14 +2374,11 @@
          5. INITIALIZE EVENT LISTENERS
          =================================================================== */
       document.addEventListener('DOMContentLoaded', async () => {
-        const siteSettings = await window.gymSettingsReady;
-        if (siteSettings) {Object.assign(PLANS, siteSettings.prices); selectedBasePlan = {name:'Quarterly',price:PLANS.Quarterly}; updatePackageEstimator();}
+        window.gymSettingsReady.then(siteSettings => {if(siteSettings){Object.assign(PLANS,siteSettings.prices);selectedBasePlan.price=PLANS[selectedBasePlan.name];updatePackageEstimator();}});
         document.addEventListener('gym-settings-applied', event => {Object.assign(PLANS,event.detail.prices); selectedBasePlan.price=PLANS[selectedBasePlan.name]; updatePackageEstimator();});
         document.addEventListener('gym-data-changed',async () => {await syncClientsFromServerOrLocal();renderAdminDashboard();});
         try { localStorage.removeItem(STORAGE_KEY_CLIENTS); localStorage.removeItem(STORAGE_KEY_BOOKINGS); } catch {}
-        const session = await tryServerApi('/auth/me');
-        isAdminAuthenticated = !!session?.authenticated;
-        await syncClientsFromServerOrLocal();
+
         if (new URLSearchParams(location.search).get('view') === 'admin') switchView('admin');
         initLiveClubStatus();
         setInterval(initLiveClubStatus, 60000);
@@ -2507,6 +2509,9 @@
         // Strict Staff Auth (Username & Password Protected)
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
           e.preventDefault();
+          if(e.target.dataset.saving)return;
+          e.target.dataset.saving='1';
+          authVersion++;
           const u = document.getElementById('loginUser').value.trim();
           const p = document.getElementById('loginPass').value;
           const errorEl = document.getElementById('loginError');
@@ -2516,6 +2521,7 @@
             method: 'POST',
             body: JSON.stringify({ username: u, password: p })
           });
+          delete e.target.dataset.saving;
           if (serverRes && serverRes.ok) {
             isAdminAuthenticated = true;
             e.target.reset();
@@ -2527,6 +2533,7 @@
           errorEl.textContent = 'Unable to sign in. Check the message below, your credentials and connection.';
         });
         document.getElementById('logoutBtn').addEventListener('click', async () => {
+          authVersion++;
           await tryServerApi('/auth/logout', { method: 'POST' });
           isAdminAuthenticated = false; clientsCache = []; bookingsCache = []; updateNavBadges();
           renderAdminDashboard();
@@ -2726,6 +2733,8 @@
             if (el) el.classList.add('hidden');
           });
         });
+        const initialAuthVersion = authVersion;
+        tryServerApi('/auth/me').then(async session => {if(authVersion !== initialAuthVersion)return;isAdminAuthenticated=!!session?.authenticated;await syncClientsFromServerOrLocal();if(currentView==='admin')renderAdminDashboard();});
         // Timetable cards and fonts change layout after the browser's first hash jump.
         const alignInitialSection = () => {
           if (userMovedDuringLoad || currentView !== 'public' || !initialHash || location.hash !== initialHash) return;
@@ -2737,7 +2746,7 @@
       });
     })();
   </script>
-  <script defer src="/assets/owner-dashboard.js"></script>
+  <script defer src="/assets/owner-dashboard.js?v=layout-5"></script>
   <script defer src="/assets/scroll-reveal.js"></script>
 </body>
 </html>
